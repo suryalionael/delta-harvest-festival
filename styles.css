@@ -401,6 +401,22 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
   object-position: 45% 50%;
 }
 
+/* Saturday daytime mill card — the default ::before was tuned for dark
+   gradient placeholders and creates two overlapping shadow zones that
+   bury the stonework and water reflections of this bright daytime photo.
+   Strip the heavy bottom-right radial entirely; keep only a feathered
+   warm edge at the top and a soft scrim at the bottom for caption legibility. */
+.plate-mill-day::before {
+  background:
+    radial-gradient(130% 60% at 22% 6%, rgba(240,228,205,.18), transparent 46%),
+    linear-gradient(180deg, transparent 58%, rgba(10,6,2,.34) 100%);
+}
+
+/* Lift the image out of the noise-overlay muddiness without losing warmth */
+.plate-mill-day .we-card-img {
+  filter: brightness(1.06) saturate(0.90) contrast(1.04);
+}
+
 /* Reinforce the sky darkening for the Town Hall plate via ::before */
 .plate-hall::before {
   background:
