@@ -483,7 +483,14 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
   object-fit: cover;
   display: block;
   z-index: -1;
+  transition: transform .8s ease;
 }
+/* Hover zoom — matches .we-card:hover .we-card-img exactly.
+   Hovering anywhere on the interlude row (text or image) triggers the zoom,
+   same as the weekend card where the full <a> is the hover target.
+   The venue photo uses the plate directly as the hover target. */
+.interlude:hover .interlude-img       { transform: scale(1.03); }
+.venue-photo .plate:hover .interlude-img { transform: scale(1.03); }
 
 /* Blacksmith: dark forge, incandescent iron.
    Override the default warm-cream tint from ::before — this image needs
