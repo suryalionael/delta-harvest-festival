@@ -299,6 +299,34 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
   .hero-mill-img { object-position: 42% 48%; }
 }
 
+/* ─── Mill scene explicit stacking ───────────────────────────────────────
+   The .hero-mill-img normally sits at z-index:-1 (negative layer within
+   isolation:isolate). Transforms set via JS on a negative-layer element
+   are applied to the DOM but the GPU compositing layer is not re-painted,
+   making all animation invisible. Fix: reset the image to z-index:0 and
+   give the ::before/::after overlays explicit positive z-indices so they
+   still sit above the image.
+   ─────────────────────────────────────────────────────────────────────── */
+#mill-scene .hero-mill-img {
+  z-index: 0;                                  /* was -1 — now animatable  */
+  will-change: transform, filter;              /* promote to GPU layer      */
+}
+#mill-scene::before         { z-index: 1; }   /* gradient overlay above img */
+#mill-scene::after          { z-index: 2; }   /* grain texture above overlay */
+
+#mill-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;                                  /* particles above overlays  */
+}
+
+/* Text labels must stay above canvas */
+#mill-scene .pn,
+#mill-scene .cap { z-index: 4; }
+
 /* ─── editorial split ─── */
 .editorial { padding: clamp(140px, 16vw, 220px) 0; }
 .ed-grid {
@@ -751,30 +779,64 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 /* ─── gallery ─── */
 .gallery { padding: clamp(140px, 16vw, 220px) 0; }
 .gal-head { text-align: center; margin-bottom: clamp(72px, 9vw, 120px); }
-.gal-head h2 { margin-top: 24px; max-width: 16ch; margin-left: auto; margin-right: auto; }
+.gal-head h2 { margin-top: 24px; max-width: 18ch; margin-left: auto; margin-right: auto; }
 .gal-head h2 .it { font-style: italic; }
 .gal-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: 8vw;
-  gap: clamp(14px, 1.6vw, 22px);
+  grid-auto-rows: 7vw;
+  gap: clamp(10px, 1.2vw, 18px);
 }
-/* tile spans — 3-column rhythm, gap-free across 12 rows:
-   left (cols 1-5): t1, t6, t9, t12 — wide landscape + large portrait
-   mid  (cols 6-9): t2, t4, t7, t11 — medium portrait / landscape
-   right (cols 10-12): t3, t5, t8, t10 — small accent tiles           */
-.gal-grid .t1  { grid-column:  1 / span 5; grid-row: span 4; }
-.gal-grid .t2  { grid-column:  6 / span 4; grid-row: span 3; }
-.gal-grid .t3  { grid-column: 10 / span 3; grid-row: span 3; }
-.gal-grid .t4  { grid-column:  6 / span 4; grid-row: span 3; }
-.gal-grid .t5  { grid-column: 10 / span 3; grid-row: span 3; }
-.gal-grid .t6  { grid-column:  1 / span 5; grid-row: span 3; }
-.gal-grid .t7  { grid-column:  6 / span 4; grid-row: span 4; }
-.gal-grid .t8  { grid-column: 10 / span 3; grid-row: span 3; }
-.gal-grid .t9  { grid-column:  1 / span 5; grid-row: span 4; }
-.gal-grid .t10 { grid-column: 10 / span 3; grid-row: span 3; }
-.gal-grid .t11 { grid-column:  6 / span 4; grid-row: span 3; }
-.gal-grid .t12 { grid-column:  1 / span 5; grid-row: span 3; }
+
+/* ─── 30-tile editorial layout ─────────────────────────────────────────────
+   Five visual chapters read top-to-bottom:
+   I.   Opening — water, stone, amber light        (t01–t03)
+   II.  The craft — blacksmith demonstrations      (t04–t12)
+   III. The grain — milling and flour              (t13–t18)
+   IV.  The people — community and interpreters    (t19–t25)
+   V.   The stage — performance and celebration    (t26–t30)
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* Chapter I · Opening */
+.gal-grid .t01 { grid-column:  1 / span 8; grid-row:  1 / span 5; } /* hero landscape  */
+.gal-grid .t02 { grid-column:  9 / span 4; grid-row:  1 / span 3; } /* portrait        */
+.gal-grid .t03 { grid-column:  9 / span 4; grid-row:  4 / span 2; } /* small accent    */
+
+/* Chapter II · The Craft — blacksmith */
+.gal-grid .t04 { grid-column:  1 / span 4; grid-row:  6 / span 4; } /* atmospheric     */
+.gal-grid .t05 { grid-column:  5 / span 5; grid-row:  6 / span 4; } /* portrait hero   */
+.gal-grid .t06 { grid-column: 10 / span 3; grid-row:  6 / span 2; } /* small dark      */
+.gal-grid .t07 { grid-column: 10 / span 3; grid-row:  8 / span 2; } /* small           */
+.gal-grid .t08 { grid-column:  1 / span 7; grid-row: 10 / span 4; } /* wide scene      */
+.gal-grid .t09 { grid-column:  8 / span 5; grid-row: 10 / span 4; } /* medium audience */
+.gal-grid .t10 { grid-column:  1 / span 4; grid-row: 14 / span 3; } /* trio left       */
+.gal-grid .t11 { grid-column:  5 / span 4; grid-row: 14 / span 3; } /* trio centre     */
+.gal-grid .t12 { grid-column:  9 / span 4; grid-row: 14 / span 3; } /* trio right      */
+
+/* Chapter III · The Grain — milling */
+.gal-grid .t13 { grid-column:  1 / span 7; grid-row: 17 / span 5; } /* milling hero    */
+.gal-grid .t14 { grid-column:  8 / span 5; grid-row: 17 / span 3; } /* hopper          */
+.gal-grid .t15 { grid-column:  8 / span 5; grid-row: 20 / span 2; } /* grinding detail */
+.gal-grid .t16 { grid-column:  1 / span 3; grid-row: 22 / span 4; } /* portrait        */
+.gal-grid .t17 { grid-column:  4 / span 6; grid-row: 22 / span 4; } /* flour tasting   */
+.gal-grid .t18 { grid-column: 10 / span 3; grid-row: 22 / span 4; } /* bagging         */
+
+/* Chapter IV · The People — community */
+.gal-grid .t19 { grid-column:  1 / span 6; grid-row: 26 / span 3; } /* landscape pair  */
+.gal-grid .t20 { grid-column:  7 / span 6; grid-row: 26 / span 3; } /* landscape pair  */
+.gal-grid .t21 { grid-column:  1 / span 5; grid-row: 29 / span 4; } /* interpreters    */
+.gal-grid .t22 { grid-column:  6 / span 3; grid-row: 29 / span 4; } /* portrait narrow */
+.gal-grid .t23 { grid-column:  9 / span 4; grid-row: 29 / span 4; } /* harvest table   */
+.gal-grid .t24 { grid-column:  1 / span 7; grid-row: 33 / span 4; } /* wide interior   */
+.gal-grid .t25 { grid-column:  8 / span 5; grid-row: 33 / span 4; } /* architecture    */
+
+/* Chapter V · The Stage — performance */
+.gal-grid .t26 { grid-column:  1 / span 7; grid-row: 37 / span 5; } /* performance hero*/
+.gal-grid .t27 { grid-column:  8 / span 5; grid-row: 37 / span 3; } /* minstrels       */
+.gal-grid .t28 { grid-column:  8 / span 5; grid-row: 40 / span 2; } /* performer       */
+.gal-grid .t29 { grid-column:  1 / span 6; grid-row: 42 / span 4; } /* closing left    */
+.gal-grid .t30 { grid-column:  7 / span 6; grid-row: 42 / span 4; } /* closing right   */
+
 .gal-grid .plate { width: 100%; height: 100%; }
 
 /* Gallery tile images */
@@ -790,9 +852,35 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 }
 .gal-grid .plate:hover .gal-img { transform: scale(1.03); }
 
-@media (max-width: 780px) {
-  .gal-grid { grid-template-columns: 1fr; grid-auto-rows: 56vw; }
-  .gal-grid .plate { grid-column: 1 / -1 !important; grid-row: auto !important; }
+@media (max-width: 900px) {
+  .gal-grid {
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 14vw;
+    gap: clamp(8px, 1vw, 14px);
+  }
+  .gal-grid [class*=" t"] { grid-column: auto !important; grid-row: auto !important; }
+  .gal-grid .t01,
+  .gal-grid .t05,
+  .gal-grid .t08,
+  .gal-grid .t13,
+  .gal-grid .t17,
+  .gal-grid .t21,
+  .gal-grid .t24,
+  .gal-grid .t26 { grid-column: span 4 !important; grid-row: span 3 !important; }
+  .gal-grid [class*=" t"] { grid-column: span 3 !important; grid-row: span 2 !important; }
+  .gal-grid .t01,
+  .gal-grid .t05,
+  .gal-grid .t08,
+  .gal-grid .t13,
+  .gal-grid .t17,
+  .gal-grid .t21,
+  .gal-grid .t24,
+  .gal-grid .t26 { grid-column: span 4 !important; grid-row: span 3 !important; }
+}
+
+@media (max-width: 640px) {
+  .gal-grid { grid-template-columns: 1fr; grid-auto-rows: 54vw; }
+  .gal-grid [class*=" t"] { grid-column: 1 / -1 !important; grid-row: auto !important; }
 }
 
 /* ─── plan / closing ─── */
