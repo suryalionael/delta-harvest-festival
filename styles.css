@@ -279,40 +279,41 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
     radial-gradient(ellipse 130% 130% at 50% 50%,   transparent 38%, rgba(8,5,2,.38) 100%);
 }
 
-/* The actual photo sits below ::before / ::after in the stacking
-   context — z-index: -1 inside isolation:isolate keeps it there. */
-.hero-mill-img {
+/* Slideshow container — fills the plate, receives JS parallax transform */
+#mill-slides {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  transform-origin: 50% 50%;
+  will-change: transform, filter;
+}
+
+/* Individual slides: stacked, fading in/out via .active class */
+.hero-slide {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* vertical anchor: show mill body + golden glow; crop bottom water edge */
-  object-position: 50% 42%;
+  object-position: 50% 46%;    /* fallback; each slide overrides inline */
   display: block;
-  z-index: -1;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+  filter: saturate(0.75) sepia(0.10) contrast(1.04);
 }
+.hero-slide.active { opacity: 1; }
 
 @media (max-width: 780px) {
   .hero-atmos .plate { aspect-ratio: 16/9; }
-  /* On mobile reframe to keep the mill centred */
-  .hero-mill-img { object-position: 42% 48%; }
+  .hero-slide { object-position: 50% 50%; }
 }
 
-/* ─── Mill scene explicit stacking ───────────────────────────────────────
-   The .hero-mill-img normally sits at z-index:-1 (negative layer within
-   isolation:isolate). Transforms set via JS on a negative-layer element
-   are applied to the DOM but the GPU compositing layer is not re-painted,
-   making all animation invisible. Fix: reset the image to z-index:0 and
-   give the ::before/::after overlays explicit positive z-indices so they
-   still sit above the image.
+/* ─── Mill scene stacking ────────────────────────────────────────────────
+   #mill-slides at z-index:0; ::before/::after gradient overlays above it;
+   canvas above those; all within plate's isolation:isolate context.
    ─────────────────────────────────────────────────────────────────────── */
-#mill-scene .hero-mill-img {
-  z-index: 0;                                  /* was -1 — now animatable  */
-  will-change: transform, filter;              /* promote to GPU layer      */
-}
-#mill-scene::before         { z-index: 1; }   /* gradient overlay above img */
-#mill-scene::after          { z-index: 2; }   /* grain texture above overlay */
+#mill-scene::before { z-index: 1; }
+#mill-scene::after  { z-index: 2; }
 
 #mill-canvas {
   position: absolute;
@@ -320,12 +321,8 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 3;                                  /* particles above overlays  */
+  z-index: 3;
 }
-
-/* Text labels must stay above canvas */
-#mill-scene .pn,
-#mill-scene .cap { z-index: 4; }
 
 /* ─── editorial split ─── */
 .editorial { padding: clamp(140px, 16vw, 220px) 0; }
