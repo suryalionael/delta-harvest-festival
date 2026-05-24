@@ -605,6 +605,33 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 .hall-slide.active          { opacity: 1; }
 .interlude:hover .hall-slide { transform: scale(1.03); }
 
+/* Venue block layout (two venues side by side) */
+.venue-block {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3vw, 36px);
+}
+
+/* Venue cinematic slideshow */
+.venue-slides {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.venue-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transition: opacity 2s ease-in-out, transform .8s ease;
+  filter: saturate(0.72) sepia(0.10) contrast(1.04);
+}
+.venue-slide.active                  { opacity: 1; }
+.venue-photo .plate:hover .venue-slide { transform: scale(1.03); }
+
 /* Blacksmith: dark forge, incandescent iron.
    Override the default warm-cream tint from ::before — this image needs
    clean chiaroscuro, not a warm upper wash. Keep only vignette + bottom fade. */
