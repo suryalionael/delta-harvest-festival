@@ -36,3 +36,16 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   tick();
   setInterval(tick, 1000);
 })();
+
+// Blacksmith cinematic slideshow
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const slides = Array.from(document.querySelectorAll('.smith-slide'));
+  if (!slides.length) return;
+  let current = 0;
+  setInterval(function () {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }, 5500);
+})();
