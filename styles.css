@@ -612,13 +612,28 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
   gap: clamp(24px, 3vw, 36px);
 }
 
-/* Venue cinematic slideshow */
-.venue-slides {
+/* Venue two-column layout */
+.venue-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 5vw, 80px);
+  margin-bottom: clamp(80px, 10vw, 140px);
+}
+@media (max-width: 900px) { .venue-cols { grid-template-columns: 1fr; } }
+.venue-col {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 5vw, 64px);
+}
+.venue-img-wrap .plate { aspect-ratio: 4/5; }
+
+/* Old Stone Mill venue slideshow */
+.mill-venue-slides {
   position: absolute;
   inset: 0;
   z-index: -1;
 }
-.venue-slide {
+.mill-venue-slide {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -629,8 +644,28 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
   transition: opacity 2s ease-in-out, transform .8s ease;
   filter: saturate(0.72) sepia(0.10) contrast(1.04);
 }
-.venue-slide.active                  { opacity: 1; }
-.venue-photo .plate:hover .venue-slide { transform: scale(1.03); }
+.mill-venue-slide.active                       { opacity: 1; }
+.venue-img-wrap .plate:hover .mill-venue-slide { transform: scale(1.03); }
+
+/* Old Town Hall venue slideshow */
+.hall-venue-slides {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.hall-venue-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transition: opacity 2s ease-in-out, transform .8s ease;
+  filter: saturate(0.68) sepia(0.12) contrast(1.04);
+}
+.hall-venue-slide.active                       { opacity: 1; }
+.venue-img-wrap .plate:hover .hall-venue-slide { transform: scale(1.03); }
 
 /* Blacksmith: dark forge, incandescent iron.
    Override the default warm-cream tint from ::before — this image needs
@@ -686,6 +721,12 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
     radial-gradient(ellipse 140% 130% at 50% 50%, transparent 38%, rgba(5,3,1,.50) 100%),
     linear-gradient(180deg, rgba(5,3,1,.28) 0%, transparent 20%),
     linear-gradient(to top,  rgba(5,3,1,.55) 0%, transparent 28%);
+}
+.plate-hall-venue::before {
+  background:
+    radial-gradient(ellipse 140% 130% at 50% 50%, transparent 40%, rgba(5,3,1,.44) 100%),
+    linear-gradient(180deg, rgba(5,3,1,.22) 0%, transparent 22%),
+    linear-gradient(to top,  rgba(5,3,1,.48) 0%, transparent 28%);
 }
 
 /* ─── performers ─── */
@@ -821,13 +862,7 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 .venue-intro h2 { margin-top: 24px; max-width: 16ch; margin-left: auto; margin-right: auto; }
 .venue-intro h2 .it { font-style: italic; }
 .venue-intro .verse { margin: clamp(32px, 4vw, 52px) auto 0; max-width: 48ch; }
-.venue-head {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(40px, 5vw, 80px);
-  margin-bottom: clamp(56px, 7vw, 96px);
-}
-@media (max-width: 900px) { .venue-head { grid-template-columns: 1fr; } }
+/* .venue-cols layout defined with slideshow CSS above */
 .venue-name {
   font-family: var(--display);
   font-weight: 400;
@@ -848,22 +883,15 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 }
 .venue-addr div { display: flex; gap: 32px; align-items: baseline; }
 .venue-addr .k  { color: var(--muted); min-width: 80px; }
-.venue-map-row {
-  display: grid;
-  grid-template-columns: 7fr 5fr;
-  gap: clamp(28px, 4vw, 56px);
-}
-@media (max-width: 900px) { .venue-map-row { grid-template-columns: 1fr; } }
-.venue-map {
+.venue-map-wide {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 16/11;
+  aspect-ratio: 16/7;
   background: #e8e3d9;
-  filter: grayscale(.55) contrast(.92) sepia(.05);
+  filter: grayscale(.50) contrast(.92) sepia(.08);
+  margin-bottom: clamp(48px, 6vw, 72px);
 }
-.venue-map iframe { width: 100%; height: 100%; }
-.venue-photo .plate { aspect-ratio: 4/5; }
-.venue-photo { display: flex; flex-direction: column; gap: 24px; }
+.venue-map-wide iframe { width: 100%; height: 100%; }
 .venue-cta {
   margin-top: clamp(48px, 6vw, 72px);
   display: flex;
