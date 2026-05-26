@@ -895,13 +895,14 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 .venue-map-wide iframe { width: 100%; height: 100%; }
 /* Archival link beneath Old Stone Mill venue slideshow */
 .venue-archive-ref {
-  padding-top: 28px;
+  margin-top: calc(-1 * clamp(16px, 2.5vw, 32px));
+  padding-top: 16px;
   border-top: 1px solid var(--rule);
 }
 .venue-archive-ref a {
   font-family: var(--display);
   font-style: italic;
-  font-size: 14px;
+  font-size: 20px;
   letter-spacing: 0.01em;
   color: var(--muted);
   text-decoration: none;
@@ -914,7 +915,7 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 }
 .venue-archive-ref span {
   font-style: normal;
-  font-size: 11px;
+  font-size: 14px;
   margin-left: 5px;
   opacity: 0.55;
 }
