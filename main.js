@@ -41,7 +41,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 (function () {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  ['.smith-slide', '.mill-slide', '.hall-slide', '.mill-venue-slide', '.hall-venue-slide'].forEach(function (selector) {
+  ['.smith-slide', '.mill-slide', '.hall-slide', '.mill-venue-slide', '.hall-venue-slide', '.mh-slide'].forEach(function (selector) {
     const slides = Array.from(document.querySelectorAll(selector));
     if (!slides.length) return;
     let current = 0;
