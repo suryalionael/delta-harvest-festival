@@ -360,6 +360,7 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 .ed-img:hover img { transform: scale(1.025); }
 .ed-mill { padding-top: clamp(60px, 8vw, 120px); }
 .ed-quote { padding-top: clamp(60px, 8vw, 120px); }
+.ed-history-link { margin-top: clamp(32px, 4vw, 52px); display: inline-flex; }
 .ed-quote blockquote {
   margin: 0;
   font-family: var(--display);
