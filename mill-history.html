@@ -12,300 +12,438 @@
   <link rel="stylesheet" href="styles.css" />
 
   <style>
-    /* ═══════════════════════════════════════════════════════
-       mill-history.html — page-specific styles
-       Inherits full design system from styles.css
-       ═══════════════════════════════════════════════════════ */
+  /* ═══════════════════════════════════════════════════════
+     mill-history.html — Heritage Archive
+     Design tokens and base classes from styles.css
+     ═══════════════════════════════════════════════════════ */
 
-    /* ─── Hero ─── */
-    .mh-hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 180px 0 100px;
-      position: relative;
-    }
-    .mh-hero h1 {
-      font-family: var(--display);
-      font-weight: 400;
-      font-size: clamp(72px, 13vw, 210px);
-      line-height: .92;
-      letter-spacing: -.014em;
-      color: var(--ink);
-    }
-    .mh-hero h1 em { font-style: italic; }
-    .mh-hero .mh-sub {
-      margin-top: clamp(32px, 4vw, 56px);
-      font-family: var(--display);
-      font-style: italic;
-      font-weight: 400;
-      font-size: clamp(20px, 2.2vw, 32px);
-      line-height: 1.5;
-      color: var(--ink-2);
-      max-width: 36ch;
-    }
+  /* ─── Exhibition masthead ─── */
+  .mh-masthead {
+    padding: clamp(160px, 18vw, 240px) 0 clamp(72px, 9vw, 120px);
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .mh-designation {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: .40em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .mh-masthead h1 {
+    margin-top: clamp(28px, 3.5vw, 48px);
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(48px, 7.5vw, 120px);
+    line-height: .96;
+    letter-spacing: -.016em;
+    color: var(--ink);
+  }
+  .mh-masthead h1 em { font-style: italic; }
+  .mh-place {
+    margin-top: clamp(24px, 3vw, 40px);
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: .34em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .mh-masthead .vrule { margin-top: clamp(36px, 5vw, 64px); }
 
-    /* ─── Atmospheric hero image ─── */
-    .mh-atmos .plate { aspect-ratio: 21/8; background: #1A1208; }
-    @media (max-width: 780px) { .mh-atmos .plate { aspect-ratio: 16/9; } }
-    .mh-atmos .plate::before {
-      background:
-        linear-gradient(to bottom, rgba(8,5,2,.45) 0%,  transparent 28%),
-        linear-gradient(to top,    rgba(8,5,2,.55) 0%,  transparent 32%),
-        radial-gradient(ellipse 130% 130% at 50% 50%,   transparent 38%, rgba(8,5,2,.38) 100%);
-    }
+  /* ─── Full-bleed atmospheric image ─── */
+  .mh-bleed { width: 100%; }
+  .mh-bleed .plate {
+    aspect-ratio: 21/9;
+    border-radius: 0;
+  }
+  @media (max-width: 780px) { .mh-bleed .plate { aspect-ratio: 4/3; } }
+  .mh-bleed .plate::before {
+    background:
+      linear-gradient(to bottom, rgba(8,5,2,.55) 0%, transparent 32%),
+      linear-gradient(to top,    rgba(8,5,2,.60) 0%, transparent 32%),
+      radial-gradient(ellipse 130% 130% at 50% 50%, transparent 40%, rgba(8,5,2,.32) 100%);
+  }
+  .mh-slides { position: absolute; inset: 0; }
+  .mh-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0;
+    transition: opacity 2.5s ease-in-out;
+    filter: saturate(0.38) sepia(0.36) contrast(1.12) brightness(0.82);
+  }
+  .mh-slide.active { opacity: 1; }
 
-    /* Hero slideshow */
-    .mh-slides { position: absolute; inset: 0; }
-    .mh-slide {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      opacity: 0;
-      transition: opacity 2s ease-in-out;
-      filter: saturate(0.62) sepia(0.18) contrast(1.06);
-    }
-    .mh-slide.active { opacity: 1; }
+  /* ─── Introduction ─── */
+  .mh-intro {
+    padding: clamp(72px, 9vw, 130px) 0;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .mh-intro .verse {
+    font-size: clamp(22px, 2.4vw, 34px);
+    max-width: 44ch;
+    margin: 0 auto;
+  }
+  .mh-intro .mh-prose {
+    margin: clamp(28px, 3.5vw, 48px) auto 0;
+    max-width: 60ch;
+    font-size: 15px;
+    line-height: 1.88;
+    color: var(--ink-2);
+    font-weight: 300;
+  }
 
-    /* ─── Chapter sections ─── */
-    .mh-chapter {
-      padding: clamp(120px, 14vw, 200px) 0;
-    }
-    .mh-chapter + hr.hair + .mh-chapter { }
+  /* ─── Table of contents ─── */
+  .mh-toc-section {
+    padding: clamp(52px, 7vw, 88px) 0;
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg-2);
+  }
+  .mh-toc-grid {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+  }
+  @media (max-width: 680px) { .mh-toc-grid { grid-template-columns: 1fr; gap: 24px; } }
+  .mh-toc-label { padding-top: 16px; }
+  .mh-toc {
+    list-style: none;
+    margin: 0; padding: 0;
+  }
+  .mh-toc li {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    align-items: baseline;
+    gap: 16px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--rule-2);
+  }
+  .mh-toc li:first-child { border-top: 1px solid var(--rule-2); }
+  .mh-toc a {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: .20em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    transition: color .25s;
+  }
+  .mh-toc a:hover { color: var(--muted); }
+  .toc-i {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 17px;
+    color: var(--muted);
+    line-height: 1;
+  }
+  .toc-date {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: .22em;
+    color: var(--muted-2);
+    white-space: nowrap;
+  }
 
-    /* Two-column editorial pair */
-    .mh-pair {
-      display: grid;
+  /* ─── Chapter sections ─── */
+  .mh-section {
+    padding: clamp(96px, 12vw, 172px) 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* Section heading rule */
+  .mh-section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: clamp(56px, 7vw, 96px);
+    padding-bottom: clamp(22px, 2.8vw, 34px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .mh-chap-i {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(18px, 1.8vw, 26px);
+    color: var(--muted);
+    flex-shrink: 0;
+    line-height: 1;
+    min-width: 20px;
+  }
+  .mh-chap-title {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(26px, 3vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -.010em;
+    color: var(--ink);
+    margin: 0;
+    flex: 1;
+  }
+  .mh-chap-date {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: center;
+  }
+  @media (max-width: 700px) {
+    .mh-section-head { flex-wrap: wrap; }
+    .mh-chap-date { order: 4; }
+  }
+
+  /* Two-column content layout — asymmetric */
+  .mh-content {
+    display: grid;
+    gap: clamp(48px, 7vw, 110px);
+    align-items: start;
+  }
+  .mh-content.txt-img { grid-template-columns: 5fr 7fr; }
+  .mh-content.img-txt { grid-template-columns: 7fr 5fr; }
+  @media (max-width: 900px) {
+    .mh-content.txt-img,
+    .mh-content.img-txt { grid-template-columns: 1fr; }
+  }
+
+  /* Centered narrow text (no image) */
+  .mh-text-center {
+    max-width: 64ch;
+    margin: 0 auto;
+  }
+
+  /* Text column */
+  .mh-text { display: flex; flex-direction: column; gap: clamp(20px, 2.5vw, 32px); }
+
+  /* Body prose */
+  .mh-prose {
+    font-size: 15px;
+    line-height: 1.88;
+    color: var(--ink-2);
+    font-weight: 300;
+  }
+  .mh-prose p + p { margin-top: 1.5em; }
+
+  /* Image + caption */
+  .mh-figure { display: flex; flex-direction: column; gap: 14px; }
+  .mh-figcap {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    line-height: 1.70;
+  }
+  .mh-img-inner {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.82) saturate(0.42) sepia(0.28) contrast(1.08);
+    transition: transform .9s ease;
+  }
+  .mh-figure .plate:hover .mh-img-inner { transform: scale(1.025); }
+
+  /* ─── Centred pull quote ─── */
+  .mh-pullquote {
+    padding: clamp(80px, 10vw, 150px) 0;
+    background: var(--bg-2);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+  .mh-pullquote blockquote {
+    margin: 0 auto;
+    max-width: 30ch;
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(24px, 3.4vw, 52px);
+    line-height: 1.26;
+    color: var(--ink);
+    letter-spacing: -.005em;
+  }
+  .mh-pullquote cite {
+    display: block;
+    margin-top: clamp(22px, 3vw, 36px);
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: .38em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-style: normal;
+  }
+
+  /* ─── Chronology ─── */
+  .mh-chronology {
+    padding: clamp(72px, 9vw, 130px) 0;
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg-2);
+  }
+  .mh-chron-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: clamp(36px, 4.5vw, 60px);
+    padding-bottom: clamp(20px, 2.5vw, 30px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .mh-chron-row {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: clamp(28px, 4vw, 60px);
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule-2);
+    align-items: baseline;
+  }
+  .mh-chron-row:first-of-type { border-top: 1px solid var(--rule-2); }
+  .mh-chron-year {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(16px, 1.6vw, 22px);
+    color: var(--ink);
+    line-height: 1;
+  }
+  .mh-chron-event {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    letter-spacing: .04em;
+    color: var(--ink-2);
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .mh-chron-event strong {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0;
+    color: var(--ink);
+    font-style: italic;
+  }
+
+  /* ─── Full-bleed interior image ─── */
+  .mh-bleed-2 { width: 100%; }
+  .mh-bleed-2 .plate { aspect-ratio: 21/9; border-radius: 0; }
+  @media (max-width: 780px) { .mh-bleed-2 .plate { aspect-ratio: 3/2; } }
+  .mh-bleed-2 .plate::before {
+    background:
+      linear-gradient(to bottom, rgba(5,3,1,.50) 0%, transparent 28%),
+      linear-gradient(to top,    rgba(5,3,1,.58) 0%, transparent 28%),
+      radial-gradient(ellipse 120% 120% at 50% 50%, transparent 36%, rgba(5,3,1,.42) 100%);
+  }
+  .mh-bleed-img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.30) sepia(0.40) contrast(1.15) brightness(0.75);
+  }
+  .mh-bleed-cap {
+    padding: 16px 0;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* ─── Three-image grid ─── */
+  .mh-photo-3 {
+    display: grid;
+    grid-template-columns: 5fr 3fr 3fr;
+    grid-template-rows: auto auto;
+    gap: clamp(10px, 1.4vw, 18px);
+    margin-top: clamp(56px, 7vw, 96px);
+  }
+  .mh-photo-3 .ph-main { grid-column: 1; grid-row: 1 / span 2; }
+  .mh-photo-3 .ph-a    { grid-column: 2; grid-row: 1; }
+  .mh-photo-3 .ph-b    { grid-column: 3; grid-row: 1; }
+  .mh-photo-3 .ph-c    { grid-column: 2 / span 2; grid-row: 2; }
+  @media (max-width: 700px) {
+    .mh-photo-3 {
       grid-template-columns: 1fr 1fr;
-      gap: clamp(60px, 8vw, 140px);
-      align-items: start;
+      grid-template-rows: auto;
     }
-    .mh-pair.flip .mh-body { order: 2; }
-    .mh-pair.flip .mh-img  { order: 1; }
-    @media (max-width: 900px) {
-      .mh-pair { grid-template-columns: 1fr; }
-      .mh-pair.flip .mh-body,
-      .mh-pair.flip .mh-img  { order: 0; }
-    }
+    .mh-photo-3 .ph-main { grid-column: 1 / span 2; grid-row: auto; }
+    .mh-photo-3 .ph-a    { grid-column: auto; grid-row: auto; }
+    .mh-photo-3 .ph-b    { grid-column: auto; grid-row: auto; }
+    .mh-photo-3 .ph-c    { display: none; }
+  }
 
-    /* Chapter body column */
-    .mh-body {
-      display: flex;
-      flex-direction: column;
-      gap: clamp(28px, 3.5vw, 48px);
-    }
+  /* ─── Heritage designation note ─── */
+  .mh-designation-box {
+    margin-top: clamp(52px, 7vw, 88px);
+    border: 1px solid var(--rule);
+    background: var(--bg-2);
+  }
+  .mh-dbox-head {
+    padding: clamp(18px, 2.5vw, 28px) clamp(24px, 3vw, 40px);
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: .36em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .mh-dbox-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: clamp(20px, 3vw, 40px);
+    padding: clamp(14px, 2vw, 20px) clamp(24px, 3vw, 40px);
+    border-bottom: 1px solid var(--rule-2);
+    align-items: baseline;
+  }
+  .mh-dbox-row:last-child { border-bottom: 0; }
+  @media (max-width: 520px) { .mh-dbox-row { grid-template-columns: 1fr; gap: 6px; } }
+  .mh-dbox-key {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.7;
+    padding-top: 1px;
+  }
+  .mh-dbox-val {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    color: var(--ink-2);
+    font-weight: 300;
+    line-height: 1.7;
+  }
 
-    /* Decorative year number */
-    .mh-year {
-      font-family: var(--display);
-      font-weight: 400;
-      font-size: clamp(60px, 9vw, 148px);
-      line-height: .88;
-      letter-spacing: -.024em;
-      color: var(--rule-2);
-      user-select: none;
-      pointer-events: none;
-    }
-
-    /* Chapter heading cluster */
-    .mh-head { display: flex; flex-direction: column; gap: clamp(18px, 2vw, 28px); }
-    .mh-head h2 { max-width: 18ch; }
-    .mh-head h3 { max-width: 22ch; }
-
-    /* Prose body text */
-    .mh-prose {
-      font-size: 15px;
-      line-height: 1.9;
-      color: var(--ink-2);
-      font-weight: 300;
-      max-width: 52ch;
-    }
-    .mh-prose p + p { margin-top: 1.6em; }
-
-    /* Image column */
-    .mh-img-inner {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: brightness(0.84) saturate(0.55) sepia(0.18) contrast(1.07);
-      transition: transform .9s ease;
-    }
-    .mh-img .plate:hover .mh-img-inner { transform: scale(1.025); }
-
-    /* ─── Large pull quote ─── */
-    .mh-pullquote {
-      padding: clamp(100px, 13vw, 190px) 0;
-      background: var(--bg-2);
-      border-top: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
-      text-align: center;
-    }
-    .mh-pullquote blockquote {
-      margin: 0 auto;
-      max-width: 26ch;
-      font-family: var(--display);
-      font-style: italic;
-      font-weight: 400;
-      font-size: clamp(28px, 3.8vw, 58px);
-      line-height: 1.22;
-      color: var(--ink);
-      letter-spacing: -.006em;
-    }
-    .mh-pullquote cite {
-      display: block;
-      margin-top: clamp(28px, 3.5vw, 48px);
-      font-family: var(--sans);
-      font-size: 11px;
-      letter-spacing: .34em;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-style: normal;
-    }
-
-    /* ─── Timeline strip ─── */
-    .mh-timeline {
-      padding: clamp(80px, 10vw, 140px) 0;
-      border-top: 1px solid var(--rule);
-    }
-    .mh-timeline-label {
-      text-align: center;
-      margin-bottom: clamp(48px, 6vw, 80px);
-    }
-    .mh-ticks {
-      display: flex;
-      gap: clamp(24px, 4vw, 64px);
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .mh-tick {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      text-align: center;
-      position: relative;
-    }
-    .mh-tick + .mh-tick::before {
-      content: "";
-      position: absolute;
-      left: calc(-1 * clamp(12px, 2vw, 32px));
-      top: 50%;
-      transform: translateY(-50%);
-      width: 1px;
-      height: 20px;
-      background: var(--rule);
-    }
-    .mh-tick-year {
-      font-family: var(--display);
-      font-weight: 400;
-      font-size: clamp(22px, 2.6vw, 36px);
-      line-height: 1;
-      color: var(--ink);
-    }
-    .mh-tick-desc {
-      font-family: var(--sans);
-      font-size: 10px;
-      letter-spacing: .28em;
-      text-transform: uppercase;
-      color: var(--muted);
-      max-width: 14ch;
-      line-height: 1.65;
-    }
-
-    /* ─── Statistics ─── */
-    .mh-stats {
-      padding: clamp(80px, 10vw, 140px) 0;
-      border-top: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
-      background: var(--bg-2);
-    }
-    .mh-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: clamp(40px, 5vw, 80px);
-    }
-    @media (max-width: 780px) { .mh-stats-grid { grid-template-columns: 1fr; } }
-    .mh-stat { display: flex; flex-direction: column; gap: 16px; }
-    .mh-stat-num {
-      font-family: var(--display);
-      font-weight: 400;
-      font-size: clamp(52px, 8vw, 120px);
-      line-height: .9;
-      letter-spacing: -.02em;
-      color: var(--ink);
-    }
-    .mh-stat-num em { font-style: italic; }
-    .mh-stat-desc {
-      font-family: var(--sans);
-      font-size: 11px;
-      letter-spacing: .30em;
-      text-transform: uppercase;
-      color: var(--muted);
-      line-height: 1.75;
-      max-width: 22ch;
-    }
-
-    /* ─── Full-width divider image ─── */
-    .mh-full .plate { aspect-ratio: 21/8; }
-    @media (max-width: 780px) { .mh-full .plate { aspect-ratio: 4/3; } }
-    .mh-full .plate::before {
-      background:
-        linear-gradient(to bottom, rgba(8,5,2,.40) 0%, transparent 25%),
-        linear-gradient(to top,    rgba(8,5,2,.50) 0%, transparent 28%),
-        radial-gradient(ellipse 130% 130% at 50% 50%, transparent 40%, rgba(8,5,2,.32) 100%);
-    }
-    .mh-full-img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: saturate(0.55) sepia(0.22) contrast(1.08) brightness(0.80);
-    }
-
-    /* ─── Interior photo pair (side by side) ─── */
-    .mh-photo-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: clamp(20px, 2.5vw, 36px);
-    }
-    @media (max-width: 700px) { .mh-photo-row { grid-template-columns: 1fr; } }
-
-    /* ─── Centered prose (narrow column) ─── */
-    .mh-center {
-      max-width: 640px;
-      margin: 0 auto;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: clamp(24px, 3vw, 40px);
-    }
-    .mh-center .mh-prose { max-width: 52ch; }
-
-    /* ─── CTA row ─── */
-    .mh-cta-section {
-      padding: clamp(120px, 14vw, 200px) 0;
-      text-align: center;
-      border-top: 1px solid var(--rule);
-    }
+  /* ─── Closing CTA ─── */
+  .mh-cta {
+    padding: clamp(96px, 12vw, 170px) 0;
+    border-top: 1px solid var(--rule);
+    background: var(--bg-2);
+    text-align: center;
+  }
+  .mh-cta h2 { max-width: 18ch; margin: clamp(24px, 3vw, 40px) auto 0; }
+  .mh-cta .verse {
+    margin: clamp(24px, 3vw, 40px) auto 0;
+    max-width: 40ch;
+    font-size: clamp(18px, 1.9vw, 26px);
+  }
+  .mh-cta .btn { margin-top: clamp(44px, 5.5vw, 72px); }
   </style>
 </head>
 <body>
 
 <header class="nav">
   <div class="wrap nav-row">
-    <a class="brand" href="index.html" style="cursor:pointer">Delta Harvest Festival</a>
+    <a class="brand" href="index.html">Delta Harvest Festival</a>
     <nav class="nav-links" aria-label="primary">
       <a href="index.html">Home</a>
       <a href="index.html#about">About</a>
@@ -317,128 +455,164 @@
 
 <main>
 
-<!-- ═══════════════════ HERO ═══════════════════ -->
-<section class="mh-hero">
-  <div class="wrap center">
-    <span class="label reveal">A National Historic Site of Canada · Delta, Ontario</span>
-    <h1 class="reveal">Old Stone<br/><em>Mill</em></h1>
-    <p class="mh-sub reveal">A history told in stone, water, and flour —<br/>from the first settlement to the present day.</p>
+<!-- ════════════════════ MASTHEAD ════════════════════ -->
+<section class="mh-masthead">
+  <div class="narrow">
+    <p class="mh-designation reveal">A National Historic Site of Canada · Delta, Ontario</p>
+    <h1 class="reveal">History of the<br/><em>Old Stone Mill</em></h1>
+    <p class="mh-place reveal">Established 1810 · Leeds County, Upper Canada</p>
+    <span class="vrule reveal" aria-hidden="true"></span>
   </div>
-  <span class="hero-tick" aria-hidden="true"></span>
 </section>
 
-<!-- Atmospheric hero plate -->
-<section class="mh-atmos" aria-hidden="true">
-  <div class="wrap">
-    <div class="plate t-stone reveal">
-      <div class="mh-slides">
-        <img class="mh-slide active"
-             src="images/old-stone-mill.jpg"
-             alt="The Old Stone Mill at dusk, amber windows glowing over the still water"
-             style="object-position: 50% 46%">
-        <img class="mh-slide"
-             src="images/gallery/ext-misty.jpg"
-             alt="The Old Stone Mill emerging from morning mist, stone walls soft in the early light"
-             loading="lazy" style="object-position: 50% 50%">
-        <img class="mh-slide"
-             src="images/gallery/001-deltamill-8862.jpg"
-             alt="The Old Stone Mill reflected in the glassy millpond"
-             loading="lazy" style="object-position: 48% 54%">
-        <img class="mh-slide"
-             src="images/old-stone-mill-day.jpg"
-             alt="The Old Stone Mill on a clear autumn afternoon, warm stone walls in the afternoon light"
-             loading="lazy" style="object-position: 50% 46%">
+<!-- Atmospheric full-bleed image -->
+<div class="mh-bleed" aria-hidden="true">
+  <div class="plate t-stone">
+    <div class="mh-slides">
+      <img class="mh-slide active"
+           src="images/old-stone-mill.jpg"
+           alt="The Old Stone Mill at dusk, amber windows over still water"
+           style="object-position: 50% 46%">
+      <img class="mh-slide"
+           src="images/gallery/001-deltamill-8862.jpg"
+           alt="The Old Stone Mill reflected in the glassy millpond"
+           loading="lazy" style="object-position: 48% 54%">
+      <img class="mh-slide"
+           src="images/gallery/ext-misty.jpg"
+           alt="The Old Stone Mill emerging from morning mist"
+           loading="lazy" style="object-position: 50% 50%">
+      <img class="mh-slide"
+           src="images/old-stone-mill-day.jpg"
+           alt="The Old Stone Mill on a clear autumn afternoon"
+           loading="lazy" style="object-position: 50% 46%">
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ INTRODUCTION ════════════════════ -->
+<section class="mh-intro">
+  <div class="narrow">
+    <p class="verse reveal">
+      The Old Stone Mill is more than a building.<br/>
+      It is the reason a village exists.
+    </p>
+    <p class="mh-prose reveal">
+      Built in 1810 on bedrock above the Lower Beverley, the mill drew settlers, shaped the landscape, and sustained the farming communities of Leeds County for one hundred and fifty years. Today it stands as the oldest surviving stone grist mill in Ontario — still operational, its two-hundred-year-old millstones still turning — and one of the most intact examples of early industrial architecture in the country.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════ CONTENTS ════════════════════ -->
+<nav class="mh-toc-section" aria-label="Page contents">
+  <div class="narrow">
+    <div class="mh-toc-grid">
+      <div class="mh-toc-label reveal">
+        <span class="label">Contents</span>
       </div>
+      <ol class="mh-toc reveal">
+        <li>
+          <span class="toc-i">I</span>
+          <a href="#origins">Origins of the Settlement</a>
+          <span class="toc-date">1794 — 1810</span>
+        </li>
+        <li>
+          <span class="toc-i">II</span>
+          <a href="#stone-mill">The Stone Mill</a>
+          <span class="toc-date">1810</span>
+        </li>
+        <li>
+          <span class="toc-i">III</span>
+          <a href="#water-village">Water, Landscape &amp; Village Life</a>
+          <span class="toc-date">1810 — 1857</span>
+        </li>
+        <li>
+          <span class="toc-i">IV</span>
+          <a href="#milling-life">Life at the Stone</a>
+          <span class="toc-date">1810 — 1960</span>
+        </li>
+        <li>
+          <span class="toc-i">V</span>
+          <a href="#preservation">Preservation &amp; Heritage</a>
+          <span class="toc-date">1963 — Present</span>
+        </li>
+      </ol>
     </div>
   </div>
-</section>
+</nav>
 
 <hr class="hair" />
 
-<!-- ═══════════════════ PROLOGUE ═══════════════════ -->
-<section class="mh-chapter">
+<!-- ════════════════════ I: ORIGINS ════════════════════ -->
+<section class="mh-section" id="origins">
   <div class="wrap">
-    <div class="mh-center">
-      <span class="label reveal">Prologue</span>
-      <p class="reveal" style="font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(26px,2.8vw,44px);line-height:1.3;color:var(--ink);max-width:28ch;text-align:center;letter-spacing:-.004em">
-        Two hundred and fifteen years have passed since the first stone was set at the bend of the Lower Beverley.
-      </p>
-      <p class="mh-prose reveal" style="text-align:center;margin:0 auto">
-        The Old Stone Mill in Delta, Ontario, is more than a building. It is the reason a village exists. Built in 1810 on the bedrock above the creek, it drew settlers, sustained families, and shaped the landscape of eastern Ontario for a century and a half. Today it stands as the oldest surviving stone grist mill in the province — still operational, still grinding grain as it has for over two hundred years.
-      </p>
-    </div>
-  </div>
-</section>
 
-<hr class="hair" />
+    <header class="mh-section-head reveal">
+      <span class="mh-chap-i">I</span>
+      <h2 class="mh-chap-title">Origins of the Settlement</h2>
+      <span class="mh-chap-date">1794 — 1810</span>
+    </header>
 
-<!-- ═══════════════════ I. ORIGINS ═══════════════════ -->
-<section class="mh-chapter" id="origins">
-  <div class="wrap">
-    <div class="mh-pair">
+    <div class="mh-content txt-img">
 
-      <div class="mh-body">
-        <div class="mh-year reveal" aria-hidden="true">1794</div>
-        <div class="mh-head reveal">
-          <span class="label">I · First Settlement</span>
-          <h2>A loyalist,<br/><span class="it">an axe,</span><br/>and an acre.</h2>
-        </div>
+      <div class="mh-text">
         <div class="mh-prose reveal">
-          <p>In February 1794, Abel Stevens arrived at the unsurveyed territory above the Beverley Lakes. A Vermont-born loyalist, he squatted on the upper reaches of Plum Hollow Creek, one of the first Europeans to lay claim to land in this part of eastern Ontario. On June 2, 1796, he received 700 acres — lots 23, 24, and 25 — in formal grant.</p>
-          <p>Within months, Stevens had built a wooden sawmill on the creek, diverting water from Upper Beverley Lake. His dam raised the water level four to five feet, creating the conditions not just for milling, but for a village. By 1797, the site was already recorded on maps as "Wm. Stevens Mill." By 1808, a second sawmill stood on Foundry Creek nearby.</p>
-          <p>The village that grew around the mill went by several names — Stevens Mills, then Beverley — before settling on Delta in 1857, named for the triangular shape of the two Beverley Lakes that surrounded it, recalling the Greek letter <span style="font-family:var(--display);font-style:italic">delta</span>.</p>
+          <p>In February 1794, Abel Stevens arrived at the unsurveyed territory above the Beverley Lakes. A Vermont-born loyalist, he settled on the upper reaches of Plum Hollow Creek — one of the first Europeans to claim land in this corner of eastern Ontario. On June 2, 1796, he received formal title to 700 acres: lots 23, 24, and 25.</p>
+          <p>Within months, Stevens had built a wooden sawmill on the creek, diverting water from Upper Beverley Lake. His dam raised the water level four to five feet, creating the conditions not just for milling, but for a village. By 1797, the site was already recorded on maps as "Wm. Stevens Mill." By 1808, his son had built a second sawmill on nearby Foundry Creek.</p>
+          <p>The settlement went by several names in its early years — Stevens Mills, then Beverley — drawing other trades and families around the gravity of the mill. Everything that followed, including the stone mill that would define the village for two centuries, grew from these first years of Stevens' enterprise.</p>
         </div>
       </div>
 
-      <div class="mh-img reveal">
+      <figure class="mh-figure reveal">
         <div class="plate t-stone ar-portrait">
           <img class="mh-img-inner"
                src="images/old-stone-mill-3.jpg"
-               alt="The Old Stone Mill exterior, stone walls and red trim against the autumn sky"
+               alt="The Old Stone Mill, exterior view — Georgian stone walls and red trim"
                style="object-position: 50% 48%">
         </div>
-      </div>
+        <figcaption class="mh-figcap">The Old Stone Mill · 44 King Street, Delta, Ontario</figcaption>
+      </figure>
 
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════ PULL QUOTE ═══════════════════ -->
+<!-- PULL QUOTE -->
 <div class="mh-pullquote">
-  <div class="wrap">
-    <div class="reveal">
-      <blockquote>
-        "Unquestionably the best building of the kind in Upper Canada."
-      </blockquote>
-      <cite>Contemporary assessment, 1817</cite>
-    </div>
+  <div class="narrow reveal">
+    <blockquote>
+      "Unquestionably the best building of the kind in Upper Canada."
+    </blockquote>
+    <cite>Contemporary assessment of the Old Stone Mill, 1817</cite>
   </div>
 </div>
 
-<!-- ═══════════════════ II. THE STONE MILL ═══════════════════ -->
-<section class="mh-chapter" id="stone-mill">
+<!-- ════════════════════ II: THE STONE MILL ════════════════════ -->
+<section class="mh-section" id="stone-mill">
   <div class="wrap">
-    <div class="mh-pair flip">
 
-      <div class="mh-body">
-        <div class="mh-year reveal" aria-hidden="true">1810</div>
-        <div class="mh-head reveal">
-          <span class="label">II · Built in Stone</span>
-          <h2>William Jones<br/>builds for<br/><span class="it">the ages.</span></h2>
-        </div>
-        <div class="mh-prose reveal">
-          <p>After 1800, the mill property passed from Abel Stevens to William Jones, a member of a prominent local family. Jones saw the limitations of the original wooden mill and conceived something far more ambitious: a permanent stone structure built to last generations.</p>
-          <p>In 1810, Jones and his business partner Ira Schofield began construction. The result was a three-and-a-half-storey Georgian mill built directly on bedrock, north of Stevens' original wooden structure. Its stone walls, segmental double-hung windows, and recessed center doorway spoke an architectural language of permanence and refinement unusual for the frontier settlements of Upper Canada.</p>
-          <p>Crucially, Jones did not simply build a traditional mill. He based its design on the principles of American inventor Oliver Evans, whose landmark 1795 publication described the world's first fully automated flour-milling system. Where most mills required millers to carry grain by hand between floors, the stone mill at Delta moved grain automatically — by bucket elevator, hopper, and gravity — from millstone to bolter to finished flour. It was among the most technologically advanced milling operations in the province.</p>
-        </div>
-      </div>
+    <header class="mh-section-head reveal">
+      <span class="mh-chap-i">II</span>
+      <h2 class="mh-chap-title">The Stone Mill</h2>
+      <span class="mh-chap-date">1810</span>
+    </header>
 
-      <div class="mh-img reveal">
+    <div class="mh-content img-txt">
+
+      <figure class="mh-figure reveal">
         <div class="plate t-stone ar-portrait">
           <img class="mh-img-inner"
                src="images/the-mill.jpg"
-               alt="The Old Stone Mill — Georgian stone facade, quiet in the afternoon light"
+               alt="The Old Stone Mill — Georgian stone façade in afternoon light"
                style="object-position: 50% 40%">
+        </div>
+        <figcaption class="mh-figcap">Georgian industrial architecture · Built 1810 on bedrock</figcaption>
+      </figure>
+
+      <div class="mh-text">
+        <div class="mh-prose reveal">
+          <p>After 1800, the mill property passed from Abel Stevens to William Jones. Jones saw the limitations of the original wooden structure and conceived something far more ambitious: a permanent stone mill built to last generations. In 1810, Jones and his partner Ira Schofield began construction on the site north of Stevens' original mill.</p>
+          <p>The result was a three-and-a-half-storey Georgian building, set directly on bedrock. Its stone walls, segmental double-hung windows with twelve-over-eight panes, stone voussoirs above every opening, and recessed centre doorway gave the building an architectural authority unusual in the frontier settlements of Upper Canada.</p>
+          <p>But Jones did not build simply. He equipped the mill using the principles of Oliver Evans, an American inventor whose 1795 publication had described the world's first fully automated flour mill. Where most mills required millers to carry grain by hand between floors, the Delta mill moved grain automatically — by bucket elevator, conveyor, hopper, and gravity — from millstone to bolter to finished flour. It was, by every contemporary measure, the most advanced milling operation in the province. Seven years after its completion, a visitor's account judged it "unquestionably the best building of the kind in Upper Canada."</p>
         </div>
       </div>
 
@@ -446,261 +620,185 @@
   </div>
 </section>
 
-<!-- ═══════════════════ TIMELINE ═══════════════════ -->
-<div class="mh-timeline">
-  <div class="wrap">
-    <div class="mh-timeline-label reveal">
-      <span class="label">Chronology · 1794 — present</span>
+<!-- ════════════════════ CHRONOLOGY ════════════════════ -->
+<section class="mh-chronology">
+  <div class="narrow">
+
+    <div class="mh-chron-head reveal">
+      <span class="label">Chronology</span>
+      <span class="label" style="color:var(--muted-2)">1794 — present</span>
     </div>
-    <div class="mh-ticks">
-      <div class="mh-tick reveal">
-        <span class="mh-tick-year">1794</span>
-        <span class="mh-tick-desc">Abel Stevens arrives</span>
-      </div>
-      <div class="mh-tick reveal">
-        <span class="mh-tick-year">1796</span>
-        <span class="mh-tick-desc">First wooden mill built</span>
-      </div>
-      <div class="mh-tick reveal">
-        <span class="mh-tick-year">1810</span>
-        <span class="mh-tick-desc">Stone mill constructed</span>
-      </div>
-      <div class="mh-tick reveal">
-        <span class="mh-tick-year">1817</span>
-        <span class="mh-tick-desc">"Best in Upper Canada"</span>
-      </div>
-      <div class="mh-tick reveal">
-        <span class="mh-tick-year">1857</span>
-        <span class="mh-tick-desc">Village named Delta</span>
-      </div>
-      <div class="mh-tick reveal">
-        <span class="mh-tick-year">1860</span>
-        <span class="mh-tick-desc">Iron turbines installed</span>
-      </div>
-      <div class="mh-tick reveal">
-        <span class="mh-tick-year">1893</span>
-        <span class="mh-tick-desc">Roller milling added</span>
-      </div>
-      <div class="mh-tick reveal">
-        <span class="mh-tick-year">1963</span>
-        <span class="mh-tick-desc">Delta Mill Society founded</span>
-      </div>
-      <div class="mh-tick reveal">
-        <span class="mh-tick-year">1970</span>
-        <span class="mh-tick-desc">National Historic Site</span>
-      </div>
-      <div class="mh-tick reveal">
-        <span class="mh-tick-year">2004</span>
-        <span class="mh-tick-desc">Restoration complete</span>
-      </div>
+
+    <div class="mh-chron-row reveal">
+      <span class="mh-chron-year">1794</span>
+      <span class="mh-chron-event">Abel Stevens arrives at the unsurveyed Beverley Lake territory and establishes the first European settlement.</span>
     </div>
+    <div class="mh-chron-row reveal">
+      <span class="mh-chron-year">1796</span>
+      <span class="mh-chron-event">Stevens receives formal title to 700 acres. A wooden sawmill is built, diverting water from Upper Beverley Lake. Dam raises water level four to five feet.</span>
+    </div>
+    <div class="mh-chron-row reveal">
+      <span class="mh-chron-year">1810</span>
+      <span class="mh-chron-event">William Jones and Ira Schofield complete the three-and-a-half-storey Georgian stone mill on bedrock, incorporating Oliver Evans' automated milling design.</span>
+    </div>
+    <div class="mh-chron-row reveal">
+      <span class="mh-chron-year">1817</span>
+      <span class="mh-chron-event">Contemporary assessment records the mill as <strong>"unquestionably the best building of the kind in Upper Canada."</strong></span>
+    </div>
+    <div class="mh-chron-row reveal">
+      <span class="mh-chron-year">1827</span>
+      <span class="mh-chron-event">The village is formally named Beverley. Population reaches approximately 30 houses by 1828.</span>
+    </div>
+    <div class="mh-chron-row reveal">
+      <span class="mh-chron-year">1850</span>
+      <span class="mh-chron-event">Walter H. Denaut purchases the mill from Amelia Macdonell and begins a programme of modernisation.</span>
+    </div>
+    <div class="mh-chron-row reveal">
+      <span class="mh-chron-year">1857</span>
+      <span class="mh-chron-event">The post office renames the village <strong>Delta</strong>, chosen for the triangular shape of the Beverley Lakes — recalling the Greek letter Δ.</span>
+    </div>
+    <div class="mh-chron-row reveal">
+      <span class="mh-chron-year">1860</span>
+      <span class="mh-chron-event">The original waterwheel is replaced with cast-iron turbines, housed in a new turbine shed. The mill modernises without abandoning its stone structure.</span>
+    </div>
+    <div class="mh-chron-row reveal">
+      <span class="mh-chron-year">1888</span>
+      <span class="mh-chron-event">The Brockville, Westport &amp; Sault Ste Marie Railway reaches Delta, connecting the mill to wider regional markets.</span>
+    </div>
+    <div class="mh-chron-row reveal">
+      <span class="mh-chron-year">1893</span>
+      <span class="mh-chron-event">Roller-milling machinery is installed, converting the operation to a merchant mill capable of producing commercial-grade flour.</span>
+    </div>
+    <div class="mh-chron-row reveal">
+      <span class="mh-chron-year">1963</span>
+      <span class="mh-chron-event">The property is transferred to four local trustees for one dollar. The Delta Mill Society is founded with a mandate to preserve and restore the site.</span>
+    </div>
+    <div class="mh-chron-row reveal">
+      <span class="mh-chron-year">1970</span>
+      <span class="mh-chron-event">The federal government designates the Old Stone Mill a <strong>National Historic Site of Canada.</strong></span>
+    </div>
+    <div class="mh-chron-row reveal">
+      <span class="mh-chron-year">1999</span>
+      <span class="mh-chron-event">A major conservation and rehabilitation programme begins, addressing the structural fabric of the stone walls, timber frames, and turbine shed.</span>
+    </div>
+    <div class="mh-chron-row reveal">
+      <span class="mh-chron-year">2004</span>
+      <span class="mh-chron-event">Restoration complete. More than two million dollars invested. The mill is returned to full operation, grinding heritage grain on its original millstones.</span>
+    </div>
+
   </div>
-</div>
+</section>
 
 <hr class="hair" />
 
-<!-- ═══════════════════ III. WATER & LANDSCAPE ═══════════════════ -->
-<section class="mh-chapter" id="water">
+<!-- ════════════════════ III: WATER & VILLAGE ════════════════════ -->
+<section class="mh-section" id="water-village">
   <div class="wrap">
-    <div class="mh-pair">
 
-      <div class="mh-body">
-        <div class="mh-head reveal">
-          <span class="label">III · Water &amp; Land</span>
-          <h2>The mill<br/>made one lake<br/><span class="it">from two.</span></h2>
-        </div>
+    <header class="mh-section-head reveal">
+      <span class="mh-chap-i">III</span>
+      <h2 class="mh-chap-title">Water, Landscape &amp; Village Life</h2>
+      <span class="mh-chap-date">1810 — 1857</span>
+    </header>
+
+    <div class="mh-content txt-img">
+
+      <div class="mh-text">
         <div class="mh-prose reveal">
-          <p>The geography of Delta, Ontario was not simply found. It was made. Abel Stevens' original dam raised the water level of Upper Beverley Lake by four to five feet, diverting it along a race toward his wooden mill. When William Jones built the stone mill directly above on bedrock, it served in part as its own dam — raising water a further nine feet.</p>
-          <p>The cumulative effect was transformative. Where there had once been two distinct Beverley Lakes — Upper and Lower — the raised water merged them into one continuous body. The shape of that lake, viewed from high ground, resembles a triangle. In 1857, when the village needed a new name for its post office, Delta was chosen: the fourth letter of the Greek alphabet, always drawn as a triangle.</p>
-          <p>The mill did not simply grind grain. It reshaped the land, renamed the water, and gave the village its identity.</p>
+          <p>The geography of Delta, Ontario was not simply found. It was made. Abel Stevens' original dam raised the Beverley water four to five feet. When William Jones built the stone mill on bedrock above it, the structure served partly as its own dam — raising the water a further nine feet. Together, the two interventions merged what had originally been two distinct lakes into one continuous body of water. The shape of that lake, seen from high ground, resembles a triangle. In 1857, when the post office required a new name, Delta was chosen: the fourth letter of the Greek alphabet, always drawn as a triangle.</p>
+          <p>A grist mill in the early nineteenth century was an economic anchor. Every other trade gathered around it. By the time the stone mill was complete, smithies, general stores, hotels, a tannery, a distillery, a foundry, a brickyard, and a cheese factory had all come to cluster around the village. The horse shed adjacent to the mill served at various times as courthouse and schoolroom. A concert hall nearby later became the Museum of Industrial Technology.</p>
+          <p>By 1851, Delta's population had reached 250. By 1897, it approached 500. The railway arrived in 1888, connecting the mill to regional markets until its withdrawal in 1952 — by which point the era of the commercial grist mill was already drawing to a close.</p>
         </div>
       </div>
 
-      <div class="mh-img reveal">
+      <figure class="mh-figure reveal">
         <div class="plate t-mist ar-portrait">
           <img class="mh-img-inner"
                src="images/gallery/ext-misty.jpg"
-               alt="The Old Stone Mill in morning mist, reflected in the Beverley waters below"
+               alt="The Old Stone Mill in morning mist above the Beverley waters"
                style="object-position: 50% 45%">
         </div>
-      </div>
+        <figcaption class="mh-figcap">Lower Beverley Lake · formed by the milldam, circa 1810</figcaption>
+      </figure>
 
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════ FULL-WIDTH IMAGE DIVIDER ═══════════════════ -->
-<section class="mh-full" aria-hidden="true">
+<!-- Full-bleed interior image -->
+<div class="mh-bleed-2" aria-hidden="true">
   <div class="plate t-ink">
-    <img class="mh-full-img"
-         src="images/old-stone-mill-5.jpg"
-         alt="The Old Stone Mill — exterior panorama, stone walls and the millpond still in the late afternoon"
-         style="object-position: 50% 46%">
-  </div>
-</section>
-
-<!-- ═══════════════════ IV. THE MILL AT WORK ═══════════════════ -->
-<section class="mh-chapter" id="at-work">
-  <div class="wrap">
-
-    <div class="mh-pair flip" style="margin-bottom: clamp(72px, 9vw, 130px)">
-      <div class="mh-body">
-        <div class="mh-year reveal" aria-hidden="true">1810<br/>—<br/>1960</div>
-        <div class="mh-head reveal">
-          <span class="label">IV · One Hundred and Fifty Years</span>
-          <h2>At the stone,<br/><span class="it">season after season.</span></h2>
-        </div>
-        <div class="mh-prose reveal">
-          <p>The Old Stone Mill operated continuously for one hundred and fifty years. Through the settlement era, through Confederation, through two world wars, the millstones turned. Farmers brought grain from across Leeds County — wheat, rye, buckwheat, corn — and left with flour, meal, and feed.</p>
-          <p>In 1850, Walter H. Denaut purchased the mill from Amelia Macdonell and invested heavily in its modernisation. In 1860, the original waterwheel was replaced with cast-iron turbines housed in a new turbine shed — the mill kept pace with industrial progress without abandoning its stone walls. In 1893, roller-milling machinery was installed, converting the operation to a merchant mill capable of producing finer-grade flour for commercial markets.</p>
-          <p>The millstones themselves — the great French burrstones that ground the grain — were two centuries old when the mill finally ceased commercial operation in 1960. They remain in place today, silent witnesses to every harvest the valley ever knew.</p>
-        </div>
-      </div>
-      <div class="mh-img reveal">
-        <div class="plate t-umber ar-portrait">
-          <img class="mh-img-inner"
-               src="images/gallery/int-grinding.jpg"
-               alt="Interior milling — grain flowing through the stone-ground millstones"
-               style="object-position: 50% 50%">
-        </div>
-      </div>
-    </div>
-
-    <!-- Two interior images side by side -->
-    <div class="mh-photo-row">
-      <div class="reveal">
-        <div class="plate t-stone ar-3x2">
-          <img class="mh-img-inner"
-               src="images/200-years-old-millstones.jpg"
-               alt="The 200-year-old millstones, worn smooth by a century and a half of grain"
-               style="object-position: 50% 50%">
-        </div>
-      </div>
-      <div class="reveal">
-        <div class="plate t-stone ar-3x2">
-          <img class="mh-img-inner"
-               src="images/gallery/int-bread-making.jpg"
-               alt="Heritage flour baked into bread — the mill's grain brought to its final form"
-               style="object-position: 50% 48%">
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ═══════════════════ STATISTICS ═══════════════════ -->
-<div class="mh-stats">
-  <div class="wrap">
-    <div class="mh-stats-grid">
-      <div class="mh-stat reveal">
-        <div class="mh-stat-num">150</div>
-        <div class="mh-stat-desc">Years of continuous milling operation, 1810 to 1960</div>
-      </div>
-      <div class="mh-stat reveal">
-        <div class="mh-stat-num"><em>$2M</em></div>
-        <div class="mh-stat-desc">Invested in restoration by an all-volunteer community organisation</div>
-      </div>
-      <div class="mh-stat reveal">
-        <div class="mh-stat-num">200<span style="font-size:.55em;vertical-align:middle">+</span></div>
-        <div class="mh-stat-desc">Year-old millstones still in place, still grinding heritage grain</div>
-      </div>
-    </div>
+    <img class="mh-bleed-img"
+         src="images/gallery/int-grinding.jpg"
+         alt="Interior of the Old Stone Mill — grain flowing through the millstones"
+         style="object-position: 50% 50%">
   </div>
 </div>
+<div class="mh-bleed-cap">Interior · The millstones at work · Old Stone Mill, Delta</div>
 
-<hr class="hair" />
-
-<!-- ═══════════════════ V. THE VILLAGE ═══════════════════ -->
-<section class="mh-chapter" id="village">
+<!-- ════════════════════ IV: MILLING LIFE ════════════════════ -->
+<section class="mh-section" id="milling-life">
   <div class="wrap">
-    <div class="mh-pair">
 
-      <div class="mh-img reveal">
-        <div class="plate t-paper ar-portrait">
+    <header class="mh-section-head reveal">
+      <span class="mh-chap-i">IV</span>
+      <h2 class="mh-chap-title">Life at the Stone</h2>
+      <span class="mh-chap-date">1810 — 1960</span>
+    </header>
+
+    <div class="mh-content img-txt">
+
+      <figure class="mh-figure reveal">
+        <div class="plate t-umber ar-portrait">
           <img class="mh-img-inner"
-               src="images/stone-mill-and-old-town-hall.jpg"
-               alt="The Old Stone Mill and Old Town Hall — Delta's two heritage buildings"
-               style="object-position: 50% 48%">
+               src="images/millstone.jpg"
+               alt="The Old Stone Mill millstones — worn smooth by one hundred and fifty years of grain"
+               style="object-position: 50% 50%">
         </div>
-      </div>
+        <figcaption class="mh-figcap">Original millstones · French burrstones · In use since 1810</figcaption>
+      </figure>
 
-      <div class="mh-body">
-        <div class="mh-head reveal">
-          <span class="label">V · A Village Grows</span>
-          <h2>Where the mill<br/>stood,<br/><span class="it">a village followed.</span></h2>
-        </div>
+      <div class="mh-text">
         <div class="mh-prose reveal">
-          <p>A grist mill in the early nineteenth century was not merely a place to grind grain. It was an anchor — an economic nucleus around which every other trade and service gathered. By the time William Jones' stone mill was declared "the best building of the kind in Upper Canada," Delta had grown into a thriving village.</p>
-          <p>Smithies, general stores, hotels, a tannery, a distillery, a foundry, a brickyard, and a cheese factory all came to cluster around the mill's gravity. The mill created not just a built economy but a social one: the adjacent horse shed served at various times as a courthouse and a schoolroom; a concert hall nearby became the Museum of Industrial Technology.</p>
-          <p>By 1851, Delta's population had reached 250. By 1897, it was approaching 500. The Brockville, Westport & Sault Ste Marie Railway reached the village in 1888, connecting the mill to wider markets and giving Delta one of the larger station buildings on the line. When the railway withdrew in 1952, the era of the commercial mill was already drawing to a close.</p>
+          <p>The Old Stone Mill operated continuously for one hundred and fifty years. Through the settlement era, through Confederation, through two world wars, the millstones turned. Farmers from across Leeds County brought grain — wheat, rye, buckwheat, and corn — and left with flour, meal, and feed. The mill was the economic heartbeat of the valley.</p>
+          <p>In 1850, Walter H. Denaut purchased the mill and invested in its future. In 1860, the original waterwheel was replaced with cast-iron turbines in a purpose-built turbine shed — the mill kept pace with the industrial age without surrendering its Georgian bones. In 1893, roller-milling machinery was installed, converting the operation to a merchant mill capable of finer commercial production.</p>
+          <p>The millstones themselves — great French burrstones that ground the grain — were two centuries old when commercial milling finally ceased around 1960. They remain in place today: silent, worn smooth by the weight of every harvest the valley ever sent through them.</p>
         </div>
       </div>
 
     </div>
-  </div>
-</section>
 
-<hr class="hair" />
-
-<!-- ═══════════════════ VI. RESTORATION ═══════════════════ -->
-<section class="mh-chapter" id="restoration">
-  <div class="wrap">
-    <div class="mh-pair flip">
-
-      <div class="mh-body">
-        <div class="mh-year reveal" aria-hidden="true">1963</div>
-        <div class="mh-head reveal">
-          <span class="label">VI · Preservation</span>
-          <h2>Sixty years<br/>of quiet<br/><span class="it">stewardship.</span></h2>
-        </div>
-        <div class="mh-prose reveal">
-          <p>When the mill ceased commercial operation, its fate was uncertain. The building, the machinery, the millstones — all of it faced the slow erosion of neglect. Then, in 1963, a small group of people decided otherwise.</p>
-          <p>The property was transferred to four local trustees for the sum of one dollar. From this arrangement, the Delta Mill Society was born — an all-volunteer organisation with a single mandate: to preserve the mill and restore it to working operation as a museum of milling technology.</p>
-          <p>Over the following decades, the Society invested more than two million dollars in the mill's restoration. In 1970, the federal government recognised the site as a National Historic Site of Canada. Between 1999 and 2004, a major conservation rehabilitation programme addressed the structural fabric of the building — the stone walls, the timber frames, the turbine shed — while keeping the original machinery intact.</p>
-          <p>Today the mill is fully operational. Its waterwheel turns. Its millstones grind heritage Red Fife wheat into flour. Guided tours run through the summer months, and visitors can follow the journey of grain from the hopper to the bolter to the flour bag — exactly as it moved two hundred years ago.</p>
-        </div>
-      </div>
-
-      <div class="mh-img reveal">
+    <!-- Three-image grid -->
+    <div class="mh-photo-3">
+      <div class="ph-main reveal">
         <div class="plate t-stone ar-portrait">
           <img class="mh-img-inner"
-               src="images/gallery/033-2025-09-19.jpg"
-               alt="The Old Stone Mill — the heritage site today, alive with visitors and history"
+               src="images/200-years-old-millstones.jpg"
+               alt="200-year-old millstones at the Old Stone Mill"
+               style="object-position: 50% 50%">
+        </div>
+      </div>
+      <div class="ph-a reveal">
+        <div class="plate t-stone ar-portrait">
+          <img class="mh-img-inner"
+               src="images/gallery/int-bagging.jpg"
+               alt="Bagging flour at the Old Stone Mill"
                style="object-position: 50% 48%">
         </div>
       </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════ VII. THE MILL TODAY ═══════════════════ -->
-<section class="mh-chapter" id="today" style="background:var(--bg-2);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)">
-  <div class="wrap">
-
-    <div class="mh-center" style="margin-bottom:clamp(72px, 9vw, 130px)">
-      <span class="label reveal">VII · The Mill Today</span>
-      <h2 class="reveal" style="text-align:center;max-width:18ch">The stone endures.<br/><span class="it">So does the work.</span></h2>
-      <p class="mh-prose reveal" style="text-align:center;max-width:52ch;margin:0 auto">
-        The Old Stone Mill opens each summer, welcoming visitors to tour its floors, watch its waterwheel turn, and see its millstones grind grain as they have since 1810. The adjacent Blacksmith Shop — recently restored — operates during special events, including the Delta Harvest Festival each September. Together, the two buildings stand as living testimony to the craft, community, and quiet endurance that built this part of eastern Ontario.
-      </p>
-    </div>
-
-    <div class="mh-photo-row">
-      <div class="reveal">
-        <div class="plate t-stone ar-3x2">
+      <div class="ph-b reveal">
+        <div class="plate t-stone ar-portrait">
           <img class="mh-img-inner"
-               src="images/gallery/people/005-child-in-mill.jpg"
-               alt="A child exploring the Old Stone Mill — heritage passed to the next generation"
-               style="object-position: 50% 48%">
+               src="images/gallery/int-bread-making.jpg"
+               alt="Heritage bread made from stone-ground flour"
+               style="object-position: 50% 50%">
         </div>
       </div>
-      <div class="reveal">
+      <div class="ph-c reveal">
         <div class="plate t-stone ar-3x2">
           <img class="mh-img-inner"
-               src="images/milling-demonstration.jpg"
-               alt="A heritage milling demonstration — grain flowing through the 200-year-old stones"
+               src="images/gallery/int-first-stop.jpg"
+               alt="Interior of the Old Stone Mill — the first stop on the milling tour"
                style="object-position: 50% 50%">
         </div>
       </div>
@@ -709,21 +807,89 @@
   </div>
 </section>
 
-<!-- ═══════════════════ CTA ═══════════════════ -->
-<section class="mh-cta-section">
-  <div class="wrap center">
-    <span class="label reveal">Delta Harvest Festival · September 2026</span>
-    <h2 class="reveal" style="max-width:18ch;margin:clamp(24px,3vw,40px) auto 0;text-align:center">
-      Visit the mill<br/><span class="it">this September.</span>
-    </h2>
-    <p class="verse reveal" style="margin:clamp(28px,3.5vw,48px) auto 0;max-width:38ch;text-align:center">
-      On 26–27 September 2026, the Old Stone Mill comes alive with milling demonstrations, blacksmithing, music, and community.
-    </p>
-    <div style="margin-top:clamp(48px,6vw,80px)">
-      <a class="btn reveal" href="index.html">
-        Return to the Festival <span class="arr">↗</span>
-      </a>
+<hr class="hair" />
+
+<!-- ════════════════════ V: PRESERVATION ════════════════════ -->
+<section class="mh-section" id="preservation">
+  <div class="wrap">
+
+    <header class="mh-section-head reveal">
+      <span class="mh-chap-i">V</span>
+      <h2 class="mh-chap-title">Preservation &amp; Heritage</h2>
+      <span class="mh-chap-date">1963 — Present</span>
+    </header>
+
+    <div class="mh-content txt-img">
+
+      <div class="mh-text">
+        <div class="mh-prose reveal">
+          <p>When commercial milling ceased, the mill's fate was uncertain. The building, the machinery, the millstones — everything faced the slow erosion of neglect. In 1963, a small group of local people decided otherwise. The property was transferred to four trustees for the sum of one dollar. From this arrangement, the Delta Mill Society was born: an all-volunteer organisation with a single mandate, to preserve the mill and return it to working operation.</p>
+          <p>Over the following decades, the Society invested more than two million dollars in the mill's restoration. In 1970, the federal government designated the site a National Historic Site of Canada. Between 1999 and 2004, a major conservation programme addressed the structural fabric — stone walls, timber frames, and the turbine shed — while keeping the original machinery intact and operational.</p>
+          <p>Today the mill opens each summer. Its waterwheel turns. Its millstones grind heritage Red Fife wheat into flour, exactly as they have since 1810. Visitors can follow the journey of grain from the hopper to the bolter to the flour bag, tracing a process unchanged in its essentials for over two hundred years. The adjacent Blacksmith Shop, recently restored, operates during special events — including the Delta Harvest Festival each September.</p>
+        </div>
+
+        <!-- Heritage designation note -->
+        <div class="mh-designation-box reveal">
+          <div class="mh-dbox-head">Heritage Designation Record</div>
+          <div class="mh-dbox-row">
+            <span class="mh-dbox-key">Designation</span>
+            <span class="mh-dbox-val">National Historic Site of Canada</span>
+          </div>
+          <div class="mh-dbox-row">
+            <span class="mh-dbox-key">Designated</span>
+            <span class="mh-dbox-val">1970 (federal recognition)</span>
+          </div>
+          <div class="mh-dbox-row">
+            <span class="mh-dbox-key">Formally listed</span>
+            <span class="mh-dbox-val">January 16, 1978</span>
+          </div>
+          <div class="mh-dbox-row">
+            <span class="mh-dbox-key">Canadian Register</span>
+            <span class="mh-dbox-val">January 3, 2008</span>
+          </div>
+          <div class="mh-dbox-row">
+            <span class="mh-dbox-key">Municipal Heritage</span>
+            <span class="mh-dbox-val">Designated under the Ontario Heritage Act</span>
+          </div>
+          <div class="mh-dbox-row">
+            <span class="mh-dbox-key">Steward</span>
+            <span class="mh-dbox-val">Delta Mill Society (all-volunteer, est. 1963)</span>
+          </div>
+          <div class="mh-dbox-row">
+            <span class="mh-dbox-key">Address</span>
+            <span class="mh-dbox-val">44 King Street · Delta, Ontario · K0E 1G0</span>
+          </div>
+          <div class="mh-dbox-row">
+            <span class="mh-dbox-key">Coordinates</span>
+            <span class="mh-dbox-val">44.610° N · 76.123° W</span>
+          </div>
+        </div>
+
+      </div>
+
+      <figure class="mh-figure reveal">
+        <div class="plate t-stone ar-portrait">
+          <img class="mh-img-inner"
+               src="images/old-stone-mill-4.jpg"
+               alt="The restored Old Stone Mill — exterior, Delta, Ontario"
+               style="object-position: 50% 46%">
+        </div>
+        <figcaption class="mh-figcap">The Old Stone Mill following restoration, 2004</figcaption>
+      </figure>
+
     </div>
+  </div>
+</section>
+
+<!-- ════════════════════ CLOSING CTA ════════════════════ -->
+<section class="mh-cta">
+  <div class="narrow center">
+    <span class="label reveal">Delta Harvest Festival · September 2026</span>
+    <h2 class="reveal">Visit the mill<br/><em>this September.</em></h2>
+    <p class="verse reveal">
+      On 26–27 September 2026, the Old Stone Mill opens for the Delta Harvest Festival — milling demonstrations, blacksmithing, music, and community in a living heritage setting.
+    </p>
+    <a class="btn reveal" href="index.html">Return to the Festival <span class="arr">↗</span></a>
   </div>
 </section>
 
@@ -736,14 +902,12 @@
       <span>Delta · Ontario</span>
       <span>26 — 27 September 2026</span>
     </div>
-
     <div class="foot-links reveal">
       <a href="index.html">Home</a>
       <a href="index.html#saturday">Saturday</a>
       <a href="index.html#sunday">Sunday</a>
       <a href="index.html#venue">Venue</a>
     </div>
-
     <div class="foot-bot">
       <span>2026 Arts &amp; Culture Trails</span>
       <span>The Old Stone Mill · Delta, Ontario</span>
