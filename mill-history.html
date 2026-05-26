@@ -17,39 +17,20 @@
      Claude Design implementation · Delta Harvest Festival
      ═══════════════════════════════════════════════════════ */
 
-  /* Archive palette: warmer, yellower paper tones */
+  /* Match main site palette */
   body {
-    --bg:      #f2ead8;
-    --bg-2:    #ebe1cb;
-    --ink:     #1f1a14;
-    --ink-2:   #3d352a;
-    --muted:   #6b5f4d;
-    --muted-2: #8a7c64;
-    --rule:    #c4b491;
-    --rule-2:  #d8c9a5;
+    --bg:      #F5F3F1;
+    --bg-2:    #EFECE7;
+    --ink:     #1C1A18;
+    --ink-2:   #2B2725;
+    --muted:   #8D8782;
+    --muted-2: #B5B0AA;
+    --rule:    #DCD7CF;
+    --rule-2:  #E6E1D9;
     --mono:    "IBM Plex Mono", "Courier New", monospace;
     background: var(--bg);
-    background-image:
-      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,250,236,.55), transparent 60%),
-      radial-gradient(ellipse 100% 80% at 100% 100%, rgba(170,135,80,.06), transparent 50%);
-    background-attachment: fixed;
   }
 
-  /* Paper grain overlay */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 200;
-    opacity: .22;
-    mix-blend-mode: multiply;
-    background-image:
-      radial-gradient(circle at 25% 25%, rgba(60,40,15,.05) 1px, transparent 1.5px),
-      radial-gradient(circle at 75% 65%, rgba(60,40,15,.04) 1px, transparent 1.5px),
-      radial-gradient(circle at 50% 50%, rgba(60,40,15,.035) 1px, transparent 1.5px);
-    background-size: 7px 7px, 11px 11px, 5px 5px;
-  }
 
   /* ─── Mono utility ─── */
   .mh-mono {
