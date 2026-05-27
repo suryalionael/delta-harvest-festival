@@ -1023,18 +1023,19 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 /* ─── interlude dynamic caption ──────────────────────────────────────────── */
 .slide-caption {
   position: absolute;
-  bottom: 20px;
-  left: 22px;
+  bottom: 24px;
+  left: 26px;
   font-family: var(--display);
   font-style: italic;
-  font-size: 13px;
-  letter-spacing: 0.02em;
-  color: rgba(245, 240, 231, 0.80);
+  font-size: 18px;
+  letter-spacing: 0.01em;
+  color: rgba(245, 240, 231, 0.95);
   z-index: 4;
   pointer-events: none;
   transition: opacity 0.7s ease-in-out;
   max-width: 36ch;
-  line-height: 1.5;
+  line-height: 1.4;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
 }
 
 /* ─── ticket information ──────────────────────────────────────────────────── */
