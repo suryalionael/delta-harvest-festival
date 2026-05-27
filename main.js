@@ -47,9 +47,15 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
     const plate = slides[0].closest('.plate');
     const captionEl = plate ? plate.querySelector('.slide-caption') : null;
-    if (captionEl && slides[0].dataset.caption) {
-      captionEl.textContent = slides[0].dataset.caption;
+
+    function renderCaption(slide) {
+      if (!captionEl) return;
+      var cap  = slide.dataset.caption || '';
+      var cred = slide.dataset.credit  || '';
+      captionEl.innerHTML = cap + (cred ? '<span class="slide-credit">' + cred + '</span>' : '');
     }
+
+    renderCaption(slides[0]);
 
     let current = 0;
     setInterval(function () {
@@ -59,7 +65,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
       if (captionEl) {
         captionEl.style.opacity = '0';
         setTimeout(function () {
-          captionEl.textContent = slides[current].dataset.caption || '';
+          renderCaption(slides[current]);
           captionEl.style.opacity = '1';
         }, 600);
       }
