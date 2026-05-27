@@ -1005,6 +1005,53 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 .gal-grid .t29 { grid-column:  1 / span 6; grid-row: 42 / span 4; } /* closing left    */
 .gal-grid .t30 { grid-column:  7 / span 6; grid-row: 42 / span 4; } /* closing right   */
 
+/* ─── immersion+ typography scale ────────────────────────────────────────── */
+.sched-name  { font-size: clamp(28px, 3.2vw, 40px); }
+.sched-sub   { font-size: 15px; }
+.sched-time  { font-size: 12px; }
+.sched-where { font-size: 12px; }
+.we-card .desc { font-size: 17px; line-height: 1.78; }
+.we-card .day { white-space: nowrap; font-size: clamp(28px, 3.8vw, 48px); }
+.p-bio       { font-size: 17px; }
+.p-role      { font-size: 12px; }
+.p-quote     { font-size: clamp(22px, 2.3vw, 30px); }
+.p-meta .k   { font-size: 11px; }
+.p-meta .v   { font-size: 20px; }
+.prog .label, .weekend .label, .venue .label { font-size: 12px; }
+.prog .verse, .weekend .verse  { font-size: clamp(24px, 2.5vw, 34px); }
+
+/* ─── interlude dynamic caption ──────────────────────────────────────────── */
+.slide-caption {
+  position: absolute;
+  bottom: 20px;
+  left: 22px;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: rgba(245, 240, 231, 0.80);
+  z-index: 4;
+  pointer-events: none;
+  transition: opacity 0.7s ease-in-out;
+  max-width: 36ch;
+  line-height: 1.5;
+}
+
+/* ─── ticket information ──────────────────────────────────────────────────── */
+.ticket-info {
+  display: inline-block;
+  margin-top: clamp(24px, 3vw, 36px);
+  padding: 13px 30px;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  line-height: 1.8;
+}
+
 .gal-grid .plate { width: 100%; height: 100%; }
 
 /* Gallery tile images */

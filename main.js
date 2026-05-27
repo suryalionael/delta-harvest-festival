@@ -37,18 +37,32 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   setInterval(tick, 1000);
 })();
 
-// Cinematic interlude slideshows
+// Cinematic interlude slideshows with dynamic captions
 (function () {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   ['.smith-slide', '.mill-slide', '.hall-slide', '.mill-venue-slide', '.hall-venue-slide', '.mh-slide'].forEach(function (selector) {
     const slides = Array.from(document.querySelectorAll(selector));
     if (!slides.length) return;
+
+    const plate = slides[0].closest('.plate');
+    const captionEl = plate ? plate.querySelector('.slide-caption') : null;
+    if (captionEl && slides[0].dataset.caption) {
+      captionEl.textContent = slides[0].dataset.caption;
+    }
+
     let current = 0;
     setInterval(function () {
       slides[current].classList.remove('active');
       current = (current + 1) % slides.length;
       slides[current].classList.add('active');
+      if (captionEl) {
+        captionEl.style.opacity = '0';
+        setTimeout(function () {
+          captionEl.textContent = slides[current].dataset.caption || '';
+          captionEl.style.opacity = '1';
+        }, 600);
+      }
     }, 5500);
   });
 })();
