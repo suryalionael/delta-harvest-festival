@@ -1033,9 +1033,20 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
   z-index: 4;
   pointer-events: none;
   transition: opacity 0.7s ease-in-out;
-  max-width: 36ch;
+  max-width: 40ch;
   line-height: 1.4;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
+}
+.slide-credit {
+  display: block;
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 231, 0.58);
+  margin-top: 6px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.50);
 }
 
 /* ─── ticket information ──────────────────────────────────────────────────── */
