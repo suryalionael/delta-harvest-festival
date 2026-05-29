@@ -1,0 +1,285 @@
+/* shared-nav.css — Heritage Navigation · Delta Mill Society */
+
+/* ─────────────────────────────────────────────────────────────
+   Scoped entirely to .hn-* selectors so there is no conflict
+   with any page-specific CSS already in place.
+───────────────────────────────────────────────────────────── */
+
+.hn-nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(245,243,241,0.95);
+  backdrop-filter: blur(10px) saturate(1.06);
+  -webkit-backdrop-filter: blur(10px) saturate(1.06);
+  border-bottom: 1px solid rgba(31,27,22,0.12);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.hn-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(20px,4vw,56px);
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+/* ─── Brand ─────────────────────────────────────────────── */
+.hn-brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  text-decoration: none;
+  flex-shrink: 0;
+  gap: 1px;
+}
+.hn-brand-org {
+  font-family: "JetBrains Mono","IBM Plex Mono",ui-monospace,monospace;
+  font-size: 9px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #6a5d4e;
+  font-weight: 400;
+}
+.hn-brand-name {
+  font-family: "Cormorant Garamond","Times New Roman",serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 17px;
+  letter-spacing: .01em;
+  color: #1f1b16;
+}
+.hn-brand:hover .hn-brand-name { color: #523819; }
+
+/* Vertical rule separator */
+.hn-sep {
+  width: 1px;
+  height: 26px;
+  background: rgba(31,27,22,0.14);
+  flex-shrink: 0;
+}
+
+/* ─── Desktop menu ───────────────────────────────────────── */
+.hn-menu {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.hn-item {
+  position: relative;
+}
+
+/* Top-level nav link */
+.hn-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 13px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .03em;
+  color: #3a3128;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color .2s;
+  cursor: default;
+  user-select: none;
+}
+.hn-link::after {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-top: 4px solid currentColor;
+  opacity: .45;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: transform .2s;
+}
+.hn-item:hover > .hn-link,
+.hn-item:focus-within > .hn-link { color: #1f1b16; }
+.hn-item:hover > .hn-link::after { transform: rotate(180deg); opacity: .7; }
+
+/* Active page underline */
+.hn-item.hn-active > .hn-link {
+  color: #1f1b16;
+  position: relative;
+}
+.hn-item.hn-active > .hn-link > span {
+  position: relative;
+}
+.hn-item.hn-active > .hn-link > span::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #523819;
+}
+
+/* ─── Dropdown ───────────────────────────────────────────── */
+.hn-drop {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 218px;
+  padding: 0 0 10px;
+  background: rgba(245,243,241,0.99);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(31,27,22,0.13);
+  border-top: 2px solid #523819;
+  box-shadow: 0 8px 32px -8px rgba(31,27,22,0.14);
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-5px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.hn-item:hover .hn-drop,
+.hn-item:focus-within .hn-drop {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.hn-drop-head {
+  padding: 10px 16px 9px;
+  font-family: "JetBrains Mono","IBM Plex Mono",ui-monospace,monospace;
+  font-size: 9px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: #523819;
+  border-bottom: 1px solid rgba(31,27,22,0.08);
+  margin-bottom: 5px;
+}
+
+.hn-drop a {
+  display: block;
+  padding: 6px 16px 6px 18px;
+  font-family: "Inter",system-ui,sans-serif;
+  font-size: 12.5px;
+  font-weight: 400;
+  letter-spacing: .01em;
+  color: #3a3128;
+  text-decoration: none;
+  transition: color .14s, background .14s;
+}
+.hn-drop a:hover {
+  color: #1f1b16;
+  background: rgba(82,56,25,0.05);
+}
+.hn-drop a.hn-drop-current {
+  color: #523819;
+  font-weight: 500;
+}
+
+/* ─── Hamburger ──────────────────────────────────────────── */
+.hn-burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 38px;
+  height: 38px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+}
+.hn-burger span {
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: #1f1b16;
+  transition: transform .22s ease, opacity .22s ease;
+  transform-origin: center;
+}
+.hn-burger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.hn-burger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+.hn-burger[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* ─── Mobile ─────────────────────────────────────────────── */
+@media (max-width: 820px) {
+  .hn-sep { display: none; }
+  .hn-burger { display: flex; }
+
+  .hn-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: rgba(245,243,241,0.98);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(31,27,22,0.14);
+    max-height: calc(100vh - 58px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .hn-menu.open { display: flex; }
+
+  .hn-item {
+    border-bottom: 1px solid rgba(31,27,22,0.07);
+  }
+  .hn-item:last-child { border-bottom: none; }
+
+  .hn-link {
+    padding: 13px 24px;
+    font-size: 13px;
+    cursor: pointer;
+    justify-content: space-between;
+  }
+  /* on mobile, arrow rotates on open */
+  .hn-item.mob-open > .hn-link::after {
+    transform: rotate(180deg);
+    opacity: .7;
+  }
+
+  /* dropdown becomes accordion panel */
+  .hn-drop {
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    border: none;
+    border-top: none;
+    border-left: 2px solid #523819;
+    background: rgba(82,56,25,0.04);
+    box-shadow: none;
+    margin: 0 24px 10px 24px;
+    padding: 4px 0 6px;
+    display: none;
+  }
+  .hn-item.mob-open .hn-drop { display: block; }
+  .hn-drop-head { display: none; }
+  .hn-drop a {
+    padding: 7px 14px;
+    font-size: 12px;
+  }
+
+  .hn-item.hn-active > .hn-link > span::after { display: none; }
+}

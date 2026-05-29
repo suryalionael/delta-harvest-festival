@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 
+<link rel="stylesheet" href="shared-nav.css">
 <link rel="stylesheet" href="old-town-hall.css">
 </head>
 <body>
@@ -17,20 +18,58 @@
 <div class="progress"><div class="bar" id="bar"></div></div>
 
 <!-- NAV -->
-<nav class="site" id="nav">
-  <div class="brand">
-    <span>Delta Mill Society · Est. 1963</span>
-    <strong>Heritage Archive</strong>
+<nav class="hn-nav" id="hn-nav" data-active="hall" aria-label="Heritage navigation">
+  <div class="hn-inner">
+    <a class="hn-brand" href="index.html">
+      <span class="hn-brand-org">Delta Mill Society · Est. 1963</span>
+      <strong class="hn-brand-name">Delta Heritage</strong>
+    </a>
+    <div class="hn-sep" aria-hidden="true"></div>
+    <div class="hn-menu" id="hn-menu" role="menubar">
+      <div class="hn-item" data-section="festival">
+        <a class="hn-link" href="index.html" role="menuitem" aria-haspopup="true"><span>Delta Harvest Festival</span></a>
+        <div class="hn-drop" role="menu" aria-label="Delta Harvest Festival sections">
+          <div class="hn-drop-head">Delta Harvest Festival</div>
+          <a href="index.html#about" role="menuitem">About</a>
+          <a href="index.html#weekend" role="menuitem">Weekend Overview</a>
+          <a href="index.html#saturday" role="menuitem">Saturday Events</a>
+          <a href="index.html#sunday" role="menuitem">Sunday Events</a>
+          <a href="index.html#programme" role="menuitem">Programme</a>
+          <a href="index.html#venue" role="menuitem">Venue &amp; Map</a>
+        </div>
+      </div>
+      <div class="hn-item" data-section="mill">
+        <a class="hn-link" href="mill-history.html" role="menuitem" aria-haspopup="true"><span>Old Stone Mill</span></a>
+        <div class="hn-drop" role="menu" aria-label="Old Stone Mill sections">
+          <div class="hn-drop-head">Old Stone Mill · Est. 1810</div>
+          <a href="mill-history.html" role="menuitem">Introduction</a>
+          <a href="mill-history.html#origins" role="menuitem">I. Origins</a>
+          <a href="mill-history.html#village" role="menuitem">II. The Village</a>
+          <a href="mill-history.html#milling" role="menuitem">III. Milling</a>
+          <a href="mill-history.html#preservation" role="menuitem">IV. Preservation</a>
+          <a href="mill-history.html#today" role="menuitem">V. Today</a>
+          <a href="mill-history.html#timeline" role="menuitem">Timeline</a>
+          <a href="mill-history.html#society" role="menuitem">About the Society</a>
+        </div>
+      </div>
+      <div class="hn-item" data-section="hall">
+        <a class="hn-link" href="old-town-hall.html" role="menuitem" aria-haspopup="true"><span>Old Town Hall</span></a>
+        <div class="hn-drop" role="menu" aria-label="Old Town Hall sections">
+          <div class="hn-drop-head">Old Town Hall · Est. 1879</div>
+          <a href="old-town-hall.html#top" role="menuitem">Introduction</a>
+          <a href="old-town-hall.html#chap1" role="menuitem">I. The Beginning</a>
+          <a href="old-town-hall.html#chap2" role="menuitem">II. Architecture</a>
+          <a href="old-town-hall.html#chap3" role="menuitem">III. The Fire</a>
+          <a href="old-town-hall.html#chap4" role="menuitem">IV. Paws in Time</a>
+          <a href="old-town-hall.html#chap5" role="menuitem">V. Today</a>
+          <a href="old-town-hall.html#chap6" role="menuitem">VI. Timeline</a>
+        </div>
+      </div>
+    </div>
+    <button class="hn-burger" id="hn-burger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="hn-menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
-  <div class="links">
-    <a href="#chap1">I. Beginning</a>
-    <a href="#chap2">II. Architecture</a>
-    <a href="#chap3">III. The Fire</a>
-    <a href="#chap4">IV. Paws</a>
-    <a href="#chap5">V. Today</a>
-    <a href="#chap6">VI. Timeline</a>
-  </div>
-  <a href="index.html" class="home">← Festival</a>
 </nav>
 
 <!-- FRONTISPIECE -->
@@ -736,6 +775,7 @@
   </div>
 </footer>
 
+<script src="shared-nav.js"></script>
 <script src="old-town-hall.js"></script>
 </body>
 </html>
