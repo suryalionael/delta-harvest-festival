@@ -3,7 +3,6 @@
 (function () {
   'use strict';
 
-  const nav = document.getElementById('nav');
   const bar = document.getElementById('bar');
 
   // collect both real images and placeholder art for parallax
@@ -12,9 +11,6 @@
 
   function onScroll() {
     const y = window.scrollY;
-
-    // sticky nav state
-    if (nav) nav.classList.toggle('scrolled', y > 40);
 
     // reading progress bar
     if (bar) {
