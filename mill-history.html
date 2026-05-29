@@ -693,6 +693,14 @@
     filter: saturate(0.20) sepia(0.25) contrast(1.10) brightness(0.80);
   }
 
+  /* ─── Image zoom levels — crop out baked-in borders ─── */
+  .img-z02 { transform: scale(1.02); }
+  .img-z03 { transform: scale(1.03); }
+  .img-z07 { transform: scale(1.07); }
+  .mh-pb .plate:hover .img-z02 { transform: scale(1.045); }
+  .mh-pb .plate:hover .img-z03 { transform: scale(1.055); }
+  .mh-pb .plate:hover .img-z07 { transform: scale(1.095); }
+
   /* ─── Museum label style ─── */
   .mh-plate-label {
     display: flex;
@@ -844,7 +852,7 @@
     <div class="mh-side fade-up">
       <div class="mh-pb">
         <div class="plate t-stone ar-portrait">
-          <img class="mh-pi arch"
+          <img class="mh-pi arch img-z02"
                src="images/arch/mill-1870-first-photo.png"
                alt="First photograph of the Old Stone Mill, c. 1870s — horse and buggy in front, door to turbine hall visible"
                style="object-position: 20% 50%">
@@ -885,10 +893,10 @@
     <div class="mh-side fade-up">
       <div class="mh-pb">
         <div class="plate t-stone ar-wide">
-          <img class="mh-pi arch"
+          <img class="mh-pi arch img-z02"
                src="images/arch/mill-1810-annotated.png"
                alt="Annotated photograph of the Old Stone Mill identifying the original 1810–11 section and the c.1861 turbine hall addition"
-               style="object-position: 50% 50%">
+               style="object-position: 42% 55%">
         </div>
         <div class="mh-cap"><span class="l">Plate III &nbsp;·&nbsp; Original structure vs. 1861 addition</span><span>DMS Survey</span></div>
         <p class="mh-desc">The original 1810–11 limestone block (left) and the c.1861 turbine hall extension (right) — both sections visible in the standing structure today.</p>
@@ -954,10 +962,10 @@
       <div class="mh-stack">
         <div class="mh-pb">
           <div class="plate t-bone ar-portrait">
-            <img class="mh-pi arch"
+            <img class="mh-pi arch img-z02"
                  src="images/arch/king-street-1905.jpg"
                  alt="King Street (Main Street) looking south, c. 1905 — horse and wagon in front of the Old Stone Mill"
-                 style="object-position: 50% 45%">
+                 style="object-position: 82% 46%">
           </div>
           <div class="mh-cap"><span class="l">Plate V &nbsp;·&nbsp; King Street looking south</span><span>c. 1905</span></div>
           <p class="mh-desc">The Old Stone Mill at right, horse and wagon at rest on the unpaved street — the commercial heart of Delta in its prime as a milling village.</p>
@@ -1022,10 +1030,10 @@
     <div class="mh-side fade-up">
       <div class="mh-pb">
         <div class="plate t-stone ar-wide">
-          <img class="mh-pi arch"
+          <img class="mh-pi arch img-z03"
                src="images/arch/early-map-reference.png"
                alt="Section of c.1815 Bastard Township survey map identifying 'Jones and Schofield' grist mill at Stone Mills (Delta)"
-               style="object-position: 50% 50%">
+               style="object-position: 55% 36%">
         </div>
         <div class="mh-cap"><span class="l">Map I &nbsp;·&nbsp; "Jones and Schofield" — Bastard Township</span><span>c. 1815</span></div>
         <p class="mh-desc">The earliest cartographic record of the Old Stone Mill, identified under the names of its founders. The map also shows Haskins sawmill at White Fish Falls and the former ironworks ruins at Lyndhurst. Library and Archives Canada.</p>
@@ -1049,10 +1057,10 @@
     <div class="mh-text fade-up">
       <div class="mh-pb">
         <div class="plate t-stone ar-wide">
-          <img class="mh-pi arch"
+          <img class="mh-pi arch img-z02"
                src="images/arch/delta-map-1816.png"
                alt="Section of 1816 British survey map by Joshua Jebb, RE, showing Stone Mills (Delta) settlement with mill buildings"
-               style="object-position: 50% 50%">
+               style="object-position: 48% 44%">
         </div>
         <div class="mh-cap" style="padding-top: 14px">
           <span class="l">Map II &nbsp;·&nbsp; Stone Mills settlement</span><span>Joshua Jebb, RE — 1816</span>
@@ -1156,10 +1164,10 @@
     <div style="grid-column: 7 / 13" class="fade-up">
       <div class="mh-pb">
         <div class="plate t-stone ar-wide">
-          <img class="mh-pi arch"
+          <img class="mh-pi arch img-z03"
                src="images/arch/mill-c1900.png"
                alt="The Old Stone Mill c. 1900 — black and white photograph from across the mill pond showing the full limestone structure"
-               style="object-position: 50% 50%">
+               style="object-position: 50% 40%">
         </div>
         <div class="mh-cap" style="padding-top: 14px">
           <span class="l">Plate IX &nbsp;·&nbsp; The mill from the pond</span><span>c. 1900</span>
@@ -1184,19 +1192,19 @@
       <div class="mh-stack">
         <div class="mh-pb">
           <div class="plate t-stone ar-wide">
-            <img class="mh-pi arch"
+            <img class="mh-pi arch img-z02"
                  src="images/arch/mill-1957-south.jpg"
                  alt="South side of the Old Stone Mill and west side of Denaut Hall, 1957 — wooden structures deteriorating before restoration"
-                 style="object-position: 50% 50%">
+                 style="object-position: 47% 44%">
           </div>
           <div class="mh-cap"><span class="l">Plate X &nbsp;·&nbsp; South side, Denaut Hall at right</span><span>1957</span></div>
         </div>
         <div class="mh-pb">
           <div class="plate t-stone ar-wide">
-            <img class="mh-pi arch"
+            <img class="mh-pi arch img-z07"
                  src="images/arch/rescue-1972.png"
                  alt="The Old Stone Mill during rescue preservation work, Fall 1972"
-                 style="object-position: 50% 40%">
+                 style="object-position: 50% 32%">
           </div>
           <div class="mh-cap"><span class="l">Plate XI &nbsp;·&nbsp; Rescue preservation underway</span><span>Fall 1972</span></div>
         </div>
