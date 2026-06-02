@@ -375,14 +375,9 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 
 /* ─── immersion ─── */
 .immersion { padding: clamp(120px, 14vw, 200px) 0; }
-.im-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(60px, 8vw, 120px);
-  align-items: start;
-}
-@media (max-width: 900px) { .im-grid { grid-template-columns: 1fr; gap: 60px; } }
-.im-top p,.im-curated p { font-family: var(--display); font-style: italic; font-weight: 400; font-size: clamp(26px, 2.6vw, 40px); line-height: 1.4; color: var(--ink); margin-top: 20px; font-feature-settings: "kern" 1, "liga" 1, "onum" 1; }
+.im-top { max-width: 860px; }
+.im-top p { font-family: var(--display); font-style: italic; font-weight: 400; font-size: clamp(26px, 2.6vw, 40px); line-height: 1.4; color: var(--ink); font-feature-settings: "kern" 1, "liga" 1, "onum" 1; }
+.im-top p + p { margin-top: clamp(32px, 4vw, 56px); }
 
 /* ─── weekend overview ─── */
 .weekend { padding: clamp(120px, 14vw, 200px) 0; }
