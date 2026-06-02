@@ -281,6 +281,16 @@ nav.site .home:hover{color:var(--umber-deep);border-color:var(--umber-deep)}
 .specs dd{font-family:var(--serif);font-style:italic;font-weight:300;font-size:24px;color:var(--ink);line-height:1.2;margin-top:16px}
 @media (max-width:780px){.specs{grid-template-columns:1fr 1fr}.specs>div{border-bottom:1px solid var(--rule-soft);padding:22px 22px 22px 0}.specs>div:nth-child(2n){border-right:none}}
 
+/* ——————————————————————————————————— DISCOVERY ASIDE */
+.detail-aside{max-width:1180px;margin:0 auto;padding:64px var(--pad) 72px}
+.detail-aside .inner{padding-top:32px;border-top:1px solid var(--rule);display:grid;grid-template-columns:180px 1fr;gap:60px;align-items:start}
+.detail-aside .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.3em;text-transform:uppercase}
+.detail-aside .lbl .cap{display:block;color:var(--umber-deep);margin-bottom:10px}
+.detail-aside .lbl .sub{display:block;color:var(--ink-3)}
+.detail-aside h4{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.2vw,28px);letter-spacing:-.01em;color:var(--ink);margin:0 0 16px}
+.detail-aside p{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(16px,1.4vw,19px);line-height:1.75;color:var(--ink-2);max-width:54ch;margin:0}
+@media(max-width:700px){.detail-aside .inner{grid-template-columns:1fr;gap:24px}}
+
 /* ——————————————————————————————————— PULL QUOTE (light) */
 .pull-light{
   max-width:1280px;margin:0 auto;padding:60px var(--pad) 80px;
