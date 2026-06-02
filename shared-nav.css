@@ -286,8 +286,9 @@
 
 /* ════════════════════════════════ SHARED FOOTER */
 .shared-footer {
-  padding: clamp(52px, 7vw, 88px) 0;
+  padding: clamp(28px, 3.5vw, 44px) 0;
   border-top: 1px solid rgba(31,27,22,.12);
+  background: var(--bg, var(--ivory, #F5F3F1));
   text-align: center;
 }
 .shared-footer-inner {
@@ -297,12 +298,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 9px;
+  gap: 7px;
 }
 .shared-footer p {
   font-family: var(--mono, ui-monospace, monospace);
-  font-size: 11px;
-  letter-spacing: .22em;
+  font-size: 10px;
+  letter-spacing: .20em;
   text-transform: uppercase;
   color: var(--ink-3, var(--muted, #8a7f78));
   margin: 0;
