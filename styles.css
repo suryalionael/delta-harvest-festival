@@ -377,31 +377,12 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 .immersion { padding: clamp(120px, 14vw, 200px) 0; }
 .im-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: clamp(40px, 5vw, 80px);
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(60px, 8vw, 120px);
+  align-items: start;
 }
 @media (max-width: 900px) { .im-grid { grid-template-columns: 1fr; gap: 60px; } }
-.im-top { grid-column: 2 / 3; }
-.im-top p { font-family: var(--display); font-style: italic; font-weight: 400; font-size: clamp(26px, 2.6vw, 40px); line-height: 1.35; color: var(--ink); max-width: 34ch; font-feature-settings: "kern" 1, "liga" 1, "onum" 1; }
-@media (max-width: 900px) { .im-top { grid-column: 1 / -1; } }
-.im-rule { grid-column: 1 / -1; display: flex; justify-content: center; margin: clamp(70px, 10vw, 140px) 0; }
-.im-rule .line { width: 1px; height: clamp(70px, 8vw, 110px); background: var(--rule); }
-.im-bottom { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: clamp(40px, 5vw, 80px); align-items: start; }
-@media (max-width: 900px) { .im-bottom { grid-template-columns: 1fr; } }
-.im-curated p { font-family: var(--display); font-style: italic; font-weight: 400; font-size: clamp(26px, 2.6vw, 40px); line-height: 1.35; color: var(--ink); max-width: 32ch; font-feature-settings: "kern" 1, "liga" 1, "onum" 1; }
-.im-marker { grid-column: 3/4; justify-self: end; }
-.im-marker .label {
-  font-family: var(--display);
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(22px, 2vw, 32px);
-  line-height: 1.4;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--ink);
-  font-feature-settings: "kern" 1, "liga" 1, "onum" 1;
-}
-@media (max-width: 900px) { .im-marker { grid-column: 1/-1; justify-self: start; } }
+.im-top p,.im-curated p { font-family: var(--display); font-style: italic; font-weight: 400; font-size: clamp(26px, 2.6vw, 40px); line-height: 1.4; color: var(--ink); margin-top: 20px; font-feature-settings: "kern" 1, "liga" 1, "onum" 1; }
 
 /* ─── weekend overview ─── */
 .weekend { padding: clamp(120px, 14vw, 200px) 0; }
