@@ -375,9 +375,11 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 
 /* ─── immersion ─── */
 .immersion { padding: clamp(120px, 14vw, 200px) 0; }
-.im-top { max-width: 860px; }
+.im-top { max-width: 820px; margin: 0 auto; text-align: center; }
 .im-top p { font-family: var(--display); font-style: italic; font-weight: 400; font-size: clamp(26px, 2.6vw, 40px); line-height: 1.4; color: var(--ink); font-feature-settings: "kern" 1, "liga" 1, "onum" 1; }
 .im-top p + p { margin-top: clamp(32px, 4vw, 56px); }
+.im-top a { color: inherit; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; text-decoration-color: var(--rule); transition: color .2s, text-decoration-color .2s; }
+.im-top a:hover { color: var(--umber-deep); text-decoration-color: var(--umber-deep); }
 
 /* ─── weekend overview ─── */
 .weekend { padding: clamp(120px, 14vw, 200px) 0; }
