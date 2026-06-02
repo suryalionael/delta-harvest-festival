@@ -283,3 +283,42 @@
 
   .hn-item.hn-active > .hn-link > span::after { display: none; }
 }
+
+/* ════════════════════════════════ SHARED FOOTER */
+.shared-footer {
+  padding: clamp(52px, 7vw, 88px) 0;
+  border-top: 1px solid rgba(31,27,22,.12);
+  text-align: center;
+}
+.shared-footer-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+}
+.shared-footer p {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ink-3, var(--muted, #8a7f78));
+  margin: 0;
+}
+.shared-footer a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(31,27,22,.18);
+  transition: color .2s, text-decoration-color .2s;
+}
+.shared-footer a:hover {
+  color: var(--umber-deep, #523819);
+  text-decoration-color: var(--umber-deep, #523819);
+}
+@media (max-width: 600px) {
+  .shared-footer-inner { padding: 0 24px; }
+}
