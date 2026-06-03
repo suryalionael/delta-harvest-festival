@@ -873,8 +873,8 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 .venue-map-wide iframe { width: 100%; height: 100%; }
 /* Archival link beneath Old Stone Mill venue slideshow */
 .venue-archive-ref {
-  margin-top: clamp(24px, 3vw, 40px);
-  padding-top: clamp(18px, 2.5vw, 28px);
+  margin-top: clamp(12px, 1.5vw, 20px);
+  padding-top: clamp(14px, 1.8vw, 22px);
   border-top: 1px solid var(--rule);
 }
 .venue-archive-ref a {
