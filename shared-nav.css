@@ -39,7 +39,7 @@
 }
 .hn-brand-org {
   font-family: "JetBrains Mono","IBM Plex Mono",ui-monospace,monospace;
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: .28em;
   text-transform: uppercase;
   color: #6a5d4e;
@@ -82,7 +82,7 @@
   align-items: center;
   gap: 5px;
   padding: 8px 13px;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 500;
   letter-spacing: .03em;
   color: #3a3128;
@@ -157,7 +157,7 @@
 .hn-drop-head {
   padding: 10px 16px 9px;
   font-family: "JetBrains Mono","IBM Plex Mono",ui-monospace,monospace;
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: .3em;
   text-transform: uppercase;
   color: #523819;
@@ -169,7 +169,7 @@
   display: block;
   padding: 6px 16px 6px 18px;
   font-family: "Inter",system-ui,sans-serif;
-  font-size: 12.5px;
+  font-size: 16px;
   font-weight: 400;
   letter-spacing: .01em;
   color: #3a3128;
@@ -249,7 +249,7 @@
 
   .hn-link {
     padding: 13px 24px;
-    font-size: 13px;
+    font-size: 17px;
     cursor: pointer;
     justify-content: space-between;
   }
@@ -278,7 +278,7 @@
   .hn-drop-head { display: none; }
   .hn-drop a {
     padding: 7px 14px;
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .hn-item.hn-active > .hn-link > span::after { display: none; }
@@ -302,7 +302,7 @@
 }
 .shared-footer p {
   font-family: var(--mono, ui-monospace, monospace);
-  font-size: 10px;
+  font-size: 14px;
   letter-spacing: .20em;
   text-transform: uppercase;
   color: var(--ink-3, var(--muted, #8a7f78));

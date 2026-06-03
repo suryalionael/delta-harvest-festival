@@ -27,7 +27,7 @@ body {
   color: var(--ink);
   font-family: var(--sans);
   font-weight: 300;
-  font-size: 15px;
+  font-size: 19px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -68,7 +68,7 @@ h4 { font-size: clamp(22px, 1.9vw, 28px); line-height: 1.2; }
 }
 
 .body {
-  font-size: 15px;
+  font-size: 19px;
   line-height: 1.85;
   color: var(--ink-2);
   font-weight: 300;
@@ -405,7 +405,7 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 .we-card .day  { font-family: var(--display); font-size: clamp(34px, 4.2vw, 52px); line-height: 1; font-weight: 400; }
 .we-card .day .it { font-style: italic; color: var(--muted); }
 .we-card .when { font-family: var(--sans); font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
-.we-card .desc { font-size: 15px; line-height: 1.75; color: var(--ink-2); max-width: 42ch; font-weight: 300; }
+.we-card .desc { font-size: 18px; line-height: 1.75; color: var(--ink-2); max-width: 42ch; font-weight: 300; }
 
 /* Weekend card — real photo images.
    Both source images are 3:2 landscape inside a 4:5 portrait container.
@@ -478,7 +478,7 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 .sched-time  { font-family: var(--sans); font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
 .sched-name  { font-family: var(--display); font-size: clamp(26px, 3vw, 36px); font-weight: 400; line-height: 1.15; }
 .sched-name .it { font-style: italic; }
-.sched-sub   { margin-top: 10px; font-size: 13px; color: var(--muted); max-width: 44ch; line-height: 1.7; }
+.sched-sub   { margin-top: 10px; font-size: 17px; color: var(--muted); max-width: 44ch; line-height: 1.7; }
 .sched-where { font-family: var(--sans); font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--ink-2); text-align: right; }
 @media (max-width: 780px) {
   .sched-row { grid-template-columns: 1fr; gap: 10px; }
@@ -802,7 +802,7 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 .p-num  { font-family: var(--display); font-style: italic; font-weight: 400; font-size: clamp(32px, 3.4vw, 44px); line-height: 1; color: var(--muted-2); margin-bottom: 20px; }
 .p-body h3 { margin-bottom: 18px; }
 .p-role { font-family: var(--sans); font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); margin: 22px 0 28px; display: block; }
-.p-bio  { font-size: 15px; line-height: 1.85; color: var(--ink-2); max-width: 54ch; font-weight: 300; }
+.p-bio  { font-size: 19px; line-height: 1.85; color: var(--ink-2); max-width: 54ch; font-weight: 300; }
 .p-quote {
   margin: clamp(28px, 3vw, 40px) 0 0;
   padding-top: 28px;
@@ -825,7 +825,7 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
-.p-meta .k { font-family: var(--sans); font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
+.p-meta .k { font-family: var(--sans); font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
 .p-meta .v { font-family: var(--display); font-size: 18px; font-weight: 400; line-height: 1.25; margin-top: 8px; }
 .p-meta .v.it { font-style: italic; }
 @media (max-width: 600px) { .p-meta { grid-template-columns: 1fr; gap: 18px; } }
@@ -993,17 +993,17 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 
 /* ─── immersion+ typography scale ────────────────────────────────────────── */
 .sched-name  { font-size: clamp(28px, 3.2vw, 40px); }
-.sched-sub   { font-size: 15px; }
-.sched-time  { font-size: 12px; }
-.sched-where { font-size: 12px; }
-.we-card .desc { font-size: 17px; line-height: 1.78; }
+.sched-sub   { font-size: 18px; }
+.sched-time  { font-size: 14px; }
+.sched-where { font-size: 14px; }
+.we-card .desc { font-size: 18px; line-height: 1.78; }
 .we-card .day { white-space: nowrap; font-size: clamp(28px, 3.8vw, 48px); }
-.p-bio       { font-size: 17px; }
-.p-role      { font-size: 12px; }
+.p-bio       { font-size: 19px; }
+.p-role      { font-size: 14px; }
 .p-quote     { font-size: clamp(22px, 2.3vw, 30px); }
-.p-meta .k   { font-size: 11px; }
+.p-meta .k   { font-size: 13px; }
 .p-meta .v   { font-size: 20px; }
-.prog .label, .weekend .label, .venue .label { font-size: 12px; }
+.prog .label, .weekend .label, .venue .label { font-size: 14px; }
 .prog .verse, .weekend .verse  { font-size: clamp(24px, 2.5vw, 34px); }
 
 /* ─── interlude dynamic caption ──────────────────────────────────────────── */

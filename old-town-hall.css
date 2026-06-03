@@ -29,7 +29,7 @@ body{
   background:var(--ivory);
   color:var(--ink);
   font-family:var(--sans);
-  font-weight:400;font-size:16px;line-height:1.7;
+  font-weight:400;font-size:19px;line-height:1.7;
   -webkit-font-smoothing:antialiased;
   font-feature-settings:"ss01","cv11","liga";
 }
@@ -230,8 +230,8 @@ nav.site .home:hover{color:var(--umber-deep);border-color:var(--umber-deep)}
   font-style:italic;font-size:14px;margin-bottom:14px;
 }
 .essay aside .label{display:block;margin-bottom:10px}
-.essay aside p{font-family:var(--serif);font-style:italic;font-weight:300;font-size:18px;color:var(--ink-2);line-height:1.5}
-.essay article p{font-size:17.5px;line-height:1.75;color:var(--ink-2);margin-bottom:22px;max-width:62ch}
+.essay aside p{font-family:var(--serif);font-style:italic;font-weight:300;font-size:19px;color:var(--ink-2);line-height:1.5}
+.essay article p{font-size:20px;line-height:1.75;color:var(--ink-2);margin-bottom:22px;max-width:62ch}
 .essay article p:last-child{margin-bottom:0}
 .essay article em{color:var(--ink);font-style:italic}
 @media (max-width:880px){.essay{grid-template-columns:1fr;gap:40px}.essay aside{position:static}}
@@ -261,11 +261,11 @@ nav.site .home:hover{color:var(--umber-deep);border-color:var(--umber-deep)}
 }
 .chap-body aside{position:sticky;top:120px;display:flex;flex-direction:column;gap:30px}
 .chap-body aside .note{
-  font-family:var(--serif);font-style:italic;font-weight:300;font-size:16px;line-height:1.45;color:var(--ink-2);
+  font-family:var(--serif);font-style:italic;font-weight:300;font-size:18px;line-height:1.45;color:var(--ink-2);
   padding-left:14px;border-left:1px solid var(--umber);
 }
 .chap-body aside .note b{font-family:var(--mono);font-style:normal;font-weight:500;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--umber-deep);display:block;margin-bottom:6px}
-.chap-body article>p{font-size:17.5px;line-height:1.75;color:var(--ink-2);margin-bottom:22px;max-width:62ch}
+.chap-body article>p{font-size:20px;line-height:1.75;color:var(--ink-2);margin-bottom:22px;max-width:62ch}
 .chap-body article>p em{color:var(--ink)}
 @media (max-width:880px){.chap-body{grid-template-columns:1fr;gap:30px}.chap-body aside{position:static;flex-direction:row;flex-wrap:wrap}.chap-body aside .note{flex:1;min-width:240px}}
 
@@ -288,7 +288,7 @@ nav.site .home:hover{color:var(--umber-deep);border-color:var(--umber-deep)}
 .detail-aside .lbl .cap{display:block;color:var(--umber-deep);margin-bottom:10px}
 .detail-aside .lbl .sub{display:block;color:var(--ink-3)}
 .detail-aside h4{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.2vw,28px);letter-spacing:-.01em;color:var(--ink);margin:0 0 16px}
-.detail-aside p{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(16px,1.4vw,19px);line-height:1.75;color:var(--ink-2);max-width:54ch;margin:0}
+.detail-aside p{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(19px,1.6vw,22px);line-height:1.75;color:var(--ink-2);max-width:54ch;margin:0}
 @media(max-width:700px){.detail-aside .inner{grid-template-columns:1fr;gap:24px}}
 
 /* ——————————————————————————————————— PULL QUOTE (light) */
@@ -364,7 +364,7 @@ nav.site .home:hover{color:var(--umber-deep);border-color:var(--umber-deep)}
   padding:14px 4px 0;text-align:center;
 }
 .exhibit-wall .frame-mat .plaque .num{font-family:var(--mono);font-size:9.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--umber-deep);margin-bottom:5px}
-.exhibit-wall .frame-mat .plaque .t{font-family:var(--serif);font-style:italic;font-weight:400;font-size:14px;color:var(--ink);line-height:1.4}
+.exhibit-wall .frame-mat .plaque .t{font-family:var(--serif);font-style:italic;font-weight:400;font-size:15px;color:var(--ink);line-height:1.4}
 .exhibit-wall .frame-mat.tall{transform:translateY(-26px)}
 .exhibit-wall .frame-mat.low{transform:translateY(26px)}
 @media (max-width:880px){.exhibit-wall .row{grid-template-columns:1fr;gap:30px}.exhibit-wall .frame-mat.tall,.exhibit-wall .frame-mat.low{transform:none}}
@@ -381,7 +381,7 @@ nav.site .home:hover{color:var(--umber-deep);border-color:var(--umber-deep)}
 .act-break .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--umber-deep);margin-bottom:24px;display:flex;align-items:center;gap:12px}
 .act-break .lbl::before{content:"";display:inline-block;width:24px;height:1px;background:var(--umber-deep)}
 .act-break .turn{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(28px,3.2vw,44px);color:var(--ink);line-height:1.18;margin-bottom:28px;max-width:18ch;letter-spacing:-.005em}
-.act-break p{font-size:16px;line-height:1.75;color:var(--ink-2);max-width:46ch}
+.act-break p{font-size:19px;line-height:1.75;color:var(--ink-2);max-width:46ch}
 .act-break p em{color:var(--ink)}
 @media (max-width:880px){.act-break{grid-template-columns:1fr}.act-break>div{padding:50px 28px}.act-break>div:first-child{border-right:none;border-bottom:1px solid var(--rule)}}
 
@@ -406,7 +406,7 @@ nav.site .home:hover{color:var(--umber-deep);border-color:var(--umber-deep)}
 .wall-text .meta .tag::before{content:"";display:inline-block;width:18px;height:1px;background:var(--umber-deep)}
 .wall-text .meta dl{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;align-items:baseline;margin-top:6px}
 .wall-text .meta dt{font-weight:400;color:var(--ink-3)}
-.wall-text .meta dd{font-family:var(--serif);font-style:italic;font-weight:400;font-size:14px;letter-spacing:0;text-transform:none;color:var(--ink-2);line-height:1.4}
+.wall-text .meta dd{font-family:var(--serif);font-style:italic;font-weight:400;font-size:17px;letter-spacing:0;text-transform:none;color:var(--ink-2);line-height:1.4}
 .wall-text figure{
   margin:0;padding:48px 0 0;position:relative;
 }
@@ -431,7 +431,7 @@ nav.site .home:hover{color:var(--umber-deep);border-color:var(--umber-deep)}
   padding-top:18px;border-top:1px solid var(--rule);
 }
 .wall-text figcaption .lhs{font-family:var(--mono);font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--umber-deep)}
-.wall-text figcaption .mid{font-family:var(--serif);font-style:italic;font-weight:400;font-size:15px;color:var(--ink-2);line-height:1.5}
+.wall-text figcaption .mid{font-family:var(--serif);font-style:italic;font-weight:400;font-size:18px;color:var(--ink-2);line-height:1.5}
 .wall-text figcaption .rhs{font-family:var(--mono);font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-3);text-align:right}
 @media (max-width:880px){
   .wall-text{grid-template-columns:1fr;gap:30px}
@@ -455,7 +455,7 @@ nav.site .home:hover{color:var(--umber-deep);border-color:var(--umber-deep)}
 .object-label .obj{display:grid;grid-template-columns:54px 1fr;gap:14px;align-items:start}
 .object-label .obj .roman{font-family:var(--serif);font-style:italic;font-weight:400;font-size:34px;color:var(--ink);line-height:1}
 .object-label .obj h5{font-family:var(--serif);font-weight:500;font-size:17px;color:var(--ink);margin-bottom:6px;line-height:1.3}
-.object-label .obj p{font-size:13.5px;color:var(--ink-2);line-height:1.6;margin:0}
+.object-label .obj p{font-size:17px;color:var(--ink-2);line-height:1.6;margin:0}
 .object-label .obj .meta{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);margin-top:10px;display:block}
 
 /* ——————————————————————————————————— SECTION 5 — TODAY */
@@ -468,7 +468,7 @@ nav.site .home:hover{color:var(--umber-deep);border-color:var(--umber-deep)}
 .today-cards .card .eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--umber-deep);margin-bottom:10px}
 .today-cards .card h4{font-family:var(--serif);font-weight:400;font-size:26px;margin-bottom:14px;line-height:1.2}
 .today-cards .card h4 em{font-style:italic}
-.today-cards .card p{font-size:15.5px;line-height:1.7;color:var(--ink-2)}
+.today-cards .card p{font-size:19px;line-height:1.7;color:var(--ink-2)}
 @media (max-width:880px){.today-cards{grid-template-columns:1fr}}
 
 /* stat strip */
@@ -511,7 +511,7 @@ nav.site .home:hover{color:var(--umber-deep);border-color:var(--umber-deep)}
 .timeline .yr em{font-style:italic;color:var(--ink-3);font-size:.6em}
 .timeline .what{padding:36px 0 36px 0;border-top:1px solid var(--rule)}
 .timeline .what h4{font-family:var(--serif);font-weight:400;font-size:24px;margin-bottom:10px}
-.timeline .what p{font-size:16px;line-height:1.7;color:var(--ink-2);max-width:60ch}
+.timeline .what p{font-size:19px;line-height:1.7;color:var(--ink-2);max-width:60ch}
 @media (max-width:780px){.timeline{grid-template-columns:1fr;gap:0}.timeline .yr{padding-top:32px;border-bottom:none}.timeline .what{padding-top:8px;border-top:none}}
 
 /* ——————————————————————————————————— FINALE */
@@ -570,7 +570,7 @@ nav.site .home:hover{color:var(--umber-deep);border-color:var(--umber-deep)}
 }
 .colophon p{
   font-family:var(--serif);font-style:italic;font-weight:300;
-  font-size:15px;line-height:1.6;color:var(--ink-2);max-width:62ch;margin:0 0 10px;
+  font-size:18px;line-height:1.6;color:var(--ink-2);max-width:62ch;margin:0 0 10px;
 }
 .colophon p em{color:var(--ink)}
 .colophon .row{
@@ -590,8 +590,8 @@ nav.site .home:hover{color:var(--umber-deep);border-color:var(--umber-deep)}
 .appendix .inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:220px 1fr;gap:80px}
 .appendix aside .label{display:block;margin-bottom:10px}
 .appendix aside b{font-family:var(--serif);font-weight:400;font-size:22px;display:block;margin-bottom:10px;color:var(--ink)}
-.appendix aside p{font-family:var(--serif);font-style:italic;font-weight:300;font-size:16px;color:var(--ink-2);line-height:1.5}
-.appendix article p{font-size:16.5px;line-height:1.75;color:var(--ink-2);margin-bottom:20px;max-width:62ch}
+.appendix aside p{font-family:var(--serif);font-style:italic;font-weight:300;font-size:19px;color:var(--ink-2);line-height:1.5}
+.appendix article p{font-size:19px;line-height:1.75;color:var(--ink-2);margin-bottom:20px;max-width:62ch}
 .appendix article em{color:var(--ink)}
 .appendix .dl{display:grid;grid-template-columns:160px 1fr;gap:14px 30px;margin-top:40px;padding-top:30px;border-top:1px solid var(--rule)}
 .appendix .dl dt{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-3)}
