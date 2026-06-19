@@ -51,7 +51,7 @@
       heritage: { text: 'Built in 1810, the Old Stone Mill is a National Historic Site of Canada and one of the oldest surviving stone grist mills in Ontario — its waterwheel and millstones have ground flour for the village for over two centuries.', isPlaceholder: false }
     },
     {
-      id: 'townhall', x: 492, y: 351, icon: 'icon-hall',
+      id: 'townhall', x: 641, y: 419, icon: 'icon-hall', labelPos: 'w',
       name: 'Old Town Hall',
       eyebrow: 'Old Town Hall',
       title: 'Open House & Public Washrooms',
@@ -62,7 +62,7 @@
       heritage: { text: 'Raised in 1879–1880 as a joint venture between the Township of Bastard & South Burgess and the Harmony Lodge No. 370 Masonic Lodge, the hall survived a serious fire in 1888. Its bricks were hand-pressed by local brickmaker Jasper Russell.', isPlaceholder: false }
     },
     {
-      id: 'blacksmith', x: 653, y: 517, icon: 'icon-anvil',
+      id: 'blacksmith', x: 653, y: 517, icon: 'icon-anvil', labelPos: 'sw',
       name: 'Blacksmith Shop',
       eyebrow: 'Blacksmith Shop',
       title: 'Blacksmithing Demonstrations & Garden Market',
@@ -84,7 +84,7 @@
       heritage: { text: 'King Street doubles as County Road 42 and has been the village’s commercial spine since the 1800s, lined with the storefronts visible in many of Delta’s oldest photographs.', isPlaceholder: false }
     },
     {
-      id: 'fairgrounds', x: 455, y: 1022, icon: 'icon-fair',
+      id: 'fairgrounds', x: 455, y: 1022, icon: 'icon-fair', labelPos: 'n',
       name: 'Delta Fairgrounds',
       eyebrow: 'Delta Fairgrounds',
       title: 'Vendors, Car Show & Live Music',
@@ -95,7 +95,7 @@
       heritage: { text: 'Home to the Delta Fair, established in 1830 — one of Ontario’s oldest continuously running agricultural fairs.', isPlaceholder: false }
     },
     {
-      id: 'firehall', x: 459, y: 832, icon: 'icon-firehall',
+      id: 'firehall', x: 459, y: 832, icon: 'icon-firehall', labelPos: 'n',
       name: 'Fire Hall Museum',
       eyebrow: 'Fire Hall Museum',
       title: 'Open to the Public',
@@ -106,7 +106,7 @@
       heritage: { text: 'Housed in the village’s former fire hall on Mill Creek Drive, the building is being restored by community volunteers to preserve Delta’s firefighting history.', isPlaceholder: false }
     },
     {
-      id: 'lakepark', x: 209, y: 866, icon: 'icon-lake',
+      id: 'lakepark', x: 209, y: 866, icon: 'icon-lake', labelPos: 'n',
       name: 'Lower Beverley Lake Park',
       eyebrow: 'Lower Beverley Lake Park',
       title: 'Texas Hold’em Poker Tournament',
@@ -117,7 +117,7 @@
       heritage: { text: 'Begun in 1967 as a Canadian Centennial project, the park spans 106 acres of mixed forest and shoreline along Lower Beverley Lake.', isPlaceholder: false }
     },
     {
-      id: 'russell', x: 821, y: 387, icon: 'icon-leaf',
+      id: 'russell', x: 821, y: 387, icon: 'icon-leaf', labelPos: 'ne',
       name: 'Russell Greenspace',
       eyebrow: 'Russell Greenspace',
       title: 'Scarecrow Contest Display',
@@ -128,7 +128,7 @@
       heritage: { text: 'Placeholder note — AI-generated, not confirmed: the green space’s name may echo Jasper Russell, the 19th-century brickmaker whose yard supplied bricks for the Old Town Hall, but no official source confirms this connection. Treat as a possibility, not history.', isPlaceholder: true }
     },
     {
-      id: 'dars', x: 994, y: 939, icon: 'icon-ball',
+      id: 'dars', x: 994, y: 939, icon: 'icon-ball', labelPos: 'n',
       name: 'DARS Recreation Centre',
       eyebrow: 'DARS Recreation Centre',
       title: 'Cornhole Tournament, Bake Sale & BBQ',
@@ -139,7 +139,7 @@
       heritage: { text: 'Run by the volunteer-led Delta Athletic & Recreational Society, registered as a charity since 1996, which organises recreation programmes for the village year-round.', isPlaceholder: false }
     },
     {
-      id: 'stpauls', x: 862, y: 839, icon: 'icon-church',
+      id: 'stpauls', x: 862, y: 839, icon: 'icon-church', labelPos: 'n',
       name: 'St. Paul’s Anglican Community Centre',
       eyebrow: 'St. Paul’s Anglican Community Centre',
       title: 'Yard Sale',
@@ -194,6 +194,16 @@
         '<circle cx="1" cy="1" r="0.5" fill="rgba(58,44,26,0.05)"/>' +
       '</pattern>' +
       '<clipPath id="vmap-canvas-clip"><rect x="0" y="0" width="1600" height="1100"/></clipPath>' +
+      '<clipPath id="vmap-plaza-clip"><path d="M715.0,316.7 C762.8,317.1 811.9,334.8 844.1,356.2 C876.2,377.7 892.1,413.6 907.6,445.3 ' +
+        'C923.2,477.0 946.2,515.9 937.2,546.4 C928.1,577.0 890.2,604.4 853.2,628.5 C816.2,652.6 760.0,688.0 715.0,691.1 ' +
+        'C670.0,694.2 614.4,669.9 583.1,647.0 C551.8,624.0 539.7,585.1 527.1,553.4 C514.4,521.6 502.3,489.9 507.3,456.6 ' +
+        'C512.4,423.3 522.9,376.9 557.5,353.6 C592.1,330.3 667.2,316.3 715.0,316.7 Z"/></clipPath>' +
+      '<pattern id="vmap-plaza-grain" width="22" height="22" patternUnits="userSpaceOnUse">' +
+        '<rect width="22" height="22" fill="none"/>' +
+        '<circle cx="4" cy="4" r="1.1" fill="var(--vm-brick)" opacity="0.16"/>' +
+        '<circle cx="15" cy="11" r="1.1" fill="var(--vm-brick)" opacity="0.16"/>' +
+        '<circle cx="9" cy="18" r="1.1" fill="var(--vm-brick)" opacity="0.16"/>' +
+      '</pattern>' +
       Object.keys(ICONS).map(function (key) {
         return '<symbol id="' + key + '" viewBox="0 0 24 24">' + ICONS[key] + '</symbol>';
       }).join('') +
@@ -206,29 +216,51 @@
        OpenStreetMap shoreline trace (the lake's full shoreline loops
        far beyond the village; only the arc nearest Delta is drawn,
        closed off-canvas to the southwest where the lake continues
-       beyond the frame). Upper Beverley Lake, southeast near DARS and
-       St. Paul's, is stylised (no clean OSM trace at this scale) but
-       sits at the real general bearing the two lakes give Delta its
-       name from — the village sits in the triangle between them. */
+       beyond the frame). A small wooded islet near the shore (below)
+       is also real OSM geometry — a tiny inlet/peninsula loop in the
+       same shoreline relation, just off the bay south of the village.
+       Upper Beverley Lake, southeast near DARS and St. Paul's: its real
+       OSM shoreline (checked in this pass) actually comes within about
+       40m of the Mill on the village's northeast side — closer to the
+       core than shown — but redrawing it there would crowd the
+       protected heritage-plaza and Russell Greenspace area, so it
+       keeps its established south-east corner position with a more
+       naturally irregular coastline informed by that real shoreline's
+       character (a small point and cove rather than a plain curve). */
     var water =
-      '<path d="M429.6,732.5 L501.3,701.5 L593.1,521.6 L601.2,485.9 L624.7,478.8 ' +
-        'L607.2,521.6 L642.2,522.2 L728.0,489.9 L728.6,453.9 L768.5,437.8 L759.5,459.6 ' +
-        'L736.1,462.9 L756.7,483.5 L740.4,489.0 L703.3,532.6 L546.6,672.6 L458.2,747.8 ' +
-        'L390.3,809.2 L380.5,874.9 L313.6,939.7 L361.2,1080.9 L322.5,1118.0 L220.5,1187.4 ' +
-        'L117.1,1274.0 L99.1,1360.5 L126.0,1394.4 L-150,1430 L-150,400 Z" ' +
+      '<path d="M429.6,734.3 L490.6,710.3 L501.3,703.1 L613.9,570.5 L614.2,549.0 ' +
+        'L593.1,521.9 L589.6,506.4 L601.2,486.0 L615.0,477.8 L624.7,478.8 L602.8,497.3 ' +
+        'L597.3,510.6 L607.2,521.9 L624.2,527.2 L642.2,522.5 L662.3,511.2 L708.5,515.1 ' +
+        'L728.0,490.0 L728.5,462.7 L728.6,453.7 L748.3,438.3 L768.5,437.5 L768.1,444.5 ' +
+        'L767.8,452.8 L759.5,459.5 L736.2,460.3 L736.1,462.7 L735.7,483.4 L756.7,483.5 ' +
+        'L756.3,486.6 L745.5,487.0 L740.4,489.0 L734.5,511.5 L703.3,532.9 L676.2,536.9 ' +
+        'L546.6,674.0 L513.3,730.6 L501.3,734.7 L458.2,749.7 L423.3,760.3 L390.3,811.5 ' +
+        'L398.1,830.8 L380.5,877.7 L349.6,900.9 L322.5,921.0 L313.6,942.9 L371.0,1049.0 ' +
+        'L361.2,1085.2 L360.4,1088.4 L325.9,1119.4 L322.5,1122.5 L279.8,1161.9 L220.5,1192.4 ' +
+        'L141.6,1234.0 L117.1,1279.6 L109.1,1301.2 L96.3,1334.7 L99.1,1366.7 L113.8,1379.3 ' +
+        'L-150,1430 L-150,400 Z" ' +
         'fill="var(--vm-water)" opacity="0.55"/>' +
-      '<text x="20" y="700" font-family="var(--sans)" font-size="16" letter-spacing="1" ' +
+      '<path d="M336,838 C347,834 357,839 359,850 C361,862 352,873 340,875 ' +
+        'C328,877 315,868 314,856 C313,846 323,841 336,838 Z" ' +
+        'fill="var(--vm-parchment)" opacity="0.92"/>' +
+      tree(336, 853, 0.7) +
+      '<text x="20" y="700" font-family="var(--sans)" font-size="12" letter-spacing="1" ' +
         'fill="var(--vm-water-deep)" opacity="0.85">Lower Beverley Lake</text>' +
-      '<path d="M1180,1100 C1260,1010 1400,985 1500,1025 C1565,1052 1595,1080 1600,1100 Z" ' +
+      '<path d="M1170,1100 C1205,1055 1228,1020 1265,1000 C1290,987 1305,1002 1325,997 ' +
+        'C1345,992 1352,968 1378,962 C1404,956 1422,978 1448,985 C1472,991 1478,968 1503,968 ' +
+        'C1535,968 1558,995 1578,1025 C1592,1046 1598,1073 1600,1100 Z" ' +
         'fill="var(--vm-water)" opacity="0.5"/>' +
-      '<text x="1235" y="1020" font-family="var(--sans)" font-size="14" letter-spacing="1" ' +
+      '<text x="1235" y="1020" font-family="var(--sans)" font-size="10.5" letter-spacing="1" ' +
         'fill="var(--vm-water-deep)" opacity="0.8">Upper Beverley Lake</text>' +
       /* Delta Creek — the real millpond outflow stream, surveyed (OSM),
-         flowing from the Mill's pond down into Lower Beverley Lake */
+         flowing from the Mill's pond down into Lower Beverley Lake;
+         extended in this pass with the stream's real final points so
+         it visibly reaches the lake instead of stopping short of it */
       '<path d="M801.0,430.6 L787.2,436.1 L768.1,444.7 L732.9,458.0 L732.3,462.9 ' +
         'L731.4,495.2 L723.5,506.4 L712.4,520.0 L679.2,527.5 L637.8,555.3 L549.0,660.1 ' +
         'L510.0,709.5 L426.2,749.1 L409.6,763.1 L385.6,815.0 L388.9,832.3 L381.4,847.9 ' +
-        'L315.9,907.2 L306.8,926.2 L309.2,950.1 L352.4,1031.6 L354.9,1053.9 L349.1,1081.1" ' +
+        'L315.9,907.2 L306.8,926.2 L309.2,950.1 L352.4,1031.6 L354.9,1053.9 L349.1,1081.1 ' +
+        'L273.6,1152.5 L169.0,1203.1 L150.0,1213.9" ' +
         'stroke="var(--vm-water-deep)" stroke-width="4" fill="none" opacity="0.55" stroke-linecap="round" stroke-linejoin="round"/>';
 
     /* green spaces: Russell Greenspace, Lower Beverley Lake Park woods,
@@ -237,6 +269,22 @@
     var greens = '<ellipse cx="821" cy="387" rx="42" ry="33" fill="var(--vm-green)" opacity="0.26"/>' +
                  '<ellipse cx="265" cy="815" rx="68" ry="52" fill="var(--vm-green)" opacity="0.22"/>' +
                  '<ellipse cx="455" cy="1022" rx="80" ry="46" fill="var(--vm-green)" opacity="0.2"/>';
+
+    /* village core — Old Stone Mill, Blacksmith Shop, Old Town Hall, Russell
+       Greenspace and King Street all sit inside a short walk of one another;
+       a soft heritage-plaza wash (warm wash + stippled "gathering square"
+       texture + a hand-drawn dashed boundary) marks this out as the heart
+       of the festival without resembling a modern map highlight. */
+    var plazaPath = 'M715.0,316.7 C762.8,317.1 811.9,334.8 844.1,356.2 C876.2,377.7 892.1,413.6 907.6,445.3 ' +
+      'C923.2,477.0 946.2,515.9 937.2,546.4 C928.1,577.0 890.2,604.4 853.2,628.5 C816.2,652.6 760.0,688.0 715.0,691.1 ' +
+      'C670.0,694.2 614.4,669.9 583.1,647.0 C551.8,624.0 539.7,585.1 527.1,553.4 C514.4,521.6 502.3,489.9 507.3,456.6 ' +
+      'C512.4,423.3 522.9,376.9 557.5,353.6 C592.1,330.3 667.2,316.3 715.0,316.7 Z';
+    var plazaCore =
+      '<path d="' + plazaPath + '" fill="var(--vm-gold)" opacity="0.11"/>' +
+      '<g clip-path="url(#vmap-plaza-clip)"><rect x="480" y="290" width="480" height="430" fill="url(#vmap-plaza-grain)"/></g>' +
+      '<path d="' + plazaPath + '" fill="none" stroke="var(--vm-brick)" stroke-width="2" stroke-dasharray="2 8" opacity="0.4"/>' +
+      '<text x="715" y="346" text-anchor="middle" font-family="var(--display)" font-style="italic" font-size="13" ' +
+        'fill="var(--vm-brick-deep)" opacity="0.6">Heart of the Festival</text>';
 
     /* roads: every centreline below is real OpenStreetMap geometry for
        Delta, ON (King Street/County Road 42, William St, John St,
@@ -257,7 +305,7 @@
       'L676.9,618.6 L687.8,603.5 L763.9,533.4 L770.1,525.0 L772.9,512.0 L775.8,452.7 L777.5,425.6 ' +
       'L779.8,399.1 L827.2,288.5 L849.9,233.2 L861.0,205.6 L922.7,54.1 L946.3,-31.1 L950.6,-95.8 ' +
       'L944.7,-309.0 L941.0,-416.0 L938.2,-441.6 L933.2,-469.9 L925.9,-488.9 L915.5,-509.9 ' +
-      'L901.8,-529.8 L881.7,-553.6 L776.3,-660.6 L725.3,-712.4 L530.4,-905.1 L482.8,-965.2', 18, 4);
+      'L901.8,-529.8 L881.7,-553.6 L776.3,-660.6 L725.3,-712.4 L530.4,-905.1 L482.8,-965.2', 20, 5);
     var roadWilliam = road('M145.4,1481.9 L149.1,1467.6 L163.2,1453.2 L232.5,1395.3 L395.3,1244.3 ' +
       'L454.3,1193.0 L553.0,1099.8 L564.4,1081.6 L569.7,1067.0 L570.6,1056.9 L582.0,942.9 ' +
       'L591.8,903.9 L601.9,885.7 L616.0,870.0 L734.9,764.3 L741.7,752.7 L749.4,740.4 L750.4,739.3 ' +
@@ -273,20 +321,24 @@
       'L145.3,630.7 L184.0,615.9 L208.6,610.4 L320.1,598.5 L344.7,587.8 L363.9,569.4 L379.1,545.9 ' +
       'L419.6,466.5 L436.2,445.5 L452.9,432.4 L472.3,428.2 L490.5,434.4 L542.9,467.4 L561.2,474.9 ' +
       'L578.1,473.3 L596.1,464.0 L640.9,419.4 L657.7,412.7 L674.6,413.8 L698.2,430.3 L709.9,431.4 ' +
-      'L722.9,427.4 L753.3,406.0 L769.3,401.8 L779.8,399.1', 10, 3);
+      'L722.9,427.4 L753.3,406.0 L769.3,401.8 L779.8,399.1', 13, 3.5);
 
     /* highway exit + street labels, at the real points the roads
        actually cross the edge of the mapped area */
     var labels =
-      '<text x="460" y="1078" font-family="var(--sans)" font-size="15" font-weight="600" fill="var(--vm-ink)" opacity="0.75" transform="rotate(-40 460 1078)">↙ to Athens · Brockville</text>' +
-      '<text x="1230" y="1078" font-family="var(--sans)" font-size="15" font-weight="600" fill="var(--vm-ink)" opacity="0.75" transform="rotate(14 1230 1078)">to Philipsville · Hwy 15 ↘</text>' +
-      '<text x="880" y="130" font-family="var(--sans)" font-size="14" letter-spacing="1" fill="var(--vm-brick-deep)" opacity="0.78" transform="rotate(-68 880 130)">King Street / County Rd. 42</text>' +
-      '<text x="605" y="920" font-family="var(--sans)" font-size="12.5" letter-spacing="0.5" fill="var(--vm-brick-deep)" opacity="0.72" transform="rotate(-58 605 920)">William St.</text>' +
-      '<text x="855" y="635" font-family="var(--sans)" font-size="11.5" letter-spacing="0.4" fill="var(--vm-brick-deep)" opacity="0.72" transform="rotate(48 855 635)">Mathew St.</text>' +
-      '<text x="878" y="790" font-family="var(--sans)" font-size="11.5" letter-spacing="0.4" fill="var(--vm-brick-deep)" opacity="0.7" transform="rotate(-45 878 790)">John St.</text>' +
-      '<text x="480" y="862" font-family="var(--sans)" font-size="12.5" letter-spacing="0.5" fill="var(--vm-brick-deep)" opacity="0.72" transform="rotate(-42 480 862)">Mill Creek Dr.</text>' +
-      '<text x="905" y="650" font-family="var(--sans)" font-size="11.5" letter-spacing="0.4" fill="var(--vm-brick-deep)" opacity="0.7" transform="rotate(70 905 650)">Recreation Dr.</text>' +
-      '<text x="430" y="582" font-family="var(--sans)" font-size="11.5" letter-spacing="0.3" fill="var(--vm-brick-deep)" opacity="0.7" transform="rotate(-29 430 582)">Lower Beverley Lake Park Rd.</text>';
+      '<text x="460" y="1078" font-family="var(--sans)" font-size="11.5" font-weight="600" fill="var(--vm-ink)" opacity="0.75" transform="rotate(-40 460 1078)">↙ to Athens · Brockville</text>' +
+      '<text x="1230" y="1078" font-family="var(--sans)" font-size="11.5" font-weight="600" fill="var(--vm-ink)" opacity="0.75" transform="rotate(14 1230 1078)">to Philipsville · Hwy 15 ↘</text>' +
+      '<text x="880" y="130" font-family="var(--sans)" font-size="11.5" font-weight="600" letter-spacing="1" fill="var(--vm-brick-deep)" opacity="0.85" transform="rotate(-68 880 130)">King Street / County Rd. 42</text>' +
+      '<text x="605" y="920" font-family="var(--sans)" font-size="9.5" letter-spacing="0.5" fill="var(--vm-brick-deep)" opacity="0.72" transform="rotate(-58 605 920)">William St.</text>' +
+      '<text x="855" y="635" font-family="var(--sans)" font-size="9" letter-spacing="0.4" fill="var(--vm-brick-deep)" opacity="0.72" transform="rotate(48 855 635)">Mathew St.</text>' +
+      '<text x="878" y="790" font-family="var(--sans)" font-size="9" letter-spacing="0.4" fill="var(--vm-brick-deep)" opacity="0.7" transform="rotate(-45 878 790)">John St.</text>' +
+      '<text x="480" y="862" font-family="var(--sans)" font-size="9.5" letter-spacing="0.5" fill="var(--vm-brick-deep)" opacity="0.72" transform="rotate(-42 480 862)">Mill Creek Dr.</text>' +
+      '<text x="905" y="650" font-family="var(--sans)" font-size="9" letter-spacing="0.4" fill="var(--vm-brick-deep)" opacity="0.7" transform="rotate(70 905 650)">Recreation Dr.</text>' +
+      '<text x="430" y="582" font-family="var(--sans)" font-size="10" font-weight="600" letter-spacing="0.4" fill="var(--vm-brick-deep)" opacity="0.82" transform="rotate(-29 430 582)">↞ Lower Beverley Lake Park Rd. ↠</text>' +
+      '<text x="255" y="638" font-family="var(--sans)" font-size="8.5" font-style="italic" letter-spacing="0.3" fill="var(--vm-brick-deep)" opacity="0.62" transform="rotate(-29 255 638)">to the Park</text>' +
+      '<text x="640" y="495" font-family="var(--sans)" font-size="8.5" font-style="italic" letter-spacing="0.3" fill="var(--vm-brick-deep)" opacity="0.62" transform="rotate(-29 640 495)">to the Village Core</text>' +
+      '<circle cx="776" cy="463" r="13" fill="#B9AC8A" stroke="var(--vm-brick-deep)" stroke-width="1.5" opacity="0.5"/>' +
+      '<text x="776" y="441" text-anchor="middle" font-family="var(--sans)" font-size="8.5" font-weight="700" letter-spacing="0.6" fill="var(--vm-brick-deep)" opacity="0.72">VILLAGE CROSSROADS</text>';
 
     function tree(cx, cy, scale) {
       scale = scale || 1;
@@ -296,11 +348,18 @@
     }
     var trees = tree(800, 360) + tree(845, 405) + tree(792, 412) +
                 tree(232, 765) + tree(262, 838) + tree(300, 858) +
-                tree(420, 1000) + tree(492, 1048);
+                tree(420, 1000) + tree(492, 1048) +
+                /* additional tree groupings near outlying venues, for a
+                   denser, more walked-village feel away from the core */
+                tree(615, 392) + tree(598, 430) + tree(672, 448) +
+                tree(490, 798) + tree(428, 815) + tree(500, 870) +
+                tree(1018, 910) + tree(958, 980) + tree(1035, 970) +
+                tree(170, 845) + tree(245, 905) +
+                tree(388, 982) + tree(525, 990) + tree(405, 1065) + tree(530, 1055);
 
-    /* real building footprints near the village core — every rect is a
-       real OpenStreetMap building footprint within ~150 real metres of
-       the Mill, projected at the same uniform scale, so the heritage
+    /* real building footprints near the village core — every rect below
+       is a real OpenStreetMap building footprint within ~150 real metres
+       of the Mill, projected at the same uniform scale, so the heritage
        core reads as an actual built-up village rather than a few
        isolated illustrated shapes */
     var footprints =
@@ -345,23 +404,69 @@
       '<rect x="791.8" y="443.9" width="12.8" height="27.4" rx="1.5" fill="var(--vm-ink)" opacity="0.13"/>' +
       '<rect x="833.5" y="323.1" width="25.7" height="23.3" rx="1.5" fill="var(--vm-ink)" opacity="0.13"/>';
 
+    /* outlying building footprints, beyond the surveyed core above — the
+       OpenStreetMap building query did not extend out to the Fire Hall,
+       DARS, the Fairgrounds or Lower Beverley Lake Park, so these are
+       plausible illustrative infill (same restrained ink/opacity style)
+       rather than literal surveyed footprints, giving each venue a
+       believable cluster of structures instead of standing alone */
+    var outerFootprints =
+      '<rect x="598.0" y="397.0" width="14.0" height="12.0" rx="1.5" fill="var(--vm-ink)" opacity="0.13"/>' +
+      '<rect x="663.0" y="432.0" width="16.0" height="13.0" rx="1.5" fill="var(--vm-ink)" opacity="0.13"/>' +
+      '<rect x="612.0" y="440.0" width="12.0" height="10.0" rx="1.5" fill="var(--vm-ink)" opacity="0.13"/>' +
+      '<rect x="480.0" y="805.0" width="16.0" height="12.0" rx="1.5" fill="var(--vm-ink)" opacity="0.13"/>' +
+      '<rect x="414.0" y="850.0" width="14.0" height="11.0" rx="1.5" fill="var(--vm-ink)" opacity="0.13"/>' +
+      '<rect x="488.0" y="860.0" width="18.0" height="14.0" rx="1.5" fill="var(--vm-ink)" opacity="0.13"/>' +
+      '<rect x="1018.0" y="900.0" width="15.0" height="12.0" rx="1.5" fill="var(--vm-ink)" opacity="0.13"/>' +
+      '<rect x="948.0" y="960.0" width="17.0" height="13.0" rx="1.5" fill="var(--vm-ink)" opacity="0.13"/>' +
+      '<rect x="1028.0" y="965.0" width="14.0" height="11.0" rx="1.5" fill="var(--vm-ink)" opacity="0.13"/>' +
+      '<rect x="190.0" y="848.0" width="18.0" height="14.0" rx="1.5" fill="var(--vm-ink)" opacity="0.13"/>' +
+      '<rect x="225.0" y="888.0" width="15.0" height="12.0" rx="1.5" fill="var(--vm-ink)" opacity="0.13"/>';
+
+    /* landmark footprints — the five venues the festival map calls out
+       by name. The Old Stone Mill's outline below is its real, surveyed
+       OpenStreetMap footprint (already drawn as part of the village
+       core above); the others have no separately-tagged OSM building
+       and are placed at each venue's already-verified marker position,
+       sized to plausible real footprints, with a subtle heritage-brick
+       outline (same colour already used for the plaza border) so each
+       reads as an actual structure rather than just a pin */
+    function landmark(x, y, w, h) {
+      return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h +
+        '" rx="2" fill="var(--vm-ink)" opacity="0.13" stroke="var(--vm-brick-deep)" stroke-width="1" stroke-opacity="0.35"/>';
+    }
+    var landmarks =
+      /* Old Stone Mill — real OSM footprint, outline only (fill already drawn) */
+      '<rect x="734.2" y="464.3" width="23.4" height="19.0" rx="2" fill="none" ' +
+        'stroke="var(--vm-brick-deep)" stroke-width="1" stroke-opacity="0.35"/>' +
+      /* Old Town Hall, on Lower Beverley Lake Park Road */
+      landmark(628, 405, 26, 22) +
+      /* Fire Hall Museum, on Mill Creek Drive */
+      landmark(446, 819, 26, 20) +
+      /* DARS Recreation Centre, on Recreation Drive — larger complex */
+      landmark(975, 922, 38, 26) +
+      /* Delta Fairgrounds — several small structures within the field */
+      landmark(420, 1004, 26, 16) +
+      '<rect x="468.0" y="1032.0" width="16.0" height="12.0" rx="1.5" fill="var(--vm-ink)" opacity="0.13"/>' +
+      '<rect x="398.0" y="1038.0" width="14.0" height="11.0" rx="1.5" fill="var(--vm-ink)" opacity="0.13"/>';
+
     var compass = '<g transform="translate(1500,110)" opacity="0.8">' +
       '<circle cx="0" cy="0" r="36" fill="none" stroke="var(--vm-ink)" stroke-width="1.4"/>' +
       '<path d="M0,-30 L8,0 L0,30 L-8,0 Z" fill="var(--vm-brick)"/>' +
-      '<text x="0" y="-42" text-anchor="middle" font-family="var(--sans)" font-size="13" fill="var(--vm-ink)">N</text>' +
+      '<text x="0" y="-42" text-anchor="middle" font-family="var(--sans)" font-size="10" fill="var(--vm-ink)">N</text>' +
       '</g>';
 
-    var title = '<text x="120" y="1045" font-family="var(--display)" font-size="26" ' +
+    var title = '<text x="120" y="1045" font-family="var(--display)" font-size="20" ' +
       'fill="var(--vm-ink)" opacity="0.6">Village of Delta</text>' +
-      '<text x="120" y="1067" font-family="var(--sans)" font-size="11.5" letter-spacing="2.5" ' +
+      '<text x="120" y="1067" font-family="var(--sans)" font-size="9" letter-spacing="2.5" ' +
       'fill="var(--vm-brick-deep)" opacity="0.75">HARVEST FESTIVAL TRAIL · REAL VILLAGE GEOGRAPHY</text>';
 
     return '<svg viewBox="0 0 1600 1100" xmlns="http://www.w3.org/2000/svg">' +
       defs +
       '<g clip-path="url(#vmap-canvas-clip)">' +
-      bg + water + greens +
+      bg + water + greens + plazaCore +
       roadLakePark + roadMillCreek + roadRecreation + roadWilliam + roadJohn + roadMathew + roadWater + roadKing +
-      footprints + labels + trees + compass + title +
+      footprints + outerFootprints + landmarks + labels + trees + compass + title +
       '</g>' +
       '</svg>';
   }
@@ -371,7 +476,7 @@
   var lastFocused = null;
   var activeHotspot = null;
   var viewMode = 'map'; // 'map' | 'list'
-  var zoom = { scale: 1, x: 0, y: 0, minScale: 0.55, maxScale: 2.6 };
+  var zoom = { scale: 1, x: 0, y: 0, minScale: 0.18, maxScale: 2.6 };
 
   function el(tag, className, html) {
     var n = document.createElement(tag);
@@ -413,9 +518,11 @@
 
     var legend = el('div', 'vmap-legend');
     legend.innerHTML = '<span class="vmap-legend-title">Festival Locations</span>' +
+      '<div class="vmap-legend-items">' +
       LEGEND.map(function (item) {
         return '<span class="vmap-legend-item"><span class="vmap-legend-swatch"><svg aria-hidden="true"><use href="#' + item.icon + '" xlink:href="#' + item.icon + '"></use></svg></span>' + item.label + '</span>';
-      }).join('');
+      }).join('') +
+      '</div>';
 
     toolbar.appendChild(toggleBtn);
     toolbar.appendChild(legend);
@@ -435,6 +542,7 @@
       var btn = el('button', 'vmap-hotspot');
       btn.type = 'button';
       btn.dataset.id = loc.id;
+      if (loc.labelPos) btn.dataset.labelPos = loc.labelPos;
       btn.style.left = loc.x + 'px';
       btn.style.top = loc.y + 'px';
       btn.setAttribute('aria-label', loc.name + ' — ' + loc.title);
@@ -592,12 +700,14 @@
   /* ─── pan & zoom ─── */
   function applyTransform() {
     canvasEl.style.transform = 'translate(' + zoom.x + 'px,' + zoom.y + 'px) scale(' + zoom.scale + ')';
+    canvasEl.style.setProperty('--vmap-counter-scale', 1 / zoom.scale);
   }
   function clamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
 
   function resetView() {
     var rect = stageEl.getBoundingClientRect();
-    zoom.scale = Math.max(rect.width / 1600, rect.height / 1100, 0.55);
+    var fitScale = Math.max(rect.width / 1600, rect.height / 1100);
+    zoom.scale = clamp(fitScale, zoom.minScale, zoom.maxScale);
     zoom.x = (rect.width - 1600 * zoom.scale) / 2;
     zoom.y = (rect.height - 1100 * zoom.scale) / 2;
     applyTransform();
@@ -620,7 +730,7 @@
     var pointers = {};
 
     stageEl.addEventListener('pointerdown', function (e) {
-      if (e.target.closest('.vmap-hotspot')) return;
+      if (e.target.closest('.vmap-hotspot') || e.target.closest('.vmap-controls')) return;
       stageEl.setPointerCapture(e.pointerId);
       pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
       if (Object.keys(pointers).length === 1) {
