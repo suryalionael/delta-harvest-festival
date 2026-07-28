@@ -35,6 +35,33 @@
 .vmap-overlay.is-open { opacity: 1; }
 .vmap-overlay[hidden] { display: none; }
 
+/* ─── inline embed variant (festival-map.html) ───────────────
+   Same modal markup, parented into a page container instead of
+   a full-viewport overlay — no backdrop, no fixed positioning. */
+.vmap-overlay.is-inline {
+  position: relative;
+  inset: auto;
+  z-index: auto;
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: none;
+  backdrop-filter: none;
+  opacity: 1;
+}
+.vmap-overlay.is-inline .vmap-modal {
+  width: 100%;
+  height: clamp(520px, 78vh, 860px);
+  max-height: none;
+  transform: none;
+  opacity: 1;
+  border-radius: 10px;
+}
+.vmap-overlay.is-inline .vmap-close { display: none; }
+@media (max-width: 860px) {
+  .vmap-overlay.is-inline .vmap-modal { border-radius: 10px; height: clamp(480px, 82vh, 720px); }
+}
+
 .vmap-modal {
   position: relative;
   width: min(1640px, 100%);

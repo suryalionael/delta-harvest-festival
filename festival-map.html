@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Festival Map · Delta Harvest Festival · 26–27 September 2026</title>
+  <meta name="description" content="An interactive map of the Delta Harvest Festival — heritage buildings, festival-day activities and community spaces across the village of Delta, Ontario.">
+
+  <link rel="icon" type="image/svg+xml" href="Favicon (1).svg" />
+  <link rel="icon" type="image/png" href="Favicon.png" />
+  <link rel="shortcut icon" type="image/png" href="Favicon.png" />
+  <link rel="apple-touch-icon" href="Favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="shared-nav.css" />
+  <link rel="stylesheet" href="festival-map.css" />
+  <link rel="stylesheet" href="festival-map-page.css" />
+</head>
+<body>
+
+<nav class="hn-nav" id="hn-nav" data-active="map" aria-label="Heritage navigation">
+  <div class="hn-inner">
+    <a class="hn-brand" href="index.html">
+      <span class="hn-brand-org">Delta Mill Society · Est. 1963</span>
+      <strong class="hn-brand-name">Delta Heritage</strong>
+    </a>
+    <div class="hn-sep" aria-hidden="true"></div>
+    <div class="hn-menu" id="hn-menu" role="menubar">
+      <div class="hn-item" data-section="festival">
+        <a class="hn-link" href="index.html" role="menuitem" aria-haspopup="true"><span>Delta Harvest Festival</span></a>
+        <div class="hn-drop" role="menu" aria-label="Delta Harvest Festival sections">
+          <div class="hn-drop-head">Delta Harvest Festival</div>
+          <a href="index.html#about" role="menuitem">About</a>
+          <a href="index.html#weekend" role="menuitem">Weekend Overview</a>
+          <a href="index.html#saturday" role="menuitem">Saturday Events</a>
+          <a href="index.html#sunday" role="menuitem">Sunday Events</a>
+          <a href="index.html#programme" role="menuitem">Programme</a>
+          <a href="index.html#venue" role="menuitem">Venue &amp; Map</a>
+        </div>
+      </div>
+      <div class="hn-item" data-section="mill">
+        <a class="hn-link" href="mill-history.html" role="menuitem" aria-haspopup="true"><span>Old Stone Mill</span></a>
+        <div class="hn-drop" role="menu" aria-label="Old Stone Mill sections">
+          <div class="hn-drop-head">Old Stone Mill · Est. 1810</div>
+          <a href="mill-history.html" role="menuitem">Introduction</a>
+          <a href="mill-history.html#origins" role="menuitem">I. Origins</a>
+          <a href="mill-history.html#village" role="menuitem">II. The Village</a>
+          <a href="mill-history.html#maps" role="menuitem">Early Map References</a>
+          <a href="mill-history.html#milling" role="menuitem">III. Milling</a>
+          <a href="mill-history.html#preservation" role="menuitem">IV. Preservation</a>
+          <a href="mill-history.html#today" role="menuitem">V. Today</a>
+          <a href="mill-history.html#timeline" role="menuitem">Timeline</a>
+          <a href="mill-history.html#society" role="menuitem">About the Society</a>
+        </div>
+      </div>
+      <div class="hn-item" data-section="hall">
+        <a class="hn-link" href="old-town-hall.html" role="menuitem" aria-haspopup="true"><span>Old Town Hall</span></a>
+        <div class="hn-drop" role="menu" aria-label="Old Town Hall sections">
+          <div class="hn-drop-head">Old Town Hall · Est. 1879</div>
+          <a href="old-town-hall.html#top" role="menuitem">Introduction</a>
+          <a href="old-town-hall.html#chap1" role="menuitem">I. The Beginning</a>
+          <a href="old-town-hall.html#chap2" role="menuitem">II. Architecture</a>
+          <a href="old-town-hall.html#chap3" role="menuitem">III. The Fire</a>
+          <a href="old-town-hall.html#chap4" role="menuitem">IV. Paws in Time</a>
+          <a href="old-town-hall.html#chap5" role="menuitem">V. Today</a>
+          <a href="old-town-hall.html#chap6" role="menuitem">VI. Timeline</a>
+        </div>
+      </div>
+      <div class="hn-item" data-section="map">
+        <a class="hn-link" href="festival-map.html" role="menuitem" aria-haspopup="true"><span>Festival Map</span></a>
+        <div class="hn-drop" role="menu" aria-label="Festival Map sections">
+          <div class="hn-drop-head">Festival Map</div>
+          <a href="festival-map.html" role="menuitem">Introduction</a>
+          <a href="festival-map.html#map" role="menuitem">The Interactive Map</a>
+          <a href="festival-map.html#locations" role="menuitem">Festival Locations</a>
+        </div>
+      </div>
+    </div>
+    <button class="hn-burger" id="hn-burger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="hn-menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section class="fm-hero">
+  <div class="fm-hero-inner">
+    <span class="fm-kicker reveal">The Village of Delta</span>
+    <h1 class="reveal">A Map of the <em>Village</em></h1>
+    <p class="fm-hero-sub reveal">Explore the Delta Harvest Festival through an interactive map of the historic village — heritage buildings, festival-day activities, and community spaces, plotted at true scale across the real geography of Delta, Ontario.</p>
+    <div class="fm-hero-meta reveal">
+      <span><strong>Locations</strong>&nbsp; 10 across the village</span>
+      <span><strong>Festival Day</strong>&nbsp; Saturday, 26 September</span>
+      <span><strong>Village</strong>&nbsp; Delta, Ontario</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ THE MAP ═══════════════════ -->
+<section class="fm-sw" id="map">
+  <div class="fm-head reveal">
+    <div class="fm-head-eyebrow">Interactive Guide</div>
+    <h2>Throughout <em>the Village</em></h2>
+    <div class="fm-head-meta"><strong>Saturday</strong><br>Tap a marker for details</div>
+  </div>
+
+  <div class="fm-map-plate reveal">
+    <div id="village-map-embed"></div>
+  </div>
+  <p class="fm-map-caption">Drag to pan &nbsp;·&nbsp; scroll or use the controls to zoom &nbsp;·&nbsp; tap a marker for details</p>
+</section>
+
+<!-- ═══════════════════ FESTIVAL LOCATIONS ═══════════════════ -->
+<section class="fm-sw" id="locations">
+  <div class="fm-head reveal">
+    <div class="fm-head-eyebrow">Around the Village</div>
+    <h2>Festival <em>Locations</em></h2>
+    <div class="fm-head-meta"><strong>Ten</strong><br>heritage sites &amp; venues</div>
+  </div>
+  <div class="fm-loc-grid" id="fm-loc-grid"></div>
+</section>
+
+<!-- ═══════════════════ RETURN CTA ═══════════════════ -->
+<div class="fm-cta">
+  <span class="fm-cta-kicker">Delta Harvest Festival · 26–27 September 2026</span>
+  <a class="btn" href="index.html">Return to the Festival <span class="arr">→</span></a>
+</div>
+
+</main>
+
+<footer class="shared-footer">
+  <div class="shared-footer-inner">
+    <p>Created by Aspen TC</p>
+    <p>Source material provided by <a href="https://www.deltamill.org/" target="_blank" rel="noopener noreferrer">the Delta Mill Society</a></p>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script src="shared-nav.js"></script>
+<script src="festival-map.js"></script>
+<script>
+(function () {
+  var mapContainer = document.getElementById('village-map-embed');
+  if (mapContainer && window.mountVillageMap) {
+    window.mountVillageMap(mapContainer);
+  }
+
+  var grid = document.getElementById('fm-loc-grid');
+  var data = window.villageMapData || [];
+  if (grid && data.length && window.renderVillageMapCard) {
+    data.forEach(function (loc) {
+      var card = document.createElement('div');
+      card.className = 'fm-loc-card';
+      card.innerHTML = window.renderVillageMapCard(loc);
+
+      var locateBtn = document.createElement('button');
+      locateBtn.type = 'button';
+      locateBtn.className = 'vmap-locate-btn fm-loc-locate';
+      locateBtn.innerHTML = 'Show on map <span aria-hidden="true">→</span>';
+      locateBtn.addEventListener('click', function () {
+        var mapSection = document.getElementById('map');
+        if (mapSection) mapSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (window.focusVillageMapLocation) window.focusVillageMapLocation(loc);
+      });
+      card.appendChild(locateBtn);
+
+      grid.appendChild(card);
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

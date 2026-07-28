@@ -17,6 +17,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   const h = document.getElementById('cd-h');
   const m = document.getElementById('cd-m');
   const s = document.getElementById('cd-s');
+  if (!d || !h || !m || !s) return;
 
   const pad = n => n.toString().padStart(2, '0');
 

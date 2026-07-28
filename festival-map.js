@@ -837,6 +837,7 @@
 
   function closeModal() {
     if (!overlayEl || overlayEl.hasAttribute('hidden')) return;
+    if (overlayEl.classList.contains('is-inline')) return; // permanently embedded — nothing to close
     overlayEl.classList.remove('is-open');
     document.body.style.overflow = '';
     setTimeout(function () {
@@ -847,5 +848,32 @@
     if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
   }
 
+  /* ─── inline embed (used by festival-map.html) ───────────────
+     Mounts the same modal markup/behaviour used by openVillageMap,
+     but parented into a page container instead of a full-screen
+     overlay — same DATA, same pan/zoom/selection/list-toggle code. */
+  function mountInline(container) {
+    if (!overlayEl) buildModal();
+    container.appendChild(overlayEl);
+    overlayEl.classList.add('is-inline');
+    overlayEl.removeAttribute('hidden');
+    viewMode = 'map';
+    applyViewMode();
+    requestAnimationFrame(function () {
+      overlayEl.classList.add('is-open');
+      /* Default to a comfortable framing of the village core (where
+         6 of 10 locations sit) rather than the fully zoomed-out fit-
+         everything view — markers/labels stay a constant screen size
+         regardless of zoom, so starting fully zoomed out is what was
+         causing them to overlap. "Reset" still returns to the full
+         village view for anyone who wants it. */
+      centerOn(715, 500, 0.95);
+    });
+  }
+
   window.openVillageMap = openModal;
+  window.mountVillageMap = mountInline;
+  window.villageMapData = DATA;
+  window.renderVillageMapCard = renderCard;
+  window.focusVillageMapLocation = focusOnLocation;
 })();
