@@ -20,4 +20,16 @@
     <changefreq>monthly</changefreq>
   </url>
 
+  <url>
+    <loc>https://deltaharvestfestival.ca/tickets/</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://deltaharvestfestival.ca/tickets/retrieve/</loc>
+    <priority>0.3</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
 </urlset>

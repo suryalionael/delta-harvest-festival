@@ -4,9 +4,11 @@
 .LSOverride
 
 # Working / source files not part of the live site
+dbeaver-ce-*.pdf
 uploads/
 export/
 .claude/
+.serena/
 .image-slots.state.json
 tweaks-panel.jsx
 image-slot.js

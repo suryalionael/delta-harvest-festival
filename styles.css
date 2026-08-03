@@ -1136,7 +1136,15 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
   text-transform: uppercase;
   color: var(--ink-2);
   line-height: 1.8;
+  text-decoration: none;
+  transition: color .2s, border-color .2s;
 }
+a.ticket-info:hover,
+a.ticket-info:focus-visible {
+  color: var(--umber-deep, #523819);
+  border-color: var(--umber-deep, #523819);
+}
+a.ticket-info:focus-visible { outline: 2px solid var(--umber-deep, #523819); outline-offset: 3px; }
 
 .gal-grid .plate { width: 100%; height: 100%; }
 

@@ -1,0 +1,259 @@
+/* ═══════════════════════════════════════════════════════
+   tickets.css — Ticketing pages (Buy / Success / Cancel / Retrieve)
+   Page-specific presentation layer, loaded after styles.css and
+   shared-nav.css. Reuses the site's tokens/components directly —
+   see styles.css for --bg/--ink/--rule/--display/--sans and the
+   .btn / .ticket-info patterns this file builds on.
+   ═══════════════════════════════════════════════════════ */
+
+body {
+  --accent: #523819;
+  --mono: "IBM Plex Mono", "Courier New", monospace;
+  /* --muted (#8D8782, from styles.css) is only 3.2:1 against --bg/--bg-2 —
+     fine for the site's existing decorative eyebrow labels, but these pages
+     use it for real informative text (form labels, prices, help copy), so
+     those specific uses get this darker tone instead. Reused, not invented:
+     it's the same color styles.css/shared-nav.css already use for the nav's
+     "Delta Mill Society · Est. 1963" label, so it stays on-palette. Passes
+     WCAG AA (4.5:1) against both --bg and --bg-2. */
+  --muted-readable: #6a5d4e;
+}
+
+.tix-hero {
+  padding: clamp(76px, 10vw, 128px) clamp(20px, 4vw, 56px) clamp(48px, 6vw, 80px);
+  max-width: 780px;
+  margin: 0 auto;
+  text-align: center;
+}
+.tix-eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.tix-hero h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(38px, 6vw, 60px);
+  line-height: 1.05;
+  color: var(--ink);
+  margin-top: 18px;
+}
+.tix-hero h1 em { font-style: italic; color: var(--ink-2); }
+.tix-hero .verse {
+  font-family: var(--display);
+  font-size: clamp(19px, 2vw, 23px);
+  font-style: italic;
+  color: var(--ink-2);
+  line-height: 1.6;
+  max-width: 46ch;
+  margin: 22px auto 0;
+}
+
+.tix-section {
+  padding: 0 clamp(20px, 4vw, 56px) clamp(48px, 6vw, 80px);
+  max-width: 640px;
+  margin: 0 auto;
+}
+.tix-section:last-of-type { padding-bottom: clamp(100px, 12vw, 180px); }
+
+.tix-card {
+  border: 1px solid var(--rule);
+  background: var(--bg-2);
+  padding: clamp(28px, 4vw, 44px);
+}
+.tix-card + .tix-card { margin-top: clamp(20px, 3vw, 32px); }
+
+.tix-card h2,
+.tix-card legend {
+  font-family: var(--display);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(22px, 2.4vw, 27px);
+  color: var(--ink);
+  margin-bottom: 22px;
+}
+/* .tix-card already sets border/padding, which is enough to override the
+   UA fieldset stylesheet for those — the one default that would otherwise
+   leak through is fieldset's small side margin, which would misalign it
+   against the plain-div card below it. */
+fieldset.tix-card { margin: 0; min-width: 0; }
+.tix-card legend { padding: 0; width: 100%; }
+
+/* ─── ticket type rows + steppers ─────────────────────── */
+.tix-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.tix-row:last-child { border-bottom: none; padding-bottom: 0; }
+.tix-row:first-child { padding-top: 0; }
+
+.tix-row-label { display: flex; flex-direction: column; gap: 4px; }
+.tix-row-name {
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.tix-row-price {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: .04em;
+  color: var(--muted-readable);
+}
+
+.tix-stepper { display: flex; align-items: center; gap: 4px; }
+.tix-stepper button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--ink);
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.tix-stepper button:hover:not(:disabled) { background: var(--ink); color: var(--bg); }
+.tix-stepper button:disabled { opacity: .35; cursor: not-allowed; }
+.tix-stepper output {
+  min-width: 44px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 18px;
+  color: var(--ink);
+}
+
+/* ─── form fields ──────────────────────────────────────── */
+.tix-field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.tix-field:last-child { margin-bottom: 0; }
+.tix-field label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted-readable);
+}
+.tix-field input {
+  font-family: var(--sans);
+  font-size: 17px;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  padding: 14px 16px;
+  width: 100%;
+}
+.tix-field input:focus-visible,
+.tix-stepper button:focus-visible,
+.tix-submit:focus-visible,
+a.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ─── order summary ────────────────────────────────────── */
+.tix-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 18px;
+  margin-top: 18px;
+  border-top: 1px solid var(--rule);
+}
+.tix-summary-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted-readable);
+}
+.tix-summary-total {
+  font-family: var(--display);
+  font-size: 28px;
+  font-style: italic;
+  color: var(--ink);
+}
+
+/* ─── submit / status ──────────────────────────────────── */
+.tix-submit-row { text-align: center; margin-top: clamp(28px, 4vw, 40px); }
+.tix-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 40px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.tix-submit:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); }
+.tix-submit:disabled { opacity: .55; cursor: wait; }
+
+.tix-status {
+  margin-top: 18px;
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--ink-2);
+  text-align: center;
+}
+.tix-status[data-tone="error"] { color: #8c2f1f; }
+
+.tix-fineprint {
+  margin-top: clamp(28px, 4vw, 40px);
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--muted-readable);
+}
+.tix-fineprint a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ─── success / cancel notices ─────────────────────────── */
+.tix-notice { text-align: center; padding: clamp(90px, 12vw, 150px) clamp(20px, 4vw, 56px) clamp(60px, 8vw, 100px); max-width: 620px; margin: 0 auto; }
+.tix-notice-mark { font-family: var(--display); font-style: italic; font-size: 44px; color: var(--accent); }
+.tix-notice h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(32px, 5vw, 48px);
+  color: var(--ink);
+  margin-top: 14px;
+}
+.tix-notice p {
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ink-2);
+  margin-top: 18px;
+}
+.tix-notice .tix-help {
+  margin-top: clamp(32px, 4vw, 48px);
+  padding-top: clamp(24px, 3vw, 32px);
+  border-top: 1px solid var(--rule);
+  font-size: 14px;
+  color: var(--muted-readable);
+}
+.tix-notice .tix-help a { color: var(--accent); }
+
+.tix-btn-row {
+  display: flex;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 44px);
+  flex-wrap: wrap;
+  margin-top: clamp(36px, 5vw, 56px);
+}
+
+@media (max-width: 560px) {
+  .tix-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .tix-stepper { align-self: flex-end; }
+}
