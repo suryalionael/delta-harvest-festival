@@ -105,11 +105,39 @@ The full **checkout → Stripe → webhook → fulfillment** chain has never bee
 
 ---
 
-## Production Readiness Score (as of Phase 1.7b): **6.5 / 10**
+---
 
-**Down from 8.5**, and this is a real regression in the score, not caution for its own sake: DNS is now confirmed genuinely live (a real improvement), but live testing through the real production domain found that **Resend email delivery does not currently work**, despite the sending domain being reported verified. Two independent, real attempts through the actual `tickets/retrieve` endpoint, each with a fresh order and a full ticket-generation cycle, both failed to deliver. Every other layer (Supabase, ticket generation, PDF rendering path, Upstash) is proven working through the real custom domain now — the one thing this pass set out to specifically verify is the one thing that failed.
+## Phase 1.7c Update — Chromium Fix Applied, Redeployed, Re-Verified
 
-## Completed This Session (Phase 1.7 / 1.7b)
+Production logs (checked by the project owner, not visible to me) identified the actual root cause of the Phase 1.7b email failure: **not a Resend problem at all**. The real error was `Failed to launch the browser process! /tmp/chromium: error while loading shared libraries: libnss3.so` — Chromium itself was crashing on launch, before `sendTicketsForOrder()` ever reached the Resend API call. This makes sense in hindsight: `@sparticuz/chromium@123.0.1` (Chromium 123, released ~early 2024) was badly out of date against current serverless packaging.
+
+**Fix applied, scoped exactly to the browser-launch implementation, nothing else:**
+- `@sparticuz/chromium` 123.0.1 → **148.0.0**, pinned exactly (not `^`-ranged) — this package's own versioning explicitly warns breaking changes can land at the patch level, and 148.0.0 is also the last release before it dropped CommonJS support in 149.0.0, which this project's build still requires.
+- `puppeteer-core` 23.11.1 → **^24.7.2** (resolved to 24.43.1), released within days of chromium 148.0.0.
+- `lib/pdf/render.ts`: launch `args` now go through `puppeteer.defaultArgs({ args: chromium.args, headless: 'shell' })` instead of passing `chromium.args` alone, matching `@sparticuz/chromium`'s current documented usage exactly. `headless: true` → `headless: 'shell'` to match.
+- `page.setContent`'s `waitUntil: 'networkidle0'` no longer type-checks against the upgraded puppeteer-core (confirmed via Puppeteer's own changelog: networkidle options were removed from `setContent` specifically because they never worked correctly there) — replaced with `'load'`, the documented replacement and already the prior default.
+- No business logic, email, Stripe, Supabase, or ticket code touched. `tsc --noEmit` clean. Committed and pushed to the API repo's GitHub remote.
+
+**I could not deploy this myself** — no Vercel CLI, API token, or dashboard access exists in this environment, and the project isn't git-connected to Vercel (it was deployed via CLI directly from the local directory). The project owner redeployed manually and confirmed it live before this re-verification pass began.
+
+**Re-verification results — mixed again:**
+- ✅ **Ticket generation, re-confirmed**: a third temporary order (`DHF-ORD-TEST0003`) correctly generated `DHF26-000004` through the real `api.deltaharvestfestival.ca` domain.
+- ✅ **Database integrity, re-confirmed**: exactly 1 order, 1 ticket during the test; both deleted afterward — 0/0 remaining.
+- ✅ **Rate limiting, re-confirmed**: 5 requests allowed in the sliding window (counting an earlier reachability check), clean `429`s from the 6th request onward — no crash.
+- ❌ **Email delivery — still not confirmed. Third consecutive live attempt, no delivery** at `suryalionael@gmail.com` (inbox and spam checked). Ticket generation and database integrity were correct; only the email send remains unconfirmed.
+
+**What this does and doesn't tell us**: the Chromium/puppeteer-core version fix was real, correctly scoped, and verified-safe by every check available to me (type-check, exact-version pinning per the package's own warnings, matching the current official usage pattern) — but it has **not** resolved the customer-visible symptom. I have no way to determine, from this environment, whether:
+(a) the exact same `libnss3.so` crash is still happening (meaning the fix didn't fully address it, or the redeployment didn't pick up the dependency changes), or
+(b) Chromium now launches successfully and a *different* error is occurring further down the same call (a genuine Resend-side issue after all, or something else in `sendTicketsForOrder`).
+**I need the actual current Vercel function log text for the `tickets/retrieve` invocation around `2026-08-03T14:21:22Z` (the `DHF-ORD-TEST0003` test) to tell these apart** — without it, any further code change would be a guess, which the task instructions explicitly rule out ("do not modify any code unless a new production issue is discovered" — discovering it requires seeing the actual error).
+
+---
+
+## Production Readiness Score (as of Phase 1.7c): **6.5 / 10 — unchanged**
+
+Held at 6.5, not raised and not lowered further. A real, correctly-scoped root-cause fix was found and applied (the actual Chromium launch crash identified in production logs), but from the customer's perspective the outcome is identical to Phase 1.7b: three consecutive live attempts, zero confirmed email deliveries. The score reflects what's actually been proven to work end-to-end, not effort spent — and end-to-end still isn't proven. DNS, ticket generation, database integrity, and rate limiting are all solidly confirmed live through the real production domain; the one thing every pass set out to verify is still the one thing that hasn't been confirmed working.
+
+## Completed This Session (Phase 1.7 / 1.7b / 1.7c)
 
 - Corrected the Node.js version finding (docs fixed to match the already-correct `24.x`, not the reverse).
 - Deleted the leftover Phase 1.5 test order/ticket from the live database.
@@ -118,15 +146,17 @@ The full **checkout → Stripe → webhook → fulfillment** chain has never bee
 - **Confirmed DNS is now live** for `api.deltaharvestfestival.ca` and re-ran verification through the real production domain instead of the `.vercel.app` fallback.
 - **Ran two real, live Resend delivery tests against production** (temporary Supabase-only test orders, real `tickets/retrieve` calls, no Stripe, no mock mode) — **both failed to deliver**. Ticket generation and database integrity were correct both times; only the email send is unconfirmed/failing.
 - Confirmed no secrets are committable in either repo; tightened `.gitignore` in the main repo (`.serena/`, stray `dbeaver-ce-*.pdf`).
-- Both repos committed; `delta-harvest-tickets-api` pushed to a new private GitHub repo (`suryalionael/delta-harvest-tickets-api`) since it had no remote. Main repo committed but **not pushed** (see Go-Live Decision below — this is now doubly justified).
+- Both repos committed; `delta-harvest-tickets-api` pushed to its private GitHub repo (`suryalionael/delta-harvest-tickets-api`). Main repo committed but **not pushed** (see Go-Live Decision below — this is now doubly justified).
 - Re-confirmed no Phase 2/3 leakage and no new architecture drift.
+- **Diagnosed and fixed the actual root cause identified from production logs** (Chromium failing to launch — `libnss3.so` missing) by upgrading `@sparticuz/chromium`/`puppeteer-core` to a current, compatible, still-CommonJS pairing and correcting the launch-args/headless-mode/waitUntil options to match. Scoped exactly to `lib/pdf/render.ts` + the two dependency files; typechecked clean; committed and pushed.
+- **Re-ran the full live verification after the project owner redeployed** — DNS, ticket generation, database integrity, and rate limiting all reconfirmed working through the real production domain; email delivery still not confirmed (third consecutive failure).
 
 ## Remaining Manual Tasks (non-Stripe)
 
-1. **Debug why Resend isn't delivering** — this is now the top priority, ahead of anything else. Check Vercel's function logs for the `tickets/retrieve` invocations around the two test attempts for a thrown error, and check Resend's own dashboard send/activity log for the same window. See the ranked list of likely candidates in the Phase 1.7b section above (API key, `RESEND_FROM_EMAIL`'s domain match, propagation lag, account-level restriction).
-2. **Re-run this same live test once you believe it's fixed** — a temporary Supabase-only order plus a real `tickets/retrieve` call, exactly as this pass did — before trusting it for a real customer.
+1. **Get the actual current Vercel function log text** for the `tickets/retrieve` invocation around `2026-08-03T14:21:22Z` (the `DHF-ORD-TEST0003` test). This is the single most valuable missing piece — it will show whether the `libnss3.so` crash is still happening (fix incomplete, or redeploy didn't pick up the dependency changes) or a different error is now occurring further down the same call (a genuine Resend-side issue). I cannot get this myself; no Vercel log access exists in this environment.
+2. **Once the current error is known, fix that specific thing** (which may or may not require another code change) and re-run this same live test again — a temporary Supabase-only order plus a real `tickets/retrieve` call — before trusting it for a real customer.
 3. **Manually confirm Vercel's production environment variables** (all present, no Preview values leaking into Production) — this requires dashboard or `vercel env pull` access this environment doesn't have.
-4. **Push the static ticket pages to GitHub Pages** — only after item 1 is actually fixed and re-verified, not before. Pushing now would put a purchase flow live where paying customers may not receive their tickets.
+4. **Push the static ticket pages to GitHub Pages** — only after email delivery is actually confirmed working, not before. Pushing now would put a purchase flow live where paying customers may not receive their tickets.
 5. Optional: decide whether `History of Old Stone Mill - short.pdf` (unrelated to ticketing) should stay untracked, be gitignored, or be committed.
 
 ## Remaining Stripe-Only Tasks (explicitly out of scope this pass)
@@ -138,4 +168,4 @@ The full **checkout → Stripe → webhook → fulfillment** chain has never bee
 
 ## Recommended Go-Live Decision: **Not Ready**
 
-Downgraded from "Ready with minor caveats." DNS being fixed removed one real blocker, but live testing surfaced a more serious one in its place: confirmation emails — the entire point of the ticketing system's post-purchase experience — are not currently being delivered, verified twice against real production infrastructure. This is not a "minor caveat" or a dashboard checkbox that hasn't been clicked yet; it's a proven, reproducible functional failure in a piece the project's own `GO_LIVE_CHECKLIST.md` requires working before go-live ("Confirmation email received... do not skip actually opening it"). Do not push the static ticket pages live until a re-run of this same test actually delivers an email. Everything else audited across all three phases remains solid.
+Unchanged. A real root cause was found and fixed (Chromium failing to launch — confirmed via production logs the project owner checked, not something I could see myself), and it was a legitimate, well-scoped fix: correct-version dependencies, matching the current official usage pattern, verified type-safe. But the customer-facing outcome hasn't changed — three consecutive live attempts, zero confirmed email deliveries. This is not a "minor caveat" or a dashboard checkbox that hasn't been clicked; it's a proven, reproducible functional gap in a piece the project's own `GO_LIVE_CHECKLIST.md` requires working before go-live ("Confirmation email received... do not skip actually opening it"). Do not push the static ticket pages live until a live test actually delivers an email. Everything else audited across all phases — schema, endpoints, templates, numbering, rate limiting, DNS, database integrity — remains solid; email delivery is the one open question, and the fastest way to close it is the current Vercel log text for the exact failing invocation.
