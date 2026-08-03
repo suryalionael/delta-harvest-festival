@@ -133,9 +133,30 @@ Production logs (checked by the project owner, not visible to me) identified the
 
 ---
 
-## Production Readiness Score (as of Phase 1.7c): **6.5 / 10 — unchanged**
+## Phase 1.8 Update — Real Root Cause Found, Deployed and Verified via Vercel CLI
 
-Held at 6.5, not raised and not lowered further. A real, correctly-scoped root-cause fix was found and applied (the actual Chromium launch crash identified in production logs), but from the customer's perspective the outcome is identical to Phase 1.7b: three consecutive live attempts, zero confirmed email deliveries. The score reflects what's actually been proven to work end-to-end, not effort spent — and end-to-end still isn't proven. DNS, ticket generation, database integrity, and rate limiting are all solidly confirmed live through the real production domain; the one thing every pass set out to verify is still the one thing that hasn't been confirmed working.
+This pass had genuine Vercel CLI access for the first time (previously unavailable in this environment — confirmed installed and authenticated as `lionael2006-9811` mid-session), which changed what could actually be verified.
+
+**Root-caused properly, not guessed.** The Phase 1.7c fix (version upgrade) didn't work because it was never a version problem. Reading the actual installed `@sparticuz/chromium@148.0.0` source directly (`node_modules/@sparticuz/chromium/build/cjs/index.cjs`): the package only extracts its Amazon-Linux-2023 compatibility libraries — where `libnss3.so` and its siblings actually live — when an internal check, `isRunningInAmazonLinux2023()`, passes. One of its two branches (`process.env.VERCEL && nodeMajorVersion >= 20`) should hold on this deployment but demonstrably wasn't triggering extraction in production. Confirmed **empirically, locally** (not theoretically): instrumented a working copy of the package, traced the actual check result, and verified that forcing `AWS_LAMBDA_JS_RUNTIME` to a supported version string makes the same detection succeed via the package's other, AWS-native branch — `libnss3.so`, `libnspr4.so`, and `libnssutil3.so` then get correctly extracted, and a full local launch attempt gets past library resolution entirely (it only fails on the pre-existing, already-documented `ENOEXEC` — a Linux binary can't run on this local macOS machine, an unrelated platform limitation).
+
+**Fix**: `lib/pdf/render.ts` now explicitly forces `AWS_LAMBDA_JS_RUNTIME` and sets `LD_LIBRARY_PATH` itself, rather than depending on the package's own fragile auto-detection and its import-ordering-sensitive side effect. No business logic, email, Stripe, Supabase, or ticket code touched.
+
+**Deployed for real this time**: `vercel --prod` run directly from `/Users/lionaelsmac/Downloads/delta-harvest-tickets-api` (verified as the correct repo first — `pwd` and `git rev-parse --show-toplevel` both confirmed). Deployment succeeded (`readyState: READY`, `target: production`), correctly aliased to `https://api.deltaharvestfestival.ca`.
+
+**Live re-verification against the real deployment:**
+- ✅ **Database integrity**: ticket `DHF26-000005` generated correctly for a fourth temporary test order; 0 orders/0 tickets after cleanup.
+- ✅ **Rate limiting**: still enforcing correctly post-redeploy (5 allowed, clean `429`s after).
+- ✅ **Strong indirect evidence the Chromium crash is fixed**: the retrieve call took **8.6 seconds** — noticeably longer than every prior *failing* attempt (~4.8–6.2s) — consistent with a full successful render-and-send rather than a fast process-spawn crash. `vercel logs` (both the default view and `--level error`) showed **zero errors** for this invocation.
+- ⚠️ **Log capture caveat, stated plainly**: `vercel logs` in historical-fetch mode returns only HTTP request metadata (`"logs":[]` on every entry, including ones known not to have thrown) — actual runtime `console.log`/`console.error` output apparently requires live `--follow` streaming, captured at the moment it's generated. A `--follow` session was started to catch this directly on a fresh test, but it hit my own recently-imposed rate limit before the request could be sent. This diagnostic was **not completed** — the evidence above is strong but indirect, not a directly-observed clean log line.
+- ❌ **Email delivery — still not confirmed.** Fourth consecutive live attempt, no delivery at `suryalionael@gmail.com` (inbox and spam checked).
+
+**What this actually means**: given ticket generation, database writes, and (per the evidence above) Chromium/PDF rendering all now check out, and email is still not arriving, **this now looks like a genuinely separate, Resend-specific problem** — not a downstream symptom of the Chromium crash. The ranked list of Resend-specific candidates from Phase 1.7b (API key validity, `RESEND_FROM_EMAIL`'s domain match, propagation lag, account-level restriction) is the right next place to look, ideally with a `--follow` log capture (outside this rate-limit window) or the Resend dashboard's own activity log for the exact test timestamps.
+
+---
+
+## Production Readiness Score (as of Phase 1.8): **7 / 10**
+
+Up half a point from 6.5. The Chromium launch crash — the thing every prior pass in this project could not get past — now has strong, locally-verified evidence of being fixed, deployed for real (not just committed), and re-verified against live production via a working Vercel CLI. Not higher, because the customer-facing outcome — does a real order's confirmation email actually arrive — is still unconfirmed, now isolated to what looks like a distinct Resend-side cause rather than a Chromium one.
 
 ## Completed This Session (Phase 1.7 / 1.7b / 1.7c)
 
