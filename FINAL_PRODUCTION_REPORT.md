@@ -30,6 +30,28 @@ A follow-up pass, explicitly scoped to skip every Stripe-related task (account s
 
 ---
 
+## Phase 1.7b Update — Live Resend Verification (Post-DNS)
+
+Ran after DNS was configured and Resend's sending domain was reported verified. Still no Stripe touched, no `MOCK_PAYMENTS` used.
+
+**DNS is now live**: `api.deltaharvestfestival.ca` resolves (CNAME → a project-specific `*.vercel-dns-017.com` target, exactly matching what Phase 1.7's DNS section predicted would happen) and serves the deployment correctly. This closes the Critical finding from earlier in this report (§1) — real visitors will now reach the API, not a DNS failure.
+
+**Method**: two independent temporary orders were inserted directly in Supabase (never through Stripe, per instruction), each with a manually-assigned order number (`DHF-ORD-TEST0001`/`0002` — chosen specifically so this test **doesn't consume `order_number_seq`**, unlike Phase 1.5's approach), `tickets_generated_at` left `NULL` so the live code would generate the ticket for real. Each was immediately followed by a real call to `https://api.deltaharvestfestival.ca/api/tickets/retrieve` — the actual production custom domain, exercised end-to-end for the first time. Both test orders and their tickets were deleted immediately after; `orders`/`tickets` are back to empty.
+
+**Results — mixed:**
+- ✅ **Ticket generation, confirmed live through the real custom domain**: both calls correctly claimed the order, generated a real ticket (`DHF26-000002`, `DHF26-000003`) via the real RPC, and left the database in a correct, non-duplicated state. This is the first time this path was exercised through `api.deltaharvestfestival.ca` rather than the `.vercel.app` fallback — confirmed working identically.
+- ❌ **Resend email delivery — NOT confirmed. Two independent attempts, ~10 minutes apart, both failed to arrive** at `suryalionael@gmail.com` (checked inbox and spam/promotions both times, by the account owner, not assumed). This is a real, reproducible failure, not a one-off — with a fresh test order and a full ticket-generation cycle each time, the only common failing link is the email send itself.
+- **Root cause not identified — and cannot be, from this environment.** The `tickets/retrieve` endpoint always returns the same generic success message regardless of whether `sendTicketsForOrder()` actually succeeded (`api/tickets/retrieve.ts` catches and only logs email failures — this is correct, intentional enumeration-safety behavior, not a bug, but it means an external caller like me gets zero signal either way). I have no Vercel function-log access and no Resend dashboard/API access in this environment, so I cannot see the actual error. **You have both** — check Vercel's function logs for the `tickets/retrieve` invocations around the two test timestamps for a thrown error from `getResend().emails.send()`, and check the Resend dashboard's own send/activity log for these two attempts (they'll show as sent-with-error, rejected, or simply absent, which narrows the cause).
+- **Most likely candidates, ranked**, for you to check directly (I can't check any of these myself):
+  1. `RESEND_API_KEY` in Vercel's Production environment is missing, invalid, or revoked.
+  2. `RESEND_FROM_EMAIL`'s domain doesn't actually match what's verified in Resend (e.g. verified `deltaharvestfestival.ca` at the domain level but the code sends from a subdomain that wasn't part of that verification, or vice versa) — the code's fallback is `tickets@deltaharvestfestival.ca`; confirm this exact address's domain shows fully verified (both SPF and DKIM green) in the Resend dashboard, not just "added."
+  3. DNS propagation lag on the SPF/DKIM records themselves — "verified" in Resend's dashboard can sometimes precede full propagation; if the dashboard shows verified as of just now, allow more time and retry.
+  4. Resend account-level restriction (new accounts/domains sometimes have sending limits or a review step before outbound mail is fully unblocked).
+
+This directly changes the go-live recommendation — see the updated score/decision below.
+
+---
+
 ## Changes Made This Pass (Phase 1.6)
 
 1. **Removed two dead Stripe metadata fields** (`lib/payments/checkout.ts`): `festival_year` and `ticket_count` were written into every Checkout Session's metadata but never read anywhere — confirmed via a full-repo grep. `fulfill-order.ts`'s `requireMeta()` only reads `event_id`, `order_number`, `customer_name`, `adult_qty`, `kids_qty`, `adult_unit_price`, `kids_unit_price`, all of which remain untouched. Zero behavior change; `tsc --noEmit` clean.
@@ -83,30 +105,29 @@ The full **checkout → Stripe → webhook → fulfillment** chain has never bee
 
 ---
 
-## Production Readiness Score (as of Phase 1.7): **8.5 / 10**
+## Production Readiness Score (as of Phase 1.7b): **6.5 / 10**
 
-Every non-Stripe item this environment can reach has now been checked, fixed, or explicitly flagged as unverifiable-from-here. Score moved up half a point from Phase 1.6: the Node-version non-issue is resolved (docs corrected instead of the wrong file being "fixed"), test data is cleaned up, git hygiene is tightened, and Upstash/Supabase are freshly re-confirmed live. It isn't higher because two structural gaps remain that no amount of code review can close from this environment: DNS/webhook registration (needs your action in Vercel + your registrar) and Resend domain verification (needs your action in the Resend dashboard) — plus the Stripe-specific slice of the webhook path, which is explicitly out of scope for this pass and remains genuinely unexercised against live Stripe.
+**Down from 8.5**, and this is a real regression in the score, not caution for its own sake: DNS is now confirmed genuinely live (a real improvement), but live testing through the real production domain found that **Resend email delivery does not currently work**, despite the sending domain being reported verified. Two independent, real attempts through the actual `tickets/retrieve` endpoint, each with a fresh order and a full ticket-generation cycle, both failed to deliver. Every other layer (Supabase, ticket generation, PDF rendering path, Upstash) is proven working through the real custom domain now — the one thing this pass set out to specifically verify is the one thing that failed.
 
-## Completed This Session (Phase 1.7)
+## Completed This Session (Phase 1.7 / 1.7b)
 
 - Corrected the Node.js version finding (docs fixed to match the already-correct `24.x`, not the reverse).
 - Deleted the leftover Phase 1.5 test order/ticket from the live database.
 - Re-verified Supabase schema/RLS/indexes/constraints/RPCs/seed data — unchanged, still fully correct.
 - Re-confirmed Upstash rate limiting live with a fresh 6-request test.
-- Checked Resend configuration and DNS as far as possible without dashboard/API access; found no DKIM/SPF evidence of domain verification (flagged, not assumed).
+- **Confirmed DNS is now live** for `api.deltaharvestfestival.ca` and re-ran verification through the real production domain instead of the `.vercel.app` fallback.
+- **Ran two real, live Resend delivery tests against production** (temporary Supabase-only test orders, real `tickets/retrieve` calls, no Stripe, no mock mode) — **both failed to deliver**. Ticket generation and database integrity were correct both times; only the email send is unconfirmed/failing.
 - Confirmed no secrets are committable in either repo; tightened `.gitignore` in the main repo (`.serena/`, stray `dbeaver-ce-*.pdf`).
-- Confirmed both repos are in a clean, reviewed state for a first commit (none made).
+- Both repos committed; `delta-harvest-tickets-api` pushed to a new private GitHub repo (`suryalionael/delta-harvest-tickets-api`) since it had no remote. Main repo committed but **not pushed** (see Go-Live Decision below — this is now doubly justified).
 - Re-confirmed no Phase 2/3 leakage and no new architecture drift.
-- Determined the exact (two-step, dashboard-then-DNS) process required to connect `api.deltaharvestfestival.ca` — could not perform the connection itself; no Vercel CLI/API/MCP access exists in this environment.
 
 ## Remaining Manual Tasks (non-Stripe)
 
-1. **Add `api.deltaharvestfestival.ca` as a custom domain in the Vercel dashboard**, then add the exact CNAME record Vercel shows you at your DNS provider. See the Phase 1.7 section above for the precise steps — I cannot do this without Vercel dashboard/CLI access.
-2. **Verify Resend's sending domain** in the Resend dashboard (SPF/DKIM) — DNS shows no evidence this is done yet.
-3. **Manually confirm Vercel's production environment variables** (all present, no Preview values leaking into Production, actual runtime Node version) — this requires dashboard or `vercel env pull` access this environment doesn't have.
-4. **Push the static ticket pages to GitHub Pages** — only after items 1–3 above, not before (see `GO_LIVE.md`).
-5. **Commit both repos' working trees** (first commit) — reviewed and ready; not performed per instruction.
-6. Optional: decide whether `History of Old Stone Mill - short.pdf` (unrelated to ticketing) should stay untracked, be gitignored, or be committed.
+1. **Debug why Resend isn't delivering** — this is now the top priority, ahead of anything else. Check Vercel's function logs for the `tickets/retrieve` invocations around the two test attempts for a thrown error, and check Resend's own dashboard send/activity log for the same window. See the ranked list of likely candidates in the Phase 1.7b section above (API key, `RESEND_FROM_EMAIL`'s domain match, propagation lag, account-level restriction).
+2. **Re-run this same live test once you believe it's fixed** — a temporary Supabase-only order plus a real `tickets/retrieve` call, exactly as this pass did — before trusting it for a real customer.
+3. **Manually confirm Vercel's production environment variables** (all present, no Preview values leaking into Production) — this requires dashboard or `vercel env pull` access this environment doesn't have.
+4. **Push the static ticket pages to GitHub Pages** — only after item 1 is actually fixed and re-verified, not before. Pushing now would put a purchase flow live where paying customers may not receive their tickets.
+5. Optional: decide whether `History of Old Stone Mill - short.pdf` (unrelated to ticketing) should stay untracked, be gitignored, or be committed.
 
 ## Remaining Stripe-Only Tasks (explicitly out of scope this pass)
 
@@ -115,6 +136,6 @@ Every non-Stripe item this environment can reach has now been checked, fixed, or
 3. One real end-to-end test-mode purchase (`4242...` test card) to prove the checkout→webhook→fulfillment chain against real Stripe — the one piece of the system this project's own `GO_LIVE_CHECKLIST.md` requires and no session so far has been able to exercise.
 4. Switching to live Stripe keys and a final real/refunded purchase, only after everything above is green.
 
-## Recommended Go-Live Decision: **Ready with minor caveats**
+## Recommended Go-Live Decision: **Not Ready**
 
-Unchanged from Phase 1.6's recommendation, now on firmer footing: every non-Stripe item that could be checked from this environment has been checked, and the remaining work is a short, well-defined list of manual dashboard/DNS actions plus the Stripe-specific steps that were explicitly out of scope for this pass — not unresolved code defects. See `GO_LIVE.md` for the exact remaining steps in order.
+Downgraded from "Ready with minor caveats." DNS being fixed removed one real blocker, but live testing surfaced a more serious one in its place: confirmation emails — the entire point of the ticketing system's post-purchase experience — are not currently being delivered, verified twice against real production infrastructure. This is not a "minor caveat" or a dashboard checkbox that hasn't been clicked yet; it's a proven, reproducible functional failure in a piece the project's own `GO_LIVE_CHECKLIST.md` requires working before go-live ("Confirmation email received... do not skip actually opening it"). Do not push the static ticket pages live until a re-run of this same test actually delivers an email. Everything else audited across all three phases remains solid.
