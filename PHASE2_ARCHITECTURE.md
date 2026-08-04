@@ -106,14 +106,12 @@ All new, all under `/api/admin/*`, all requiring the auth middleware from §3 (e
   "ticketsSold": 245,
   "adults": 190,
   "children": 55,
-  "pending": 0,
-  "refunded": 0,
   "attendance": { "checkedIn": 0, "total": 245 },
   "recentOrders": [ { "orderNumber": "DHF-ORD-000042", "customerName": "...", "total": 5000, "createdAt": "..." } ]
 }
 ```
 
-`attendance` and `pending`/`refunded` are populated from columns that already exist (`tickets.status`, `orders.payment_status`) even though Phase 2 doesn't write non-default values into them yet — see §7 and §8 for why this is deliberately future-ready rather than deferred.
+**As shipped in Sprint 2.2** (revised from this section's original draft): no `pending`/`refunded` fields. `orders.payment_status` only ever takes `'paid'`/`'failed'` — there's no real "pending" concept in this schema (a checkout that's never completed never gets an `orders` row at all), so those two fields would always read `0` and risked implying a real status this system doesn't track. Dropped rather than shipped as always-zero noise; can be added later if a real use for them shows up. `attendance` is still shipped as a future-ready placeholder — see §7 and §8 for why.
 
 | Endpoint | Method | Purpose | Reuses |
 |---|---|---|---|

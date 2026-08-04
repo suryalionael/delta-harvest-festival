@@ -25,13 +25,16 @@ Per `PHASE2_ARCHITECTURE.md` §11 — repeated here because it's the operating d
 - First `SUPER_ADMIN` provisioned.
 - Exit criteria: an admin can log in from the real `/admin` page on production, see their identity, and every login attempt (success or failure) shows up in `admin_audit_log`.
 
-**Sprint 2.2 — Dashboard + Orders (read-only)**
-- `GET /api/admin/dashboard` (the single aggregated endpoint — `PHASE2_ARCHITECTURE.md` §4), `GET /api/admin/orders`, `GET /api/admin/orders/:id`.
-- Dashboard and Orders pages in the admin frontend.
-- `VIEW_ORDER` audit logging added.
-- No mutations yet. This is the first sprint with real operational value: today there's no way to see an order without opening the Supabase dashboard directly.
+**Sprint 2.2 — Dashboard Metrics** *(complete — see this doc's companion verification report)*
+- `GET /api/admin/dashboard` (the single aggregated endpoint — `PHASE2_ARCHITECTURE.md` §4): revenue, tickets sold, adult/child ticket counts, recent orders, attendance placeholder.
+- Revenue computed via a new `admin_revenue_total()` RPC (PostgREST has no SUM without the aggregates extension — same reasoning as the existing numbering RPCs); everything else in the response is plain PostgREST counts/selects run in parallel.
+- Dashboard page (stat tiles + recent-orders table) built into the admin frontend, reusing Sprint 2.1's auth.
+- No audit logging added this sprint — `VIEW_ORDER`/`VIEW_TICKET` stay reserved for when their own modules exist (Sprint 2.3), and dashboard views aren't in the controlled vocabulary.
+- Split out from the original draft's combined "Dashboard + Orders" step — actual execution treated them as separate sprints; Orders moved to 2.3.
 
-**Sprint 2.3 — Tickets module + resend/regenerate**
+**Sprint 2.3 — Orders + Tickets modules + resend/regenerate**
+- `GET /api/admin/orders`, `GET /api/admin/orders/:id` — first sprint with a way to see an order without opening the Supabase dashboard directly.
+- `VIEW_ORDER` audit logging added.
 - `GET /api/admin/tickets`, `GET /api/admin/tickets/:id`, `POST /api/admin/orders/:id/resend` (reuses `sendTicketsForOrder()`), `POST /api/admin/tickets/:id/regenerate-pdf` (reuses `lib/pdf/render.ts`).
 - Tickets page in the admin frontend, kept as its own module/nav item, not folded into Orders (`PHASE2_ARCHITECTURE.md` §4).
 - `VIEW_TICKET`, `RESEND_EMAIL`, `REGENERATE_PDF` audit logging added — first sprint where audit rows record a real mutation, not just login events.
@@ -44,6 +47,8 @@ Per `PHASE2_ARCHITECTURE.md` §11 — repeated here because it's the operating d
 **Sprint 2.5 — Hardening pass**
 - Confirm login rate limiting is tuned correctly under real usage, run the security checklist in §Risks below, do a full mobile-responsiveness/accessibility pass on the admin frontend across all modules built so far.
 
+**Explicitly deferred, on record, not a Sprint 2.x concern**: `STRIPE_SECRET_KEY`/`STRIPE_WEBHOOK_SECRET` are missing from Vercel production, so checkout is currently broken — discovered during Sprint 2.1 verification. Per explicit instruction, Stripe is intentionally deferred until after Phase 3 and no engineering time goes toward it until told otherwise; it is not a Sprint 2.x blocker or a deduction against any sprint's production-readiness verdict.
+
 **Deferred beyond Phase 2 (explicitly not scheduled — architecture only)**
 - **Settings / event editing** (`PHASE2_ARCHITECTURE.md` §7) — needs the `capacity`/`sales_status` migration in `PHASE2_DATABASE_REVIEW.md` §4 first. Scheduled only once there's a concrete need to edit the live event.
 - **Phase 3 (Festival Day check-in)** — reuses Sprint 2.1's auth system and the `VOLUNTEER` role directly (`PHASE2_ARCHITECTURE.md` §5).
@@ -55,8 +60,8 @@ Per `PHASE2_ARCHITECTURE.md` §11 — repeated here because it's the operating d
 | Milestone | Sprint | Exit criteria |
 |---|---|---|
 | **M1 — Auth works in production** | 2.1 | Real login on the live `/admin` page; `LOGIN_SUCCESS`/`LOGIN_FAILED` both verified in `admin_audit_log`; non-admins rejected |
-| **M2 — Read-only dashboard live** | 2.2 | A real admin sees live orders + the aggregated dashboard summary in production, no mutations yet |
-| **M3 — Ticket operations** | 2.3 | Admin can resend an order's tickets and regenerate a PDF from production, both audit-logged, both verified against a real (test-mode) order |
+| **M2 — Dashboard metrics live** | 2.2 | A real admin sees live revenue/ticket-count/recent-orders/attendance data from one aggregated endpoint in production |
+| **M3 — Orders + Ticket operations** | 2.3 | Admin can browse orders, resend an order's tickets, and regenerate a PDF from production, all audit-logged, verified against a real order |
 | **M4 — Reports + export** | 2.4 | Streamed CSV export produces correct data in production; revenue/breakdown numbers match manual SQL spot-checks |
 | **M5 — Production-ready** | 2.5 | Rate limiting verified under load, full audit vocabulary exercised at least once each, mobile/accessibility pass done |
 
@@ -68,7 +73,7 @@ No calendar estimates are given since available hours/week wasn't specified. Giv
 
 | Risk | Why it matters | Mitigation |
 |---|---|---|
-| **Zero real production data to test against** | `orders`/`tickets` have 0 rows — Sprint 2.2+ endpoints will be built and tested against either empty state or hand-inserted test rows, not real purchase patterns | Insert a handful of realistic test orders/tickets (test-mode Stripe, exactly like Phase 1's own pre-launch testing) before Sprint 2.2; don't trust "it works" until it's been exercised against non-trivial data |
+| **Zero real production data to test against** | `orders`/`tickets` still have 0 rows — Sprint 2.2's dashboard was verified against genuinely-empty production data (correct zeros), not a populated one; Sprint 2.3's Orders list/detail views are harder to verify meaningfully without real rows | Normally: insert test-mode Stripe orders. Currently blocked — checkout is broken (missing `STRIPE_SECRET_KEY`/`STRIPE_WEBHOOK_SECRET`) and Stripe work is explicitly off-limits until after Phase 3. Until that's lifted, Sprint 2.3+ verification will need hand-inserted rows via direct SQL instead of the real purchase flow |
 | **Two-repo coordination** | The admin API lives in `delta-harvest-tickets-api` (not this repo); work happens there, planning docs live here | Keep `PHASE2_ARCHITECTURE.md`/`PHASE2_DATABASE_REVIEW.md` as the shared reference across both repos |
 | **Auth is genuinely new infrastructure** | Everything else in Phase 2 is additive reuse; admin auth is the one piece with no Phase 1 precedent to copy | Sprint 2.1 builds and verifies it in isolation, in production, before Sprint 2.2 depends on it — the "never continue on unverified code" rule exists specifically for this risk |
 | **Scope creep into Phase 3 / Settings territory** | QR check-in, refunds, and event editing are adjacent and tempting to "just add while I'm in there" | Architecture doc explicitly scopes each sprint; hold the line — `tickets.status`, `payment_status`, and `events` pricing/dates stay unwritten by admin code until their own scheduled sprint |
