@@ -1,6 +1,6 @@
 # Phase 2 — Admin Dashboard Architecture
 
-Status: **Approved, with amendments — Sprint 2.1 in progress.**
+Status: **Sprints 2.1–2.6 complete.** All five planned modules (Dashboard, Orders, Tickets, Reports, Settings) are shipped and production-verified.
 Scope: Admin Dashboard (Dashboard, Orders, Tickets, Reports, Settings) built on top of the existing, live Phase 1 ticketing system. Nothing in Phase 1 is redesigned or rewritten.
 
 **Revision note (post-approval):** this document was updated after initial planning review to reflect ten architecture decisions from the approval pass — replacing the originally-proposed `admin_users` table with a future-proof `profiles` + role system, collapsing dashboard statistics into one aggregated endpoint, keeping Tickets as its own module rather than folding it into Orders, adding a Settings module for future event management, requiring server-side CSV streaming, and formalizing a controlled audit-action vocabulary starting Sprint 2.1. Where this revision changes an earlier recommendation, the earlier text has been replaced, not left alongside it — this file reflects the current decision only.
@@ -63,6 +63,8 @@ Full column-level detail, indexes, and RPCs are in `PHASE2_DATABASE_REVIEW.md` �
 
 - New routes under `/api/admin/*` in the same repo/project as the existing `/api/payments/*` and `/api/tickets/*` routes.
 - Same Supabase client, same service-role key, same `lib/` helpers (response envelope, rate limiting, `sendTicketsForOrder`, PDF renderer). Zero new secrets to provision beyond one admin-specific rate-limit namespace and one new Supabase key (see §3).
+
+  **Amendment (Sprint 2.4, discovered mid-build): one deployed function for all of `/api/admin/*`, not one file per route.** The original per-route-file structure (`api/admin/auth/login.ts`, `api/admin/orders/[id].ts`, etc.) hit Vercel's Hobby-plan cap of 12 serverless functions per deployment at 14 functions total — a real deploy failure, not a style preference. Per an explicit "stay on Hobby, don't upgrade" decision, every `/api/admin/*` route's actual logic now lives in plain (non-deployed) functions under `lib/admin/routes/*.ts`, and a single `api/admin/router.ts` dispatches to them by path segment + method. Routing there is done via an explicit `vercel.json` rewrite (`/api/admin/:path*` → `/api/admin/router?path=:path*`) — verified live that Vercel's zero-config `[...param].ts` file-name convention only captures a single path segment for a non-framework ("Other" preset) project like this one, so a real multi-segment route never reached a catch-all file at all. The rewrite is the documented, reliable mechanism. Net effect: 14 functions → 5, with headroom for Settings and Phase 3 without hitting this again — Sprint 2.5 (Reports) added two more routes at zero additional function cost as a direct result.
 - **The service-role key is never exposed to the frontend, under any circumstance.** All admin data access happens through `/api/admin/*` routes running server-side with the service-role client already defined in `lib/database/client.ts`. The only credential the browser ever holds is a short-lived Supabase Auth session token (see §3) — a credential scoped to *that admin's identity*, not a database master key.
 - **The admin frontend is static files served from the same Vercel project**, at `/admin`, not a second Vercel project or subdomain. This is a stronger version of the "no new backend" decision applied to the frontend too: one project, one deploy pipeline, no new DNS/CNAME, and — the concrete payoff — **same-origin means no CORS configuration for the admin surface at all.** A browser only enforces CORS on cross-origin requests; `/admin/*` calling `/api/admin/*` on the same host never triggers it. This removes an entire class of misconfiguration risk (a missed allow-list entry silently breaking the dashboard) that existed in the original two-origin proposal. The existing `ALLOWED_ORIGIN` CORS handling for the public ticketing endpoints is untouched — admin routes simply don't call `applyCors()` at all, since they have no legitimate cross-origin caller to support.
 
@@ -130,13 +132,12 @@ All new, all under `/api/admin/*`, all requiring the auth middleware from §3 (e
 | `/api/admin/tickets` | GET | Search by ticket number or QR token | — |
 | `/api/admin/tickets/:id` | GET | Ticket status/detail, independent of the Orders UI | — |
 | `/api/admin/tickets/:id/regenerate-pdf` | POST | Re-render a ticket's PDF (and optionally re-send it) | **`lib/pdf/render.ts`** — exact renderer Phase 1 already uses |
-| **Reports module** | | | |
-| `/api/admin/reports/revenue-summary` | GET | Revenue totals, by day/type | — |
-| `/api/admin/reports/ticket-breakdown` | GET | Adult vs. kids counts/revenue | — |
-| `/api/admin/reports/daily-sales` | GET | Orders/revenue grouped by date | — |
-| `/api/admin/reports/export` | GET | **Server-side streamed CSV** (`?type=orders\|tickets`) — approved decision: CSV is generated and streamed from the API, never assembled client-side in the browser | Same query layer as the list endpoints |
-| **Settings module (Sprint 2.1 does not implement any of this — see §7)** | | | |
-| `/api/admin/settings/event` *(future)* | GET/PATCH | Read/edit the active event's title, venue, date, pricing, capacity, sales status | `events` table, extended |
+| **Reports module (shipped Sprint 2.5)** | | | |
+| `/api/admin/reports/summary?from=&to=` | GET | Total revenue, paid/failed order counts, adult/child/total tickets sold, average order value — one aggregated response, date-range filterable | `admin_revenue_total()` RPC (extended with an optional date range), `countOrders()`/`countTickets()` shared with the Dashboard |
+| `/api/admin/reports/export?from=&to=` | GET | **Server-side-generated CSV**, never assembled in the browser — one row per (order, ticket type present) | `orders.adult_qty`/`kids_qty`/unit prices directly — no join to `tickets` needed for these columns |
+| **Settings module (shipped Sprint 2.6, narrower than originally sketched here — see §7)** | | | |
+| `/api/admin/settings/event` | GET | Any authenticated admin — name, venue, dates, pricing (read-only), support email (read-only) | `getActiveEvent()`, `SUPPORT_EMAIL` (existing env-var export from `lib/emails/client.ts` — no duplication) |
+| `/api/admin/settings/event` | PATCH | `SUPER_ADMIN` only — name/venue/start date/end date. Pricing and support email rejected outright (400), not silently ignored | `updateEvent()`; logs `UPDATE_EVENT` |
 
 **Why Tickets stays a separate module from Orders**: an order is a purchase transaction (one customer, one payment); a ticket is an individual admission credential (one person, one QR code). An order for 4 adult + 2 kids tickets is one row in Orders and six rows in Tickets — collapsing them into one UI would force every ticket-level operation (look up *this* QR code, regenerate *this* PDF) through an order-shaped lens that doesn't fit. Keeping them separate also matches how Festival Day check-in will actually be used: staff scanning a gate need ticket-level lookup, not order-level.
 
@@ -173,11 +174,12 @@ Audit log failures never block the action being logged (mirrors Phase 1's rate-l
 
 ---
 
-## 7. Settings / event management readiness (approved decision — architecture only, not built in Phase 2)
+## 7. Settings / event management readiness (name/venue/dates shipped Sprint 2.6; pricing/capacity/sales-status still deferred)
 
-The prompt asks Phase 2 to make event editing (title, venue, date, pricing, capacity, sales status) *eventually* possible without a schema redesign, while explicitly not building the editor UI or endpoints yet. Concretely:
+The original plan asked Phase 2 to make event editing (title, venue, date, pricing, capacity, sales status) *eventually* possible without a schema redesign, without necessarily building it immediately. Sprint 2.6 went further than "architecture only" for the safe subset: name, venue, and dates are genuinely editable now (`SUPER_ADMIN`-gated, audit-logged). Pricing/capacity/sales-status remain deferred — concretely:
 
-- `events` already has `name`, `venue`, `start_date`/`end_date`, `adult_price`, `kids_price` — a future `PATCH /api/admin/settings/event` can write to these columns directly, no migration needed.
+- `events` already has `name`, `venue`, `start_date`/`end_date`, `adult_price`, `kids_price` — `PATCH /api/admin/settings/event` writes to the first four directly, no migration needed. It explicitly rejects (400) any attempt to include `adultPrice`/`kidsPrice`/`supportEmail` in the request body, rather than silently accepting-and-ignoring them — an admin should never see a 200 response and believe a price change took effect when it didn't.
+- `supportEmail` is read-only display only — it's `SUPPORT_EMAIL`, a Vercel environment variable read at cold-start (`lib/emails/client.ts`), not an `events` column. Making it live-editable would mean either adding a new DB column and changing Phase 1's email-sending code to read from it (a real behavior change to already-verified Phase 1 logic, out of scope here) or accepting that a "saved" change wouldn't take effect until a redeploy (confusing UX). Deferred rather than half-built.
 - **Two fields don't exist yet and will need an additive migration when Settings is actually built**: `capacity` (an integer cap, currently unbounded) and a real `sales_status` (open/paused/closed). Note that `is_active` is *not* the same concept as sales status — `is_active` picks which single event row drives checkout among potentially several event rows (its partial unique index enforces "at most one active event"); sales status would control whether *that* active event is currently purchasable. Conflating the two later would be a mistake worth avoiding now by naming this distinction explicitly.
 - Any event editor must also solve the static-site staleness problem Phase 1 already flagged: `tickets/index.html`'s meta description doesn't update when the DB `events` row changes, because nothing connects them. A future Settings module either needs to (a) accept that static copy is manually maintained and out of scope, or (b) trigger a static-site content update some other way. Not a Phase 2 decision to make now — just flagging it so it's a conscious choice when Settings is scheduled, not a rediscovered surprise.
 - Until Settings ships, the `admin_audit_log` vocabulary already reserves `UPDATE_EVENT` (§6) so that sprint doesn't need its own audit migration either.
