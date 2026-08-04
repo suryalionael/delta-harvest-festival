@@ -40,10 +40,11 @@ Per `PHASE2_ARCHITECTURE.md` §11 — repeated here because it's the operating d
 - First sprint where audit rows record real mutations/views, not just login events.
 - Split further from the original draft: Tickets-module search + `regenerate-pdf` (ticket-level, not order-level) moves to its own sprint rather than bundling with Orders — matches how `PHASE2_ARCHITECTURE.md` §4 already drew that module boundary.
 
-**Sprint 2.4 — Tickets module (search + regenerate-pdf)**
-- `GET /api/admin/tickets`, `GET /api/admin/tickets/:id`, `POST /api/admin/tickets/:id/regenerate-pdf` (reuses `lib/pdf/render.ts`).
-- Tickets page in the admin frontend, kept as its own module/nav item, not folded into Orders (`PHASE2_ARCHITECTURE.md` §4).
-- `VIEW_TICKET`, `REGENERATE_PDF` audit logging added.
+**Sprint 2.4 — Tickets module** *(complete — see this doc's companion verification report)*
+- `GET /api/admin/tickets?q=&page=&limit=` — one search field across ticket number, QR token, customer name, and email (name/email resolved via a lookup against `orders` first, since `tickets` has no customer columns of its own).
+- `GET /api/admin/tickets/:id` — ticket detail + its linked order + a QR code image, rendered via `qrDataUrl()` unchanged (the exact function already used in the PDF/email — no second QR implementation). Logs `VIEW_TICKET`.
+- `POST /api/admin/tickets/:id/resend` and `POST /api/admin/tickets/:id/regenerate-pdf` — this system never stores a rendered PDF (email-only delivery, no download, per Phase 1's deliberate design), so both actions reduce to the identical underlying operation: re-render + re-email the order's tickets via `ensureTicketsGenerated()` + `sendTicketsForOrder()`, unchanged. Factored into one shared `lib/admin/ticket-actions.ts` helper so the two endpoints differ only in which audit action they log (`RESEND_EMAIL` vs `REGENERATE_PDF`) — not two implementations of the same thing.
+- Tickets page (search, table, pagination) + ticket-detail panel (fields, QR image, both action buttons) built into the admin frontend; Tickets nav item is now live.
 
 **Sprint 2.5 — Reports module**
 - Revenue summary, ticket-type breakdown, daily sales, and `GET /api/admin/reports/export` — **streamed server-side CSV**, never assembled in the browser.
