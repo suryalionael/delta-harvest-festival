@@ -32,19 +32,25 @@ Per `PHASE2_ARCHITECTURE.md` §11 — repeated here because it's the operating d
 - No audit logging added this sprint — `VIEW_ORDER`/`VIEW_TICKET` stay reserved for when their own modules exist (Sprint 2.3), and dashboard views aren't in the controlled vocabulary.
 - Split out from the original draft's combined "Dashboard + Orders" step — actual execution treated them as separate sprints; Orders moved to 2.3.
 
-**Sprint 2.3 — Orders + Tickets modules + resend/regenerate**
-- `GET /api/admin/orders`, `GET /api/admin/orders/:id` — first sprint with a way to see an order without opening the Supabase dashboard directly.
-- `VIEW_ORDER` audit logging added.
-- `GET /api/admin/tickets`, `GET /api/admin/tickets/:id`, `POST /api/admin/orders/:id/resend` (reuses `sendTicketsForOrder()`), `POST /api/admin/tickets/:id/regenerate-pdf` (reuses `lib/pdf/render.ts`).
-- Tickets page in the admin frontend, kept as its own module/nav item, not folded into Orders (`PHASE2_ARCHITECTURE.md` §4).
-- `VIEW_TICKET`, `RESEND_EMAIL`, `REGENERATE_PDF` audit logging added — first sprint where audit rows record a real mutation, not just login events.
+**Sprint 2.3 — Orders Management** *(complete — see this doc's companion verification report)*
+- `GET /api/admin/orders?q=&status=&page=&limit=` — search across order number/customer name/email (ILIKE — an authenticated-admin tool, not the enumeration-risk public retrieve endpoint), optional payment-status filter, paginated.
+- `GET /api/admin/orders/:id` — order detail + its tickets, logs `VIEW_ORDER`.
+- `POST /api/admin/orders/:id/resend` — reuses `ensureTicketsGenerated()` + `sendTicketsForOrder()` unchanged (same core the webhook and public Retrieve Ticket already use), logs `RESEND_EMAIL`. Rejects non-`paid` orders (400).
+- Orders page (search, table, pagination) + order-detail panel (fields, ticket list, resend button) built into the admin frontend; Orders nav item is now live, no longer a placeholder.
+- First sprint where audit rows record real mutations/views, not just login events.
+- Split further from the original draft: Tickets-module search + `regenerate-pdf` (ticket-level, not order-level) moves to its own sprint rather than bundling with Orders — matches how `PHASE2_ARCHITECTURE.md` §4 already drew that module boundary.
 
-**Sprint 2.4 — Reports module**
+**Sprint 2.4 — Tickets module (search + regenerate-pdf)**
+- `GET /api/admin/tickets`, `GET /api/admin/tickets/:id`, `POST /api/admin/tickets/:id/regenerate-pdf` (reuses `lib/pdf/render.ts`).
+- Tickets page in the admin frontend, kept as its own module/nav item, not folded into Orders (`PHASE2_ARCHITECTURE.md` §4).
+- `VIEW_TICKET`, `REGENERATE_PDF` audit logging added.
+
+**Sprint 2.5 — Reports module**
 - Revenue summary, ticket-type breakdown, daily sales, and `GET /api/admin/reports/export` — **streamed server-side CSV**, never assembled in the browser.
 - `EXPORT_REPORT` audit logging added.
 - Built after Orders/Tickets because it's aggregation over data those sprints already prove is queryable correctly.
 
-**Sprint 2.5 — Hardening pass**
+**Sprint 2.6 — Hardening pass**
 - Confirm login rate limiting is tuned correctly under real usage, run the security checklist in §Risks below, do a full mobile-responsiveness/accessibility pass on the admin frontend across all modules built so far.
 
 **Explicitly deferred, on record, not a Sprint 2.x concern**: `STRIPE_SECRET_KEY`/`STRIPE_WEBHOOK_SECRET` are missing from Vercel production, so checkout is currently broken — discovered during Sprint 2.1 verification. Per explicit instruction, Stripe is intentionally deferred until after Phase 3 and no engineering time goes toward it until told otherwise; it is not a Sprint 2.x blocker or a deduction against any sprint's production-readiness verdict.
@@ -61,9 +67,10 @@ Per `PHASE2_ARCHITECTURE.md` §11 — repeated here because it's the operating d
 |---|---|---|
 | **M1 — Auth works in production** | 2.1 | Real login on the live `/admin` page; `LOGIN_SUCCESS`/`LOGIN_FAILED` both verified in `admin_audit_log`; non-admins rejected |
 | **M2 — Dashboard metrics live** | 2.2 | A real admin sees live revenue/ticket-count/recent-orders/attendance data from one aggregated endpoint in production |
-| **M3 — Orders + Ticket operations** | 2.3 | Admin can browse orders, resend an order's tickets, and regenerate a PDF from production, all audit-logged, verified against a real order |
-| **M4 — Reports + export** | 2.4 | Streamed CSV export produces correct data in production; revenue/breakdown numbers match manual SQL spot-checks |
-| **M5 — Production-ready** | 2.5 | Rate limiting verified under load, full audit vocabulary exercised at least once each, mobile/accessibility pass done |
+| **M3 — Orders management live** | 2.3 | Admin can search/browse orders, view an order's detail + tickets, and resend an order's tickets from production, all audit-logged, verified against a real order |
+| **M4 — Ticket operations** | 2.4 | Admin can search tickets by number/QR and regenerate a PDF from production, audit-logged |
+| **M5 — Reports + export** | 2.5 | Streamed CSV export produces correct data in production; revenue/breakdown numbers match manual SQL spot-checks |
+| **M6 — Production-ready** | 2.6 | Rate limiting verified under load, full audit vocabulary exercised at least once each, mobile/accessibility pass done |
 
 No calendar estimates are given since available hours/week wasn't specified. Given the "verify before proceeding" discipline, Sprint 2.1 is the highest-uncertainty sprint (genuinely new infrastructure) and should be sized generously; 2.2–2.5 should be faster once the pattern is proven and each sprint is mostly additive on top of a verified base.
 
