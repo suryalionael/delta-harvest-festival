@@ -118,9 +118,15 @@ fieldset.tix-card { margin: 0; min-width: 0; }
   font-size: 20px;
   line-height: 1;
   cursor: pointer;
-  transition: background .2s, color .2s;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .15s, color .15s, transform .1s;
 }
 .tix-stepper button:hover:not(:disabled) { background: var(--ink); color: var(--bg); }
+/* :hover alone is a touch trap — mobile browsers apply it on tap and can
+   leave it stuck until the next tap elsewhere, which reads as unpolished
+   rather than as a considered response. :active gives touch its own
+   correct, immediate feedback instead of borrowing hover's. */
+.tix-stepper button:active:not(:disabled) { background: var(--ink); color: var(--bg); transform: scale(.94); }
 .tix-stepper button:disabled { opacity: .35; cursor: not-allowed; }
 .tix-stepper output {
   min-width: 44px;
@@ -196,9 +202,11 @@ a.btn:focus-visible {
   background: var(--ink);
   border: 1px solid var(--ink);
   cursor: pointer;
-  transition: background .2s, color .2s;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .15s, color .15s, transform .1s;
 }
 .tix-submit:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); }
+.tix-submit:active:not(:disabled) { background: var(--accent); border-color: var(--accent); transform: scale(.98); }
 .tix-submit:disabled { opacity: .55; cursor: wait; }
 
 .tix-status {
@@ -255,5 +263,15 @@ a.btn:focus-visible {
 
 @media (max-width: 560px) {
   .tix-row { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .tix-stepper { align-self: flex-end; }
+  /* Left-aligned under the label it controls, not floated to the right
+     edge — the previous right alignment split each row into two
+     disconnected halves instead of reading as one stacked unit. */
+  .tix-stepper { align-self: flex-start; }
+
+  /* A long label ("Proceed to Secure Checkout") in an inline pill was
+     sized for desktop and left little margin against a narrow phone's
+     available width. Full-width matches the primary-CTA convention the
+     Stripe Checkout handoff itself uses, and gives a clearly intentional
+     tap target instead of a button that merely happens to fit. */
+  .tix-submit { width: 100%; justify-content: center; }
 }

@@ -38,7 +38,9 @@
       return;
     }
 
+    var submitLabel = submitBtn.textContent;
     submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
     setStatus('Sending…', null);
 
     fetch(API_BASE + '/tickets/retrieve', {
@@ -49,6 +51,7 @@
       .then(function (res) { return res.json().then(function (body) { return { ok: res.ok, body: body }; }); })
       .then(function (result) {
         submitBtn.disabled = false;
+        submitBtn.textContent = submitLabel;
         // Same message is shown whether or not anything matched — the
         // endpoint itself never tells us either way (by design).
         if (result.body && result.body.success && result.body.data && result.body.data.message) {
@@ -62,6 +65,7 @@
       })
       .catch(function () {
         submitBtn.disabled = false;
+        submitBtn.textContent = submitLabel;
         setStatus('Could not reach the ticket office. Please check your connection and try again.', 'error');
       });
   });
