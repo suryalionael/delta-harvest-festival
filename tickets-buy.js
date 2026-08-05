@@ -84,7 +84,9 @@
       return;
     }
 
+    var submitLabel = submitBtn.textContent;
     submitBtn.disabled = true;
+    submitBtn.textContent = 'Redirecting…';
     setStatus('Redirecting to secure checkout…', null);
 
     fetch(API_BASE + '/payments/create-checkout-session', {
@@ -104,10 +106,12 @@
           return;
         }
         submitBtn.disabled = false;
+        submitBtn.textContent = submitLabel;
         setStatus((result.body && result.body.message) || 'Something went wrong. Please try again.', 'error');
       })
       .catch(function () {
         submitBtn.disabled = false;
+        submitBtn.textContent = submitLabel;
         setStatus('Could not reach the ticket office. Please check your connection and try again.', 'error');
       });
   });
