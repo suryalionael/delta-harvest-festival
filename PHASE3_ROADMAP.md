@@ -1,6 +1,6 @@
 # Phase 3 — Festival Day Operations Roadmap
 
-Status: **Planning.** No implementation code written yet — see `PHASE3_ARCHITECTURE.md` and `PHASE3_DATABASE_REVIEW.md` for the design this roadmap implements.
+Status: **Sprints 3.1–3.4 implemented, deployed, and server-side verified.** See `FINAL_PHASE3_REPORT.md` for the full report, `FESTIVAL_DAY_RUNBOOK.md`/`PRE_LAUNCH_CHECKLIST.md`/`POST_EVENT_CHECKLIST.md` for operational docs. Real-device/volunteer-account acceptance testing is still pending (not a code gap — see the final report §6) and Stripe is still unconfigured in production (pre-existing, tracked in `PRE_LAUNCH_CHECKLIST.md` item 1) — Phase 3's own build is complete regardless of both.
 
 ---
 
