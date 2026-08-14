@@ -54,6 +54,18 @@
   color: #1f1b16;
 }
 .hn-brand:hover .hn-brand-name { color: #523819; }
+.hn-brand-collab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.hn-brand-logo {
+  height: 18px;
+  width: auto;
+  display: block;
+  opacity: .94;
+  flex-shrink: 0;
+}
 
 /* Vertical rule separator */
 .hn-sep {
