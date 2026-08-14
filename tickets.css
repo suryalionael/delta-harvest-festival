@@ -25,6 +25,9 @@ body {
   margin: 0 auto;
   text-align: center;
 }
+.tix-hero .lunch-notice {
+  margin: 28px auto 0;
+}
 .tix-eyebrow {
   font-family: var(--mono);
   font-size: 12px;

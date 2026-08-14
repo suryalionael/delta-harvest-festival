@@ -485,92 +485,51 @@ hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 0; }
   .sched-where { text-align: left; }
 }
 
-/* ─── village-map trigger (the "throughout the village" hotspot) ─── */
-.village-trigger {
-  position: relative;
-  display: inline;
-  text-align: left;
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-}
-.village-trigger .it { font-style: italic; }
-.village-trigger::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: -4px;
-  height: 1px;
-  background: var(--rule-2);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform .3s ease, background-color .3s ease;
-}
-.village-trigger:hover::after,
-.village-trigger:focus-visible::after {
-  transform: scaleX(1);
-  background: var(--ink-2);
-}
-.village-trigger:focus-visible {
-  outline: 2px solid var(--ink-2);
-  outline-offset: 6px;
-}
-
-.village-trigger-tip {
-  position: absolute;
-  left: 0;
-  bottom: calc(100% + 14px);
-  z-index: 5;
-  width: max-content;
-  max-width: 280px;
-  padding: 12px 16px;
-  background: var(--ink);
-  color: var(--bg);
-  font-family: var(--sans);
-  font-size: 13px;
-  font-weight: 400;
-  font-style: normal;
-  letter-spacing: 0;
-  text-transform: none;
-  line-height: 1.5;
-  border-radius: 3px;
-  box-shadow: 0 12px 28px rgba(0,0,0,.18);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(6px);
-  transition: opacity .22s ease, transform .22s ease, visibility .22s;
-  pointer-events: none;
-}
-.village-trigger-tip::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 22px;
-  border: 6px solid transparent;
-  border-top-color: var(--ink);
-}
-.village-trigger:hover .village-trigger-tip,
-.village-trigger:focus-visible .village-trigger-tip {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.village-cue {
-  display: none;
-  margin-top: 14px;
+/* ─── presenter credit (day-block programme credit) ─── */
+.presented-by {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  padding: 8px 18px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
   font-family: var(--sans);
   font-size: 11px;
-  letter-spacing: .28em;
+  letter-spacing: .22em;
   text-transform: uppercase;
-  color: var(--muted-2);
+  color: var(--ink-2);
 }
-.village-cue .arr { font-family: var(--display); font-style: italic; letter-spacing: 0; text-transform: none; }
+.presented-by .k { color: var(--muted); font-weight: 300; }
+.presented-by .org {
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  transition: color .2s;
+}
+.presented-by .org:hover,
+.presented-by .org:focus-visible {
+  color: var(--umber-deep, #523819);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 
-@media (hover: none) {
-  .village-cue { display: inline-block; }
-  .village-trigger-tip { display: none; }
+/* ─── lunch notice (Sunday ticket clarification) ─── */
+.lunch-notice {
+  margin: 24px auto 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule);
+  max-width: 44ch;
+}
+.lunch-notice .label { display: block; margin-bottom: 10px; }
+.lunch-notice-text {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin: 0;
 }
 
 /* programme imagery interlude */
